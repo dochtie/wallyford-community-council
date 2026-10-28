@@ -244,6 +244,26 @@ figcaption { font-size: .8rem; color: var(--muted); margin-top: 8px; }
 .steps li::before { content: counter(s); font-family: var(--f-display); font-weight: 700; width: 26px; height: 26px; border-radius: 50%; background: var(--ink); color: var(--bg); display: grid; place-items: center; font-size: .95rem; transform: translateY(-2px); }
 .tips { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; display: grid; gap: 14px; }
 
+/* Services directory */
+.services { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); gap: 12px; list-style: none; padding: 0; margin: 0; }
+.service { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px; display: grid; gap: 4px; align-content: start; }
+.service-org { font-weight: 700; }
+.service-for { font-size: var(--step--1); color: var(--muted); }
+.service-num { font-family: var(--f-display); font-weight: 700; font-size: 1.7rem; line-height: 1.15; font-variant-numeric: tabular-nums; user-select: all; margin-top: 4px; }
+.service a { font-size: var(--step--1); justify-self: start; }
+
+/* Ward councillors */
+.wards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; list-style: none; padding: 0; margin: 0; }
+.ward { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; display: grid; gap: 10px; align-content: start; }
+.ward-top { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: center; }
+.ward .avatar { width: 52px; height: 52px; font-size: 1.25rem; border-color: var(--link); }
+.ward-name { font-family: var(--f-display); font-weight: 700; font-size: 1.4rem; line-height: 1.1; }
+.ward-party { font-size: var(--step--1); color: var(--muted); }
+.ward-email { font-weight: 700; overflow-wrap: anywhere; user-select: all; }
+.ward-row { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; font-size: var(--step--1); }
+.btn-copy-sm { font-family: var(--f-display); font-weight: 600; font-size: .95rem; padding: 3px 10px; border-radius: 6px; border: 1.5px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+.btn-copy-sm:hover { border-color: var(--muted); }
+
 /* Form */
 .form-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 26px; align-items: start; }
 form { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; display: grid; gap: 16px; }
@@ -330,6 +350,7 @@ footer .btn-copy { background: transparent; border: 1.5px solid #59616a; color: 
   .token-day { font-size: 2.4rem; }
   .facts { grid-template-columns: minmax(0, 1fr); }
   .two { grid-template-columns: minmax(0, 1fr); }
+  .wards { grid-template-columns: minmax(0, 1fr); }
   .way { grid-template-columns: minmax(0, 1fr); }
   .way-num { font-size: 2.6rem; }
   .hero .wrap { padding-block: 40px 48px; }
@@ -464,8 +485,8 @@ footer .btn-copy { background: transparent; border: 1.5px solid #59616a; color: 
       <div class="section-head">
         <div>
           <p class="eyebrow">Something not right?</p>
-          <h2>We’ll help you get it sorted</h2>
-          <p>Potholes, broken streetlights, fly-tipping, faded road markings, antisocial behaviour. Choose whatever suits you.</p>
+          <h2>Getting it sorted</h2>
+          <p>Potholes, broken streetlights, fly-tipping, faded road markings, antisocial behaviour. Here’s who to tell, and who to turn to if nothing happens.</p>
         </div>
       </div>
       <div class="paths">
@@ -477,9 +498,9 @@ footer .btn-copy { background: transparent; border: 1.5px solid #59616a; color: 
         </article>
         <article class="path">
           <div class="path-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg></div>
-          <h3>We’ll report it for you</h3>
-          <p>Not online, or already reported it and nothing’s happened? Tell us and a councillor will take it up and chase it.</p>
-          <a class="more" href="#report-for-you">Tell us about it →</a>
+          <h3>Contact your ward councillors</h3>
+          <p>Reported it and nothing’s happened? Your four East Lothian councillors for Tranent, Wallyford and Macmerry can take it up with the council.</p>
+          <a class="more" href="#ward-councillors">Find their details →</a>
         </article>
         <article class="path">
           <div class="path-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="3"/><circle cx="16.5" cy="9" r="2.5"/><path d="M2.5 19c.8-3.2 3-5 5.5-5s4.7 1.8 5.5 5M13.5 17.5c.6-2 1.7-3.3 3-3.3 2 0 3.6 1.7 4 4.8"/></svg></div>
@@ -658,7 +679,7 @@ footer .btn-copy { background: transparent; border: 1.5px solid #59616a; color: 
         </div>
         <aside class="project-side">
           <h3>Something we should know about?</h3>
-          <p>Tell us at a meeting, or use the <a href="#report-for-you">report it for you</a> form. If lots of people raise the same issue, we’ll add it to this page.</p>
+          <p>Raise it at one of our meetings or email us. If lots of people raise the same issue, we’ll add it to this page. For problems that need fixing, <a href="#report">report them to the right organisation</a>.</p>
         </aside>
       </article>
 
@@ -672,7 +693,7 @@ footer .btn-copy { background: transparent; border: 1.5px solid #59616a; color: 
     <div class="wrap">
       <p class="eyebrow">Report a local issue</p>
       <h1>Let’s get it fixed</h1>
-      <p>Most problems in the village are fixed by East Lothian Council, but knowing who to tell can be confusing. Report it yourself in a few minutes, or let us do it for you.</p>
+      <p>Most problems in the village are fixed by East Lothian Council, but knowing who to tell can be confusing. Here’s who to contact, and who can help if nothing happens.</p>
     </div>
   </div>
 
@@ -682,14 +703,7 @@ footer .btn-copy { background: transparent; border: 1.5px solid #59616a; color: 
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17h.01"/></svg>
         <div>
           <h2>Danger to life or a crime in progress? Call 999.</h2>
-          <p>Don’t wait to report emergencies online. Other urgent numbers:</p>
-          <div class="numbers">
-            <div><b>101</b><span>Police Scotland, non-emergency</span></div>
-            <div><b>105</b><span>Power cut</span></div>
-            <div><b>0800 111 999</b><span>Smell gas</span></div>
-            <div><b>0800 0778 778</b><span>Scottish Water: leaks, no water, sewers</span></div>
-            <div><b>111</b><span>NHS 24, urgent but not an emergency</span></div>
-          </div>
+          <p>Don’t wait to report emergencies online. If you smell gas, call 0800 111 999 straight away.</p>
         </div>
       </div>
 
@@ -697,7 +711,7 @@ footer .btn-copy { background: transparent; border: 1.5px solid #59616a; color: 
         <span class="way-num" aria-hidden="true">1</span>
         <div class="way-body">
           <div>
-            <h2>Report it yourself</h2>
+            <h2>Report it to East Lothian Council</h2>
             <p class="muted prose" style="margin-top:6px">Pick the problem to go straight to the right East Lothian Council form. You can report as a guest or sign in to a myeastlothian account to track progress.</p>
           </div>
           <ul class="issues">
@@ -720,87 +734,75 @@ footer .btn-copy { background: transparent; border: 1.5px solid #59616a; color: 
               <li><span><strong>Take a photo</strong> if it’s safe to. It shows the size of the problem and helps crews find it.</span></li>
               <li><span><strong>Say why it matters.</strong> Mention if it’s near the school, a bus stop or a crossing, or if someone could get hurt.</span></li>
               <li><span><strong>Keep the reference number</strong> you’re given, and the date you reported it.</span></li>
-              <li><span><strong>Nothing happened?</strong> Send us the reference number and we’ll chase it up with the council.</span></li>
+              <li><span><strong>Nothing happened?</strong> Contact your <a href="#ward-councillors">ward councillors</a> with the reference number and ask them to chase it up.</span></li>
             </ol>
           </div>
         </div>
       </div>
 
-      <div class="way" id="report-for-you">
+      <div class="way" id="services">
         <span class="way-num" aria-hidden="true">2</span>
         <div class="way-body">
           <div>
-            <h2>We’ll report it for you</h2>
-            <p class="muted prose" style="margin-top:6px">Not online, not sure who to tell, or already reported it and got nowhere? Fill this in and a community councillor will take it up and let you know what happens.</p>
+            <h2>Police, water, power and other services</h2>
+            <p class="muted prose" style="margin-top:6px">Some problems aren’t for the council. Contact these organisations directly.</p>
           </div>
-          <div class="form-grid">
-            <form id="issue-form" novalidate>
-              <div class="field">
-                <label for="f-type">What’s the issue?</label>
-                <select id="f-type" name="type">
-                  <option>Pothole or road fault</option>
-                  <option>Road markings or signs</option>
-                  <option>Street light</option>
-                  <option>Fly-tipping or litter</option>
-                  <option>Dog fouling</option>
-                  <option>Antisocial behaviour</option>
-                  <option>Parks, paths or trees</option>
-                  <option>Parking or traffic</option>
-                  <option>Planning or new housing</option>
-                  <option>Something else</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="f-where">Where exactly?</label>
-                <input id="f-where" name="where" type="text" value="Masons Way, near the Learning Campus entrance">
-              </div>
-              <div class="field">
-                <label for="f-what">What’s happening?</label>
-                <textarea id="f-what" name="what">The double yellow lines have almost disappeared, so cars are parking on the corner at school pick-up time.</textarea>
-              </div>
-              <fieldset class="field">
-                <legend>Have you already reported it?</legend>
-                <div class="radios">
-                  <label><input type="radio" name="before" id="f-before-no" value="No" checked> No</label>
-                  <label><input type="radio" name="before" id="f-before-yes" value="Yes"> Yes</label>
-                </div>
-              </fieldset>
-              <div class="field" id="ref-field" hidden>
-                <label for="f-ref">Reference number and date reported</label>
-                <input id="f-ref" name="ref" type="text" placeholder="For example: ELC-123456, 3 October">
-              </div>
-              <div class="two">
-                <div class="field">
-                  <label for="f-name">Your name</label>
-                  <input id="f-name" name="name" type="text" autocomplete="name">
-                </div>
-                <div class="field">
-                  <label for="f-contact">Email or phone</label>
-                  <input id="f-contact" name="contact" type="text" autocomplete="email">
-                </div>
-              </div>
-              <label class="check"><input type="checkbox" id="f-consent" checked><span>I’m happy for a community councillor to contact me about this and to share these details with East Lothian Council to get it resolved.</span></label>
-            </form>
-            <div class="output">
-              <p class="eyebrow">Your message</p>
-              <pre id="msg" aria-live="polite"></pre>
-              <div class="copy-row">
-                <button class="btn btn-ink" type="button" id="copy-msg">Copy message</button>
-                <span class="small">then email it to <span class="email-chip">wallyfordcommunitycouncil@gmail.com</span></span>
-              </div>
-              <p class="status" id="copy-status" role="status"></p>
-              <p class="note"><strong>Draft note:</strong> on the live website this form would send straight to the community council inbox, for example through a free Google Form. The example answers show how it works.</p>
-            </div>
+          <ul class="services">
+            <li class="service"><span class="service-org">Police Scotland</span><span class="service-for">Crime, drugs, speeding, scams. Not an emergency.</span><span class="service-num">101</span><a href="https://www.scotland.police.uk" target="_blank" rel="noopener">scotland.police.uk</a></li>
+            <li class="service"><span class="service-org">Crimestoppers</span><span class="service-for">Report crime anonymously</span><span class="service-num">0800 555 111</span><a href="https://crimestoppers-uk.org" target="_blank" rel="noopener">crimestoppers-uk.org</a></li>
+            <li class="service"><span class="service-org">Scottish Water</span><span class="service-for">Burst pipes, leaks, no water, sewers, flooding from drains</span><span class="service-num">0800 0778 778</span><a href="https://www.scottishwater.co.uk" target="_blank" rel="noopener">scottishwater.co.uk</a></li>
+            <li class="service"><span class="service-org">SP Energy Networks</span><span class="service-for">Power cuts and damaged power lines</span><span class="service-num">105</span><a href="https://www.spenergynetworks.co.uk" target="_blank" rel="noopener">spenergynetworks.co.uk</a></li>
+            <li class="service"><span class="service-org">Gas emergency</span><span class="service-for">Smell gas or suspect a leak. Leave the building first.</span><span class="service-num">0800 111 999</span><a href="https://www.sgn.co.uk" target="_blank" rel="noopener">sgn.co.uk</a></li>
+            <li class="service"><span class="service-org">NHS 24</span><span class="service-for">Urgent health advice, day or night</span><span class="service-num">111</span><a href="https://www.nhs24.scot" target="_blank" rel="noopener">nhs24.scot</a></li>
+            <li class="service"><span class="service-org">East Lothian Council</span><span class="service-for">Anything not covered by the forms above</span><span class="service-num">01620 827827</span><a href="https://www.eastlothian.gov.uk" target="_blank" rel="noopener">eastlothian.gov.uk</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="way" id="ward-councillors">
+        <span class="way-num" aria-hidden="true">3</span>
+        <div class="way-body">
+          <div>
+            <h2>Not fixed? Contact your ward councillors</h2>
+            <p class="muted prose" style="margin-top:6px">Wallyford is in East Lothian Council’s Tranent, Wallyford and Macmerry ward, which elects four councillors. They can chase up reports that have stalled and raise local problems inside the council. Include your report’s reference number when you get in touch.</p>
           </div>
+          <ul class="wards">
+            <li class="ward">
+              <div class="ward-top"><span class="avatar" aria-hidden="true">CM</span><div><p class="ward-name">Colin McGinn</p><p class="ward-party">Scottish Labour</p></div></div>
+              <p class="ward-email" id="ward-colin-mcginn">cmcginn@eastlothian.gov.uk</p>
+              <div class="ward-row"><button class="btn-copy-sm" type="button" data-copy="ward-colin-mcginn">Copy email</button><span>Office: 01620 827008</span></div>
+              <a class="small" href="https://www.eastlothian.gov.uk/council-and-democracy/councillors/colin-mcginn" target="_blank" rel="noopener">Council profile and surgeries →</a>
+            </li>
+            <li class="ward">
+              <div class="ward-top"><span class="avatar" aria-hidden="true">FD</span><div><p class="ward-name">Fiona Dugdale</p><p class="ward-party">Scottish Labour</p></div></div>
+              <p class="ward-email" id="ward-fiona-dugdale">fdugdale@eastlothian.gov.uk</p>
+              <div class="ward-row"><button class="btn-copy-sm" type="button" data-copy="ward-fiona-dugdale">Copy email</button><span>Office: 01620 827003</span></div>
+              <a class="small" href="https://www.eastlothian.gov.uk/council-and-democracy/councillors/fiona-dugdale" target="_blank" rel="noopener">Council profile and surgeries →</a>
+            </li>
+            <li class="ward">
+              <div class="ward-top"><span class="avatar" aria-hidden="true">KM</span><div><p class="ward-name">Kenny McLeod</p><p class="ward-party">Independent</p></div></div>
+              <p class="ward-email" id="ward-kenny-mcleod">kmcleod1@eastlothian.gov.uk</p>
+              <div class="ward-row"><button class="btn-copy-sm" type="button" data-copy="ward-kenny-mcleod">Copy email</button><span>Office: 01620 827016</span></div>
+              <a class="small" href="https://www.eastlothian.gov.uk/council-and-democracy/councillors/kenny-mcleod" target="_blank" rel="noopener">Council profile and surgeries →</a>
+            </li>
+            <li class="ward">
+              <div class="ward-top"><span class="avatar" aria-hidden="true">LM</span><div><p class="ward-name">Lee-Anne Menzies</p><p class="ward-party">Scottish National Party</p></div></div>
+              <p class="ward-email" id="ward-lee-anne-menzies">lmenzies2@eastlothian.gov.uk</p>
+              <div class="ward-row"><button class="btn-copy-sm" type="button" data-copy="ward-lee-anne-menzies">Copy email</button><span>Office: 01620 827012</span></div>
+              <a class="small" href="https://www.eastlothian.gov.uk/council-and-democracy/councillors/lee-anne-menzies" target="_blank" rel="noopener">Council profile and surgeries →</a>
+            </li>
+          </ul>
+          <p class="small muted">Details from East Lothian Council’s website, October 2026. Check each councillor’s profile for surgery times.</p>
+          <p class="status" id="ward-status" role="status"></p>
         </div>
       </div>
 
       <div class="way">
-        <span class="way-num" aria-hidden="true">3</span>
+        <span class="way-num" aria-hidden="true">4</span>
         <div class="way-body">
           <div class="prose stack">
-            <h2>Bring it to a meeting</h2>
-            <p class="muted">Every meeting has time set aside for residents. Tell us about the problem in person and we’ll help you take it forward, or take it up ourselves. Councillors can also help you fill in an online report on the night.</p>
+            <h2>Raise it at a community council meeting</h2>
+            <p class="muted">Every meeting has time set aside for residents. If a problem affects lots of people in the village, come along and tell us about it. We can raise it with East Lothian Council and our ward councillors.</p>
             <p><strong>Next meeting:</strong> <span data-meet="sentence">Wednesday 25 November, 6.30pm, Community Room 3, Wallyford Learning Campus</span>.</p>
           </div>
         </div>
@@ -834,9 +836,11 @@ footer .btn-copy { background: transparent; border: 1.5px solid #59616a; color: 
             <tr><td>Council house repairs</td><td>East Lothian Council housing</td><td>Through your housing officer or the council website</td></tr>
             <tr><td>Crime, drugs, speeding, scams</td><td>Police Scotland</td><td>101, or 999 in an emergency. <a href="https://www.scotland.police.uk" target="_blank" rel="noopener">Report online</a></td></tr>
             <tr><td>Antisocial behaviour (not a crime)</td><td>East Lothian Council community safety</td><td><a href="https://www.eastlothian.gov.uk/safety-and-community/report-problem/report-antisocial-behaviour-asb" target="_blank" rel="noopener">Report online</a></td></tr>
-            <tr><td>Water leaks, sewers, no water</td><td>Scottish Water</td><td>0800 0778 778</td></tr>
-            <tr><td>Power cuts</td><td>SP Energy Networks</td><td>105</td></tr>
+            <tr><td>Water leaks, sewers, no water</td><td>Scottish Water</td><td>0800 0778 778. <a href="https://www.scottishwater.co.uk" target="_blank" rel="noopener">scottishwater.co.uk</a></td></tr>
+            <tr><td>Power cuts</td><td>SP Energy Networks</td><td>105. <a href="https://www.spenergynetworks.co.uk" target="_blank" rel="noopener">spenergynetworks.co.uk</a></td></tr>
+            <tr><td>Gas leaks</td><td>Gas emergency service (SGN)</td><td>0800 111 999, any time</td></tr>
             <tr><td>Trains and Wallyford station</td><td>ScotRail</td><td><a href="https://www.scotrail.co.uk" target="_blank" rel="noopener">scotrail.co.uk</a></td></tr>
+            <tr><td>Reports that aren’t getting fixed</td><td>Your ward councillors</td><td><a href="#ward-councillors">Contact details</a></td></tr>
             <tr><td>Planning applications</td><td>East Lothian Council planning</td><td><a href="https://www.eastlothian.gov.uk" target="_blank" rel="noopener">Planning portal</a>. We comment on applications in the village too.</td></tr>
           </tbody>
         </table>
@@ -987,7 +991,7 @@ footer .btn-copy { background: transparent; border: 1.5px solid #59616a; color: 
 (function () {
   // ---------- Routing ----------
   var VIEWS = ["home", "working-on", "report", "advice", "meetings"];
-  var ANCHORS = { "report-for-you": "report", "lights": "working-on", "parade": "working-on", "roads": "working-on", "heritage": "working-on", "fundraising": "working-on", "local": "working-on" };
+  var ANCHORS = { "ward-councillors": "report", "services": "report", "lights": "working-on", "parade": "working-on", "roads": "working-on", "heritage": "working-on", "fundraising": "working-on", "local": "working-on" };
   function route() {
     var h = (location.hash || "#home").slice(1);
     var view = VIEWS.indexOf(h) > -1 ? h : (ANCHORS[h] || "home");
@@ -1081,42 +1085,6 @@ footer .btn-copy { background: transparent; border: 1.5px solid #59616a; color: 
     else dl.textContent = left + (left === 1 ? " day" : " days") + " left to sponsor a light (Friday 30 October)";
   }
 
-  // ---------- Report-it-for-you form ----------
-  var form = document.getElementById("issue-form");
-  var msg = document.getElementById("msg");
-  var refField = document.getElementById("ref-field");
-  function v(id) { var el = document.getElementById(id); return el ? el.value.trim() : ""; }
-  function compose() {
-    var before = form.querySelector('input[name="before"]:checked');
-    var yes = before && before.value === "Yes";
-    refField.hidden = !yes;
-    var lines = [
-      "Subject: Local issue: " + v("f-type"),
-      "",
-      "Hello Wallyford Community Council,",
-      "",
-      "I'd like to report an issue in Wallyford.",
-      "",
-      "Issue: " + v("f-type"),
-      "Where: " + (v("f-where") || "(please add the exact location)"),
-      "What's happening: " + (v("f-what") || "(please describe the problem)"),
-      "Already reported: " + (yes ? "Yes" + (v("f-ref") ? ", reference " + v("f-ref") : "") : "No"),
-      "",
-      "Name: " + (v("f-name") || "(your name)"),
-      "Contact: " + (v("f-contact") || "(your email or phone)"),
-      document.getElementById("f-consent").checked
-        ? "I'm happy for a councillor to contact me and to share these details with East Lothian Council."
-        : "Please don't share my details with anyone else.",
-      "",
-      "Thank you"
-    ];
-    msg.textContent = lines.join("\n");
-  }
-  form.addEventListener("input", compose);
-  form.addEventListener("change", compose);
-  form.addEventListener("submit", function (e) { e.preventDefault(); });
-  compose();
-
   function selectText(el) {
     try { var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); } catch (e) {}
   }
@@ -1126,8 +1094,11 @@ footer .btn-copy { background: transparent; border: 1.5px solid #59616a; color: 
       navigator.clipboard.writeText(text).then(function () { statusEl.textContent = ok; }, fallback);
     } catch (e) { fallback(); }
   }
-  document.getElementById("copy-msg").addEventListener("click", function () {
-    copy(msg.textContent, msg, document.getElementById("copy-status"), "Copied. Paste it into an email to wallyfordcommunitycouncil@gmail.com.");
+  document.querySelectorAll("[data-copy]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var el = document.getElementById(btn.getAttribute("data-copy"));
+      copy(el.textContent, el, document.getElementById("ward-status"), "Copied " + el.textContent);
+    });
   });
   document.getElementById("copy-email").addEventListener("click", function () {
     var el = document.getElementById("footer-email");
