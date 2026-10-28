@@ -178,11 +178,15 @@ a:hover { text-decoration-thickness: 2px; }
 .path p { color: var(--muted); }
 
 /* Councillors */
-.people { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; list-style: none; padding: 0; margin: 0; }
+.people { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; list-style: none; padding: 0; margin: 0; }
 .person { display: grid; justify-items: center; text-align: center; gap: 8px; padding: 18px 10px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
 .avatar { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; font-family: var(--f-display); font-weight: 700; font-size: 1.5rem; background: var(--sunk); color: var(--ink); border: 2px solid var(--brass); }
 .person-name { font-weight: 700; line-height: 1.25; }
 .person-role { font-size: var(--step--1); color: var(--muted); }
+.person-lead .avatar { background: var(--lamp-soft); border-color: var(--lamp); }
+.person-lead .person-role { color: var(--lamp-ink); font-weight: 700; }
+.pull { margin: 4px 0 0; padding: 12px 16px; border-left: 4px solid var(--lamp); background: var(--sunk); border-radius: 0 8px 8px 0; font-family: var(--f-display); font-weight: 600; font-size: 1.3rem; line-height: 1.25; }
+.pull cite { display: block; margin-top: 6px; font-family: var(--f-body); font-style: normal; font-weight: 400; font-size: var(--step--1); color: var(--muted); }
 .thanks { margin-top: 22px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: start; padding: 18px 20px; border-radius: var(--radius); background: var(--lamp-soft); }
 .thanks svg { width: 28px; height: 28px; color: var(--lamp-ink); }
 
@@ -281,7 +285,7 @@ fieldset { border: 0; padding: 0; margin: 0; }
 .output { position: sticky; top: 90px; display: grid; gap: 12px; }
 .output pre { margin: 0; white-space: pre-wrap; word-break: break-word; font-family: var(--f-body); font-size: var(--step--1); background: var(--sunk); border-radius: 8px; padding: 16px; min-height: 160px; max-height: 380px; overflow: auto; }
 .copy-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.email-chip { font-weight: 700; user-select: all; word-break: break-all; }
+.email-chip { font-weight: 700; user-select: all; overflow-wrap: anywhere; }
 .status { font-size: var(--step--1); color: var(--ok); min-height: 1.4em; }
 .note { border-left: 4px solid var(--lamp); background: var(--lamp-soft); padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: var(--step--1); }
 
@@ -427,27 +431,35 @@ footer .btn-copy { background: transparent; border: 1.5px solid #59616a; color: 
         <div>
           <p class="eyebrow">Notes from our last meeting</p>
           <h2>Annual General Meeting, 28 October 2026</h2>
-          <p>Our AGM was held in the Assembly Hall at Wallyford Learning Campus. A summary of what was agreed will be posted here once it’s ready.</p>
+          <p>Our AGM was held in the Assembly Hall at Wallyford Learning Campus. Thank you to everyone who came, and to our councillors, volunteers and supporters for all their work over the last 12 months.</p>
         </div>
         <a class="more" href="#meetings">All meetings and notes →</a>
       </div>
       <div class="notes">
         <article class="notes-card">
-          <span class="chip chip-now">Summary coming soon</span>
-          <h3>What was on the agenda</h3>
+          <span class="chip chip-ok">AGM summary</span>
+          <h3>What happened</h3>
           <ul class="ticks">
-            <li>Community council update, including the election of office bearers</li>
-            <li>Finance update</li>
-            <li>Fundraising activities</li>
-            <li>Christmas lights and Torchlight Parade planning</li>
+            <li>Ward councillor Colin McGinn chaired the first part of the meeting.</li>
+            <li>Beryl Stevenson retired after 40 years on the community council, including many years as Treasurer.</li>
+            <li>Ann Patton stepped down as Chair. She remains a community councillor.</li>
+            <li>Alli Coyle was elected Chair, and Sharon Jamieson continues as Secretary.</li>
+            <li>The Treasurer role is now vacant.</li>
+            <li>Matthew Williams joined the community council as a newly co-opted member.</li>
           </ul>
-          <p class="small muted">Couldn’t make it? You can email us with questions about anything on the agenda. We aim to post notes here after each meeting.</p>
+          <blockquote class="pull">“It is truly amazing what a small team of volunteers can achieve.”<cite>Alli Coyle, Chair</cite></blockquote>
+          <p class="small muted">More information will follow over the coming weeks.</p>
         </article>
         <div class="news" aria-label="Recent community council news">
           <article class="news-item">
             <p class="news-date">October 2026</p>
+            <h3>Could you be our Treasurer?</h3>
+            <p>The Treasurer role is vacant following the AGM. If you’d like to help, come along to a meeting or email <span class="email-chip">wallyfordcommunitycouncil@gmail.com</span>.</p>
+          </article>
+          <article class="news-item">
+            <p class="news-date">October 2026</p>
             <h3>Thank you, Beryl</h3>
-            <p>Beryl Stevenson has retired after more than 40 years on the community council, most of them as treasurer. Her fundraising included a sponsored walk that raised over £3,000.</p>
+            <p>Beryl Stevenson has retired after 40 years on the community council, serving as Treasurer for many of them. She has been an amazing fundraiser and community champion. <a href="https://www.eastlothiancourier.com/news/26668851.wallyford-woman-retires-40-years-community-council/" target="_blank" rel="noopener">Read the East Lothian Courier article</a>.</p>
           </article>
           <article class="news-item">
             <p class="news-date">October 2026</p>
@@ -522,16 +534,16 @@ footer .btn-copy { background: transparent; border: 1.5px solid #59616a; color: 
         </div>
       </div>
       <ul class="people">
+        <li class="person person-lead"><span class="avatar" aria-hidden="true">AC</span><span class="person-name">Alli Coyle</span><span class="person-role">Chair</span></li>
+        <li class="person person-lead"><span class="avatar" aria-hidden="true">SJ</span><span class="person-name">Sharon Jamieson</span><span class="person-role">Secretary</span></li>
         <li class="person"><span class="avatar" aria-hidden="true">BA</span><span class="person-name">Bim Adeniran</span><span class="person-role">Community councillor</span></li>
-        <li class="person"><span class="avatar" aria-hidden="true">AC</span><span class="person-name">Alli Coyle</span><span class="person-role">Community councillor</span></li>
-        <li class="person"><span class="avatar" aria-hidden="true">SJ</span><span class="person-name">Sharon Jamieson</span><span class="person-role">Community councillor</span></li>
-        <li class="person"><span class="avatar" aria-hidden="true">AP</span><span class="person-name">Ann Patton</span><span class="person-role">Chairperson</span></li>
+        <li class="person"><span class="avatar" aria-hidden="true">AP</span><span class="person-name">Ann Patton</span><span class="person-role">Community councillor</span></li>
         <li class="person"><span class="avatar" aria-hidden="true">BS</span><span class="person-name">Billy Steedman</span><span class="person-role">Community councillor</span></li>
+        <li class="person"><span class="avatar" aria-hidden="true">MW</span><span class="person-name">Matthew Williams</span><span class="person-role">Co-opted councillor</span></li>
       </ul>
-      <p class="small muted" style="margin-top:12px">Office bearers were elected at the AGM on 28 October 2026. Roles will be updated here once confirmed.</p>
       <div class="thanks">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/></svg>
-        <p><strong>Want to get involved?</strong> New members and volunteers are always welcome, whether that’s joining the community council, helping put up the Christmas lights or marshalling the Torchlight Parade. Come along to a meeting or drop us an email.</p>
+        <p><strong>We’re looking for a Treasurer.</strong> New members and volunteers are always welcome too, whether that’s joining the community council, helping put up the Christmas lights or marshalling the Torchlight Parade. Come along to a meeting or email <span class="email-chip">wallyfordcommunitycouncil@gmail.com</span>.</p>
       </div>
     </div>
   </div>
@@ -958,9 +970,9 @@ footer .btn-copy { background: transparent; border: 1.5px solid #59616a; color: 
     <div class="wrap stack" style="gap:20px">
       <h2>Notes from meetings</h2>
       <div class="notes-card">
-        <div class="project-top"><span class="chip chip-now">Summary coming soon</span><span class="news-date">Wednesday 28 October 2026</span></div>
+        <div class="project-top"><span class="chip chip-ok">AGM summary</span><span class="news-date">Wednesday 28 October 2026</span></div>
         <h3>Annual General Meeting</h3>
-        <p>Assembly Hall, Wallyford Learning Campus. Agenda: community council update and election of office bearers, finance update, fundraising activities, Christmas lights and Torchlight Parade planning.</p>
+        <p>Assembly Hall, Wallyford Learning Campus. Ward councillor Colin McGinn chaired the first part of the meeting. Beryl Stevenson retired after 40 years. Ann Patton stepped down as Chair and remains a community councillor. Alli Coyle was elected Chair, Sharon Jamieson continues as Secretary, and the Treasurer role is vacant. Matthew Williams joined as a newly co-opted community councillor. More information will follow over the coming weeks.</p>
       </div>
       <p class="note"><strong>Draft note:</strong> no earlier minutes are published online yet. Previous notes can be added here as a simple list, newest first, each with a link to the full document.</p>
     </div>
