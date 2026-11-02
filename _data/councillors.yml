@@ -1,0 +1,39 @@
+# Community councillors, shown on the Council page in this order.
+# photo: put a square-ish photo in assets/img/people/ and add its file
+#        name here (e.g. photo: alli-coyle.jpg). Leave blank for initials.
+# blurb: a sentence or two in their own words. Leave blank until ready.
+
+- name: Alli Coyle
+  role: Chair
+  photo:
+  blurb:
+
+- name: Sharon Jamieson
+  role: Secretary
+  photo:
+  blurb:
+
+- name: Bim Adrenin
+  role: Community councillor
+  photo:
+  blurb:
+
+- name: Ann Patton
+  role: Community councillor
+  photo:
+  blurb:
+
+- name: Billy Steedman
+  role: Community councillor
+  photo:
+  blurb:
+
+- name: Matthew Williams
+  role: Community councillor
+  photo:
+  blurb:
+
+- name: Vacant
+  role: Treasurer
+  vacant: true
+  blurb: Could this be you? Get in touch if you'd like to find out more.

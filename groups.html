@@ -1,0 +1,78 @@
+---
+layout: default
+title: Local groups
+nav: groups
+permalink: /groups/
+description: Tenants' and residents' associations, Neighbourhood Watch schemes and other groups working for Wallyford.
+---
+
+<header class="page-head">
+  <div class="wrap">
+    <p class="eyebrow">Working together</p>
+    <h1>Local groups</h1>
+    <p class="lede">Lots of people help make Wallyford a good place to live. Here are some of the groups you can join or contact.</p>
+  </div>
+</header>
+<div class="strata" aria-hidden="true"></div>
+
+<section class="section" id="tras">
+  <div class="wrap split">
+    <div class="prose">
+      <h2>Tenants' and residents' associations</h2>
+      <p>A tenants' and residents' association (TRA) is a group of neighbours who get together to improve their street or estate. TRAs talk to the council, housing associations and developers on behalf of the people who live there, about things like repairs, shared spaces and estate management.</p>
+    </div>
+    <div class="group-list">
+      {% for g in site.data.groups.tras %}
+        {% include group.html group=g %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section-paper" id="neighbourhood-watch">
+  <div class="wrap split">
+    <div class="prose">
+      <h2>Neighbourhood Watch</h2>
+      <p>Neighbourhood Watch schemes bring neighbours together to look out for each other, keep homes and streets safe, and share crime prevention news. A scheme can be as small as a few houses or a cul-de-sac.</p>
+      <p>Neighbourhood Watch Scotland can tell you if there's already a scheme near you, or help you start one. You can also sign up for free local alerts.</p>
+      <p><a class="btn btn-dark" href="https://neighbourhoodwatchscotland.co.uk/">Neighbourhood Watch Scotland</a></p>
+    </div>
+    <div class="group-list">
+      {% for g in site.data.groups.neighbourhood_watches %}
+        {% include group.html group=g %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section" id="partnerships">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Wider partnerships</h2>
+      <p>We represent Wallyford on these groups.</p>
+    </div>
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>Musselburgh Area Partnership</h3>
+        <p>Brings together community councils, East Lothian Council and local organisations to agree priorities for the Musselburgh area, including Wallyford, and decide how the local budget is spent.</p>
+        <p class="card-foot"><a href="https://www.eastlothian.gov.uk/info/210611/musselburgh_area_partnership/12278/musselburgh_area_partnership">About the Area Partnership</a></p>
+      </div>
+      <div class="card">
+        <h3>Community and Police Partnership</h3>
+        <p>Regular meetings where we raise local concerns directly with Police Scotland, local councillors and council officers.</p>
+      </div>
+      <div class="card">
+        <h3>Association of East Lothian Community Councils</h3>
+        <p>Community councils from across East Lothian working together on issues that affect us all.</p>
+        {% include review.html type="todo" text="AELCC website link, if it has one." %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-dark">
+  <div class="wrap">
+    <h2>Is your group missing?</h2>
+    <p>If you run a group in Wallyford and would like to be listed here, <a href="mailto:{{ site.email }}?subject=Local%20groups%20page">email us</a> with the group's name, what it does, and how people can get in touch.</p>
+  </div>
+</section>

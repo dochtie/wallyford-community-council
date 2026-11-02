@@ -1,0 +1,98 @@
+---
+layout: default
+title: Home
+description: Wallyford Community Council. Meetings, reporting problems, local history, and what we've done about the issues you've raised.
+---
+
+<section class="hero">
+  <img class="hero-img" src="{{ '/assets/img/miners-stone.jpg' | relative_url }}" alt="" width="720" height="480">
+  <div class="wrap hero-content">
+    <p class="eyebrow">Wallyford, East Lothian</p>
+    <h1>A voice for Wallyford</h1>
+    <p class="lede">We're a group of local volunteers who speak up for the village to East Lothian Council, Police Scotland and anyone else who makes decisions about Wallyford.</p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="{{ '/report/' | relative_url }}">Report a problem</a>
+      <a class="btn btn-ghost" href="{{ '/council/#meetings' | relative_url }}">Come to a meeting</a>
+    </div>
+  </div>
+  <p class="hero-caption">The Miners' Stone, St Clement's Gardens</p>
+</section>
+<div class="strata" aria-hidden="true"></div>
+
+<section class="section">
+  <div class="wrap">
+    <div class="grid grid-4">
+      <a class="card card-link" href="{{ '/council/#meetings' | relative_url }}">
+        <p class="card-kicker">Next meeting</p>
+        <p class="card-big" data-next-meeting>Last Wednesday of the month</p>
+        <p>{{ site.meeting_time }}, {{ site.meeting_place }}. Everyone is welcome.</p>
+        <p class="card-foot"><span class="more">About our meetings &rarr;</span></p>
+      </a>
+      <a class="card card-link" href="{{ '/council/#torchlight-parade' | relative_url }}">
+        <p class="card-kicker">Torchlight Parade</p>
+        <p class="card-big" data-parade-date>First Friday in December</p>
+        <p>The parade and Christmas lights switch-on, from 6.30pm at the Miners' Charitable Society.</p>
+        <p class="card-foot"><span class="more">Parade details &rarr;</span></p>
+      </a>
+      <a class="card card-link" href="{{ '/report/' | relative_url }}">
+        <p class="card-kicker">Something wrong?</p>
+        <p class="card-big">Report it</p>
+        <p>Who to contact about crime, antisocial behaviour, potholes, fly-tipping, power cuts and more.</p>
+        <p class="card-foot"><span class="more">Find the right number &rarr;</span></p>
+      </a>
+      <a class="card card-link" href="{{ '/you-said-we-did/' | relative_url }}">
+        <p class="card-kicker">Keeping you posted</p>
+        <p class="card-big">You said, we did</p>
+        <p>The issues you've raised with us, and what's happened since.</p>
+        <p class="card-foot"><span class="more">See the updates &rarr;</span></p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section section-paper">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">You said, we did</p>
+      <h2>Latest updates</h2>
+      <p>When you raise something with us, we log it, take it to the people who can fix it, and report back here.</p>
+    </div>
+    <div id="ysd-latest-notice"></div>
+    <div id="ysd-latest" class="ysd-mini" aria-live="polite">
+      <noscript><p>Turn on JavaScript to see the latest updates, or <a href="{{ '/you-said-we-did/' | relative_url }}">visit the You said, we did page</a>.</p></noscript>
+    </div>
+    <p style="margin-top:1.5rem"><a class="btn btn-dark" href="{{ '/you-said-we-did/' | relative_url }}">See all updates</a></p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap split">
+    <div>
+      <p class="eyebrow">About Wallyford</p>
+      <h2>A village built on coal</h2>
+      <p>Wallyford grew up around its pits, its brickworks and its farms. The pits closed long ago, but the mining story is still everywhere: in the Miners' Stone, in the carved stones on the Bing, and in the names on the coal hutches that remember the 38 men who never came home.</p>
+      <p>Today the village is growing faster than at any time since, with new homes, a new primary school and the Wallyford Learning Campus.</p>
+      <p><a class="btn btn-dark" href="{{ '/wallyford/' | relative_url }}">Discover Wallyford's story</a></p>
+    </div>
+    <figure class="figure">
+      <img src="{{ '/assets/img/welcome-sign.jpg' | relative_url }}" alt="Blue and white 'Welcome to Wallyford, please drive carefully' road sign" width="621" height="466" loading="lazy">
+      <figcaption>Welcome to Wallyford.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="section section-dark">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow" style="color:var(--brass-light)">Get involved</p>
+      <h2>Your village, your say</h2>
+      <p>Community council meetings are open to everyone. Come along, ask a question, or just listen in. You can also get in touch any time.</p>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="mailto:{{ site.email }}">Email us</a>
+      {% if site.facebook_url != "" %}<a class="btn btn-ghost" href="{{ site.facebook_url }}">Join our Facebook group</a>{% endif %}
+      <a class="btn btn-ghost" href="{{ '/council/#get-involved' | relative_url }}">Become a community councillor</a>
+    </div>
+    {% if site.facebook_url == "" %}{% include review.html type="todo" text="A 'Join our Facebook group' button appears here once facebook_url is set in _config.yml." %}{% endif %}
+  </div>
+</section>

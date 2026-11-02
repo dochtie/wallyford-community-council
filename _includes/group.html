@@ -1,0 +1,13 @@
+{%- assign g = include.group -%}
+{%- if g.placeholder and site.show_review_notes != true -%}
+<p class="muted">No groups listed yet. <a href="mailto:{{ site.email }}?subject=Local%20groups%20page">Email us</a> to add yours.</p>
+{%- else -%}
+<article class="group{% if g.placeholder %} is-placeholder{% endif %}">
+  {%- if g.placeholder -%}
+    {% include review.html type="todo" text="Add real groups in _data/groups.yml. This is a placeholder." %}
+  {%- endif %}
+  <h3>{% if g.link and g.link != "" %}<a href="{{ g.link }}">{{ g.name }}</a>{% else %}{{ g.name }}{% endif %}</h3>
+  {% if g.area and g.area != "" %}<p class="muted mb-0">{{ g.area }}</p>{% endif %}
+  {% if g.contact and g.contact != "" %}<p class="mb-0">Contact: {{ g.contact }}</p>{% endif %}
+</article>
+{%- endif -%}

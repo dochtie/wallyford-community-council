@@ -1,0 +1,32 @@
+<footer class="site-footer">
+  <div class="strata" aria-hidden="true"></div>
+  <div class="wrap footer-grid">
+    <div>
+      <p class="footer-title">Wallyford Community Council</p>
+      <p>A voluntary group, independent of East Lothian Council, that speaks up for the people of Wallyford.</p>
+      <p class="small">Member of the Association of East Lothian Community Councils.</p>
+    </div>
+    <div>
+      <p class="footer-title">Meetings</p>
+      <p>{{ site.meeting_rule }}, {{ site.meeting_time }}.<br>{{ site.meeting_place }}.</p>
+      <p>Everyone is welcome.</p>
+    </div>
+    <div>
+      <p class="footer-title">Get in touch</p>
+      <p><a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+      {% if site.facebook_url != "" %}
+        <p><a href="{{ site.facebook_url }}">Our Facebook group</a></p>
+      {% else %}
+        {% include review.html type="todo" text="Add the Facebook group link in _config.yml." %}
+      {% endif %}
+    </div>
+    <div>
+      <p class="footer-title">In an emergency</p>
+      <p>Call <strong>999</strong>. For non-emergency police, call <strong>101</strong>.</p>
+      <p><a href="{{ '/report/' | relative_url }}">More ways to report a problem</a></p>
+    </div>
+  </div>
+  <div class="wrap footer-base">
+    <p>Photographs from the <em>Welcome to Wallyford</em> leaflet by Wallyford Community Council and East Lothian Council Community Learning and Development.</p>
+  </div>
+</footer>

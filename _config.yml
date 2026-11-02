@@ -1,0 +1,41 @@
+# ------------------------------------------------------------------
+# Wallyford Community Council website settings
+# Most day-to-day changes happen here or in the _data folder.
+# ------------------------------------------------------------------
+
+title: Wallyford Community Council
+description: >-
+  Wallyford Community Council is the voluntary, independent voice of the
+  people of Wallyford, East Lothian.
+
+# GitHub Pages project address. If you move to your own web address
+# (e.g. wallyfordcc.org.uk), change baseurl to "" and set url.
+url: "https://dochtie.github.io"
+baseurl: "/wallyford-community-council"
+
+# Contact details used across the site
+email: WallyfordCommunityCouncil@gmail.com
+
+# TO DO: paste the Facebook group link between the quotes.
+facebook_url: ""
+
+# Meetings (used on the home page and Council page)
+meeting_time: "6.30pm"
+meeting_place: "Community Rooms, Wallyford Learning Campus"
+meeting_rule: "Last Wednesday of every month, except July and December"
+
+# "You said, we did" tracker.
+# In the Google Sheet: File > Share > Publish to web > Tracker tab > CSV.
+# Paste the link between the quotes. While it is empty the page shows
+# clearly labelled example entries instead.
+tracker_csv_url: ""
+
+# Draft helper. While true, "please check" and "to fill in" notes are
+# visible on the pages. Set to false before the site goes public.
+show_review_notes: true
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
