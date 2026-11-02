@@ -31,8 +31,13 @@ meeting_rule: "Last Wednesday of every month, except July and December"
 # is on) the page shows a labelled preview from assets/data/tracker-preview.csv.
 tracker_csv_url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRhLqQXUZWSXX9WMuhjoLAvN9B2GUNI3OXTp7LB90Bueh7ppSRrnt8P-RbpYSKymi3hFJwz1RM0faPn/pub?gid=0&single=true&output=csv"
 
+# Google Search Console: paste the code from Google's "HTML tag"
+# verification between the quotes (just the code, e.g. "abc123...").
+google_site_verification: ""
+
 # Draft helper. While true, "please check" and "to fill in" notes are
-# visible on the pages. Set to false before the site goes public.
+# visible on the pages, and search engines are asked not to list the
+# site. Set to false before the site goes public.
 show_review_notes: true
 
 # News posts live in the _posts folder (one Markdown file per post,
