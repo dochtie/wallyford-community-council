@@ -8,7 +8,7 @@ A simple website for Wallyford Community Council, built with [Jekyll](https://je
 | --- | --- |
 | Home | `index.html` |
 | News (list and posts) | `news.html`, posts in `_posts/` |
-| Wallyford (history, mining, the Bing, the Drift) | `wallyford.html` |
+| History (village history, mining, the Bing, the Drift) | `wallyford.html` |
 | The Council (remit, who we are, meetings, Torchlight Parade) | `council.html` |
 | Local groups (TRAs, Neighbourhood Watch) | `groups.html` |
 | Report it | `report.html` |

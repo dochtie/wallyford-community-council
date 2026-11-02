@@ -16,8 +16,8 @@ baseurl: "/wallyford-community-council"
 # Contact details used across the site
 email: WallyfordCommunityCouncil@gmail.com
 
-# TO DO: paste the Facebook group link between the quotes.
-facebook_url: ""
+# Facebook group link
+facebook_url: "https://www.facebook.com/groups/170616703520157/"
 
 # Meetings (used on the home page and Council page)
 meeting_time: "6.30pm"
