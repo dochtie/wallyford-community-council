@@ -13,6 +13,11 @@
   photo:
   blurb:
 
+- name: Matthew Williams
+  role: Treasurer
+  photo:
+  blurb:
+
 - name: Bim Adrenin
   role: Community councillor
   photo:
@@ -27,13 +32,3 @@
   role: Community councillor
   photo:
   blurb:
-
-- name: Matthew Williams
-  role: Community councillor
-  photo:
-  blurb:
-
-- name: Vacant
-  role: Treasurer
-  vacant: true
-  blurb: Could this be you? Get in touch if you'd like to find out more.
