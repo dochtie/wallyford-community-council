@@ -1,0 +1,14 @@
+{%- comment -%}
+  Draft notes for the council to check before launch.
+  Hidden everywhere when show_review_notes is false in _config.yml.
+  Usage:
+    {% include review.html type="check" text="Is this date right?" %}  (inline)
+    {% include review.html type="todo" text="Add a photo of the Bing." %} (block)
+{%- endcomment -%}
+{%- if site.show_review_notes -%}
+  {%- if include.type == "check" -%}
+    <span class="review review-check"><span class="review-label">Please check</span> {{ include.text }}</span>
+  {%- else -%}
+    <span class="review review-todo"><span class="review-label">To fill in</span> {{ include.text }}</span>
+  {%- endif -%}
+{%- endif -%}

@@ -1,0 +1,88 @@
+---
+layout: default
+title: You said, we did
+nav: tracker
+permalink: /you-said-we-did/
+description: The issues and questions Wallyford residents have raised with the community council, and what we've done about them.
+---
+
+<header class="page-head">
+  <div class="wrap">
+    <p class="eyebrow">Keeping you posted</p>
+    <h1>You said, we did</h1>
+    <p class="lede">The issues and questions you've raised with us, and what we've done about them. Newest updates first.</p>
+  </div>
+</header>
+<div class="strata" aria-hidden="true"></div>
+
+<section class="section">
+  <div class="wrap">
+    <div class="grid grid-3 ysd-how">
+      <div class="card">
+        <p class="step-num">1</p>
+        <h3>You raise it</h3>
+        <p>At a meeting, by email, or in our Facebook group.</p>
+      </div>
+      <div class="card">
+        <p class="step-num">2</p>
+        <h3>We take it on</h3>
+        <p>We log it on our action tracker and take it to whoever can sort it: East Lothian Council, Police Scotland, or someone else.</p>
+      </div>
+      <div class="card">
+        <p class="step-num">3</p>
+        <h3>We report back</h3>
+        <p>We post updates here as things move on, until it's done or we've gone as far as we can.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-paper">
+  <div class="wrap">
+    <h2 class="visually-hidden">Updates</h2>
+    <div id="ysd-notice"></div>
+
+    <div class="ysd-toolbar" id="ysd-toolbar" hidden>
+      <div>
+        <span id="ysd-status-label" class="visually-hidden">Show</span>
+        <div class="chips" role="group" aria-labelledby="ysd-status-label">
+          <button type="button" class="chip" data-status="all" aria-pressed="true">All</button>
+          <button type="button" class="chip" data-status="open" aria-pressed="false">Ongoing</button>
+          <button type="button" class="chip" data-status="done" aria-pressed="false">Done</button>
+        </div>
+      </div>
+      <div>
+        <label for="ysd-topic">Topic</label>
+        <select id="ysd-topic">
+          <option value="">All topics</option>
+        </select>
+      </div>
+      <div class="field-search">
+        <label for="ysd-search">Search</label>
+        <input id="ysd-search" type="search" placeholder="e.g. Salters Road, lights, parking">
+      </div>
+    </div>
+
+    <p class="ysd-summary" id="ysd-summary" aria-live="polite"></p>
+    <div class="ysd-list" id="ysd-list">
+      <noscript><p>This list needs JavaScript turned on. You can also ask us for an update at a meeting or by <a href="mailto:{{ site.email }}">email</a>.</p></noscript>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap split">
+    <div class="prose">
+      <h2>Raise something with us</h2>
+      <p>Is something bothering you about Wallyford, or is there something you'd like to see? Tell us, and we'll add it to the tracker.</p>
+      <p>If it's a problem that someone else is responsible for, like a pothole, a broken street light or antisocial behaviour, please <a href="{{ '/report/' | relative_url }}">report it to them</a> as well. It gets fixed faster that way, and it makes our job of pushing for action easier.</p>
+      <p class="small muted">We never publish names or personal details, and we may shorten or reword what was said.</p>
+    </div>
+    <div class="card">
+      <h3>Get in touch</h3>
+      <p><strong>Email:</strong> <a href="mailto:{{ site.email }}?subject=Something%20to%20raise">{{ site.email }}</a></p>
+      <p><strong>Meetings:</strong> <span data-next-meeting>{{ site.meeting_rule }}</span>, {{ site.meeting_time }}, {{ site.meeting_place }}.</p>
+      {% if site.facebook_url != "" %}<p><strong>Facebook:</strong> <a href="{{ site.facebook_url }}">our Facebook group</a></p>{% endif %}
+    </div>
+  </div>
+</section>

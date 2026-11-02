@@ -1,0 +1,17 @@
+# Local groups shown on the Local groups page.
+# Copy an entry and fill in what you have. Any line can be left blank.
+# Only publish a personal phone number or email with that person's OK.
+
+tras:
+  - name: "TO DO: name of tenants' and residents' association"
+    area: "Which streets or estate it covers"
+    contact: ""
+    link: ""
+    placeholder: true
+
+neighbourhood_watches:
+  - name: "TO DO: name of Neighbourhood Watch scheme"
+    area: "Which streets it covers"
+    contact: ""
+    link: ""
+    placeholder: true

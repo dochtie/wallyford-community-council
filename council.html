@@ -1,0 +1,168 @@
+---
+layout: default
+title: The Council
+nav: council
+permalink: /council/
+description: What Wallyford Community Council does, who we are, when we meet, the Christmas Lights and Torchlight Parade, and how to get involved.
+---
+
+<header class="page-head">
+  <div class="wrap">
+    <p class="eyebrow">Wallyford Community Council</p>
+    <h1>The Council</h1>
+    <p class="lede">We're local people who give our time to make sure Wallyford's views are heard. We're independent of East Lothian Council, and our meetings are open to everyone.</p>
+  </div>
+</header>
+<div class="strata" aria-hidden="true"></div>
+
+<nav class="jump-bar" aria-label="On this page">
+  <div class="wrap">
+    <ul class="jump">
+      <li><a href="#what-we-do">What we do</a></li>
+      <li><a href="#who-we-are">Who we are</a></li>
+      <li><a href="#meetings">Meetings</a></li>
+      <li><a href="#torchlight-parade">Christmas Lights and Torchlight Parade</a></li>
+      <li><a href="#funding">How we're funded</a></li>
+      <li><a href="#get-involved">Get involved</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="section" id="what-we-do">
+  <div class="wrap split">
+    <div class="prose">
+      <h2>What we do</h2>
+      <p>Community councils are voluntary groups, independent of the local authority, that act as a voice for their area. We pass on the views and concerns of local people on everything from planning applications to potholes, and we're represented on the Musselburgh Area Partnership, which helps set local priorities and decide how money is spent on them.</p>
+      <p>In Wallyford, that means we:</p>
+      <ul>
+        <li>respond to planning applications and licensing matters that affect the village</li>
+        <li>represent local views at the Community and Police Partnership meetings with Police Scotland, councillors and council officers</li>
+        <li>take part in the Musselburgh Area Partnership</li>
+        <li>pass on information to the community, such as temporary road closures (TTROs) and East Lothian Council consultations</li>
+        <li>push for things the village needs, like new pedestrian crossings</li>
+        <li>point people towards local services that can help</li>
+        <li>organise the Christmas Lights and the Torchlight Parade</li>
+      </ul>
+      <p>We're a member of the Association of East Lothian Community Councils (AELCC) and take part in its meetings.</p>
+    </div>
+    <aside>
+      <div class="card">
+        <h3>What we can't do</h3>
+        <p>We aren't part of East Lothian Council and can't fix problems directly, but we can make sure the right people hear about them and keep asking until something happens.</p>
+        <p>To get something fixed quickly, <a href="{{ '/report/' | relative_url }}">report it to the right organisation</a> first, then let us know if it keeps happening.</p>
+        <p class="card-foot"><a href="{{ '/you-said-we-did/' | relative_url }}">See what we've done about issues you've raised &rarr;</a></p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="section section-paper" id="who-we-are">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Who we are</h2>
+      <p>Your community councillors all live in Wallyford and give their time for free.</p>
+    </div>
+    <div class="people">
+      {% for person in site.data.councillors %}
+        {%- assign words = person.name | split: " " -%}
+        <article class="person{% if person.vacant %} is-vacant{% endif %}">
+          <div class="avatar" aria-hidden="true">
+            {%- if person.photo -%}
+              <img src="{{ '/assets/img/people/' | append: person.photo | relative_url }}" alt="">
+            {%- elsif person.vacant -%}
+              ?
+            {%- else -%}
+              {{ words[0] | slice: 0, 1 }}{{ words[1] | slice: 0, 1 }}
+            {%- endif -%}
+          </div>
+          <h3>{{ person.name }}</h3>
+          <p class="role">{{ person.role }}</p>
+          {% if person.blurb %}
+            <p>{{ person.blurb }}</p>
+          {% else %}
+            {% include review.html type="todo" text="Photo and a line or two about yourself." %}
+          {% endif %}
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section" id="meetings">
+  <div class="wrap split">
+    <div class="prose">
+      <h2>Meetings</h2>
+      <p class="card-big" data-next-meeting data-prefix="Next meeting: ">{{ site.meeting_rule }}</p>
+      <p>We meet at <strong>{{ site.meeting_time }}</strong> on the <strong>last Wednesday of every month</strong>, except July and December, in the <strong>{{ site.meeting_place }}</strong>.</p>
+      <p>All our meetings are held in public, and residents are welcome to come along. You don't need to book. If you'd like to raise something, it helps to <a href="mailto:{{ site.email }}">email us</a> beforehand so we can put it on the agenda.</p>
+      {% include review.html type="todo" text="Where people can find agendas and minutes (Facebook, email list, or add them to this site)." %}
+    </div>
+    <figure class="figure">
+      <img src="{{ '/assets/img/learning-campus.jpg' | relative_url }}" alt="Entrance to the Wallyford Learning Campus with a sign beside the steps" width="486" height="622" loading="lazy" style="max-height:440px;object-fit:cover">
+      <figcaption>The Wallyford Learning Campus, where we meet.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="section section-dark" id="torchlight-parade">
+  <div class="wrap split">
+    <div>
+      <p class="eyebrow" style="color:var(--brass-light)">Every December</p>
+      <h2>Christmas Lights and Torchlight Parade</h2>
+      <p class="card-big" style="color:var(--paper)" data-parade-date data-prefix="This year: ">First Friday in December</p>
+      <p>The Torchlight Parade is the biggest night in our calendar. On the first Friday of December, the parade sets off at 6.30pm from the Wallyford Miners' Charitable Society Club car park and, led by the Prestonlodge Pipe Band, makes its way up Salters Road to the Miners' Stone.</p>
+      <p>There we hold a short Christmas service with carol singing and lay a floral tribute to remember the 38 miners lost in Wallyford's pits. Then the Gala King and Queen switch on the village Christmas lights for the festive season.</p>
+      <p>The lights and the parade are paid for by our fundraising throughout the year.</p>
+      {% include review.html type="todo" text="How people can help: volunteering on the night, donating, or sponsoring the lights." %}
+    </div>
+    <div>
+      <figure class="figure">
+        <img src="{{ '/assets/img/miners-charitable-society.jpg' | relative_url }}" alt="Sign on a building reading Wallyford Miners Charitable Society" width="521" height="293" loading="lazy">
+        <figcaption style="color:#cfc6b4">The parade starts from the Miners' Charitable Society Club.</figcaption>
+      </figure>
+      {% include review.html type="todo" text="A photo from a past Torchlight Parade would be perfect here." %}
+    </div>
+  </div>
+</section>
+
+<section class="section" id="funding">
+  <div class="wrap">
+    <div class="prose">
+      <h2>How we're funded</h2>
+      <p>East Lothian Council gives community councils an administration grant and funding through the Local Priority Scheme, which we use to improve the local environment for the benefit of the village.</p>
+      <p>We also raise money every year to pay for the Christmas Lights and the Torchlight Parade.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section-paper" id="get-involved">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Get involved</h2>
+      <p>There are lots of ways to have your say.</p>
+    </div>
+    <div class="grid grid-4">
+      <div class="card">
+        <h3>Come to a meeting</h3>
+        <p>Last Wednesday of the month, {{ site.meeting_time }}, at the Learning Campus. Just turn up.</p>
+      </div>
+      <div class="card">
+        <h3>Email us</h3>
+        <p><a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+      </div>
+      <div class="card">
+        <h3>Join us on Facebook</h3>
+        {% if site.facebook_url != "" %}
+          <p>News, updates and reminders in our <a href="{{ site.facebook_url }}">Facebook group</a>.</p>
+        {% else %}
+          <p>News, updates and reminders in our Facebook group.</p>
+          {% include review.html type="todo" text="Facebook group link." %}
+        {% endif %}
+      </div>
+      <div class="card">
+        <h3>Become a councillor</h3>
+        <p>We have room for more members, and the Treasurer post is vacant. Get in touch and we'll tell you what's involved.</p>
+      </div>
+    </div>
+  </div>
+</section>
