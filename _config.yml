@@ -21,18 +21,29 @@ facebook_url: ""
 
 # Meetings (used on the home page and Council page)
 meeting_time: "6.30pm"
-meeting_place: "Community Rooms, Wallyford Learning Campus"
+meeting_place: "Assembly Hall, Wallyford Learning Campus"
+meeting_way_in: "Come in through the Leisure entrance, by the car park."
 meeting_rule: "Last Wednesday of every month, except July and December"
 
 # "You said, we did" tracker.
 # In the Google Sheet: File > Share > Publish to web > Tracker tab > CSV.
-# Paste the link between the quotes. While it is empty the page shows
-# clearly labelled example entries instead.
+# Paste the link between the quotes. While it is empty (and draft mode
+# is on) the page shows a labelled preview from assets/data/tracker-preview.csv.
 tracker_csv_url: ""
 
 # Draft helper. While true, "please check" and "to fill in" notes are
 # visible on the pages. Set to false before the site goes public.
 show_review_notes: true
+
+# News posts live in the _posts folder (one Markdown file per post,
+# named like 2026-10-28-agm.md). Their web addresses look like
+# /news/2026/10/28/agm/
+defaults:
+  - scope:
+      type: posts
+    values:
+      layout: post
+      permalink: /news/:year/:month/:day/:title/
 
 exclude:
   - README.md

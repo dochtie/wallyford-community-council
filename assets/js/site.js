@@ -2,6 +2,8 @@
    1. Mobile menu
    2. Next meeting and Torchlight Parade dates
    3. "You said, we did" tracker, read from a published Google Sheet (CSV)
+   4. "Coming up" list of events
+   5. Back to top button
 */
 (function () {
   "use strict";
@@ -310,7 +312,7 @@
         var items = toItems(parseCSV(text));
         if (!live) {
           showNotice(notice, "info",
-            "<strong>These are made-up examples</strong> to show how this works. Real updates will appear here once the tracker sheet is connected.");
+            "<strong>Preview.</strong> These entries are copied from our action tracker. Once the tracker sheet is connected, this list will update from it automatically.");
         }
         if (list) setupFullList(items, list); else renderLatest(items, latest);
       })
@@ -322,12 +324,128 @@
       .then(function () { target.removeAttribute("aria-busy"); });
   }
 
+  /* ---------------- 4. Coming up ---------------- */
+
+  function atTime(d, h, m) {
+    var x = new Date(d);
+    x.setHours(h, m || 0, 0, 0);
+    return x;
+  }
+
+  // Regular events, worked out for a given year.
+  function regularEvents(year) {
+    var list = [];
+    var link = function (path) { return (cfg.base || "/") + path; };
+    for (var m = 0; m < 12; m++) {
+      if (m === 6 || m === 11) continue;
+      list.push({
+        date: lastWeekday(year, m, 3), ends: 21,
+        title: "Community council meeting",
+        time: "6.30pm", place: "Assembly Hall, Wallyford Learning Campus (Leisure entrance)",
+        link: link("council/#meetings")
+      });
+    }
+    // Remembrance Sunday is the second Sunday in November.
+    var firstSunday = firstWeekday(year, 10, 0);
+    list.push({
+      date: new Date(year, 10, firstSunday.getDate() + 7), ends: 13,
+      title: "Remembrance Sunday",
+      time: "10am service at Wallyford Community Church, 10.50am wreath laying",
+      place: "War memorial, foot of St Clement's Crescent",
+      link: link("wallyford/#remembering")
+    });
+    list.push({
+      date: new Date(year, 10, 11), ends: 12,
+      title: "Armistice Day service",
+      time: "10.45am", place: "Crookston War Memorial, Inveresk Cemetery",
+      link: link("wallyford/#remembering")
+    });
+    list.push({
+      date: firstWeekday(year, 11, 5), ends: 22,
+      title: "Torchlight Parade and Christmas lights switch-on",
+      time: "6.30pm", place: "Starts at the Miners' Charitable Society Club car park",
+      link: link("council/#torchlight-parade")
+    });
+    list.push({
+      date: firstWeekday(year, 5, 6), ends: 18,
+      title: "Wallyford Gala Day",
+      time: "", place: "",
+      link: ""
+    });
+    list.push({
+      date: new Date(year, 8, 10), ends: 15,
+      title: "Battle of Pinkie commemoration",
+      time: "1pm", place: "Pinkie Cleugh memorial stone, off Salters Road",
+      link: link("wallyford/#pinkie")
+    });
+    return list;
+  }
+
+  function oneOffEvents() {
+    var raw = Array.isArray(cfg.events) ? cfg.events : [];
+    return raw.map(function (e) {
+      var d = parseDate(String(e.date || ""));
+      if (!d) return null;
+      return { date: d, ends: 23, title: e.title || "", time: e.time || "", place: e.place || "", link: e.link || "" };
+    }).filter(function (e) { return e && e.title; });
+  }
+
+  function initComingUp() {
+    var box = document.getElementById("coming-up");
+    if (!box) return;
+    var now = new Date();
+    var all = regularEvents(now.getFullYear())
+      .concat(regularEvents(now.getFullYear() + 1))
+      .concat(oneOffEvents())
+      .filter(function (e) { return atTime(e.date, e.ends) >= now; })
+      .sort(function (a, b) { return a.date - b.date; })
+      .slice(0, +(box.getAttribute("data-count") || 4));
+    if (!all.length) return;
+
+    var dayFmt = new Intl.DateTimeFormat("en-GB", { weekday: "short" });
+    var monFmt = new Intl.DateTimeFormat("en-GB", { month: "short" });
+    var list = make("ul", "events");
+    all.forEach(function (e) {
+      var li = make("li", "event");
+      var inner = e.link ? make("a", "event-inner") : make("div", "event-inner");
+      if (e.link) inner.href = e.link;
+      var badge = make("span", "event-date");
+      badge.appendChild(make("span", "event-day", sameDay(e.date, now) ? "Today" : dayFmt.format(e.date)));
+      badge.appendChild(make("span", "event-num", String(e.date.getDate())));
+      badge.appendChild(make("span", "event-mon", monFmt.format(e.date)));
+      var text = make("span", "event-text");
+      text.appendChild(make("span", "event-title", e.title));
+      var detail = [e.time, e.place].filter(Boolean).join(" \u00b7 ");
+      if (detail) text.appendChild(make("span", "event-detail", detail));
+      inner.appendChild(badge);
+      inner.appendChild(text);
+      li.appendChild(inner);
+      list.appendChild(li);
+    });
+    box.innerHTML = "";
+    box.appendChild(list);
+  }
+
+  /* ---------------- 5. Back to top ---------------- */
+
+  function initToTop() {
+    var btn = document.querySelector(".to-top");
+    if (!btn) return;
+    var onScroll = function () {
+      btn.classList.toggle("is-visible", window.scrollY > 1200);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
+
   /* ---------------- Start ---------------- */
 
   function start() {
     initNav();
     initDates();
     initTracker();
+    initComingUp();
+    initToTop();
   }
 
   if (document.readyState === "loading") {
