@@ -448,6 +448,31 @@ a.event-inner:hover .event-title { text-decoration: underline; }
 }
 .prose blockquote p:last-child { font-family: var(--sans); font-size: .95rem; color: var(--muted); margin-bottom: 0; }
 
+/* ---------- Show more (details) ---------- */
+details.more { margin: 1rem 0 0; border-top: 1px solid var(--rule); }
+details.more > summary {
+  cursor: pointer; list-style: none; padding: .8rem 0; font-weight: 700; color: var(--brass-dark);
+  display: flex; align-items: center; gap: .5rem;
+}
+details.more > summary::-webkit-details-marker { display: none; }
+details.more > summary::before {
+  content: ""; width: .55rem; height: .55rem; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg); transition: transform .15s ease; margin-right: .2rem;
+}
+details.more[open] > summary::before { transform: rotate(45deg); }
+details.more > summary:hover { text-decoration: underline; }
+
+/* ---------- History page: compact pictures ---------- */
+.card-img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 4px; margin-bottom: 1rem; }
+.card-photo { aspect-ratio: 16 / 9; margin-bottom: 1rem; }
+.card-title { font-size: 1.45rem; }
+.figure-short { max-height: 340px; object-fit: cover; }
+@media (max-width: 640px) {
+  .section { padding: 2.5rem 0; }
+  .section-paper + .section, .section-dark + .section { padding-top: 2.5rem; }
+  .figure img { max-height: 300px; object-fit: cover; }
+}
+
 /* ---------- Report it: steps ---------- */
 .steps { padding-left: 1.3em; margin: 0; }
 .steps li { margin-bottom: .5rem; }

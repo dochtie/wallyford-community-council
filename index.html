@@ -52,9 +52,24 @@ description: Wallyford Community Council. Meetings, reporting problems, local hi
   </div>
 </section>
 
+<section class="section section-paper">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">You said, we did</p>
+      <h2>Latest updates</h2>
+      <p>When you raise something with us, we log it, take it to the people who can fix it, and report back here.</p>
+    </div>
+    <div id="ysd-latest-notice"></div>
+    <div id="ysd-latest" class="ysd-mini" aria-live="polite">
+      <noscript><p>Turn on JavaScript to see the latest updates, or <a href="{{ '/you-said-we-did/' | relative_url }}">visit the You said, we did page</a>.</p></noscript>
+    </div>
+    <p style="margin-top:1.5rem"><a class="btn btn-dark" href="{{ '/you-said-we-did/' | relative_url }}">See all updates</a></p>
+  </div>
+</section>
+
 {% assign latest = site.posts | first %}
 {% if latest %}
-<section class="section section-paper">
+<section class="section">
   <div class="wrap split">
     <div>
       <p class="eyebrow">Latest news</p>
@@ -74,21 +89,6 @@ description: Wallyford Community Council. Meetings, reporting problems, local hi
   </div>
 </section>
 {% endif %}
-
-<section class="section">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">You said, we did</p>
-      <h2>Latest updates</h2>
-      <p>When you raise something with us, we log it, take it to the people who can fix it, and report back here.</p>
-    </div>
-    <div id="ysd-latest-notice"></div>
-    <div id="ysd-latest" class="ysd-mini" aria-live="polite">
-      <noscript><p>Turn on JavaScript to see the latest updates, or <a href="{{ '/you-said-we-did/' | relative_url }}">visit the You said, we did page</a>.</p></noscript>
-    </div>
-    <p style="margin-top:1.5rem"><a class="btn btn-dark" href="{{ '/you-said-we-did/' | relative_url }}">See all updates</a></p>
-  </div>
-</section>
 
 <section class="section section-paper">
   <div class="wrap split">
