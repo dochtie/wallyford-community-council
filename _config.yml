@@ -29,7 +29,7 @@ meeting_rule: "Last Wednesday of every month, except July and December"
 # In the Google Sheet: File > Share > Publish to web > Tracker tab > CSV.
 # Paste the link between the quotes. While it is empty (and draft mode
 # is on) the page shows a labelled preview from assets/data/tracker-preview.csv.
-tracker_csv_url: ""
+tracker_csv_url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRhLqQXUZWSXX9WMuhjoLAvN9B2GUNI3OXTp7LB90Bueh7ppSRrnt8P-RbpYSKymi3hFJwz1RM0faPn/pub?gid=0&single=true&output=csv"
 
 # Draft helper. While true, "please check" and "to fill in" notes are
 # visible on the pages. Set to false before the site goes public.
