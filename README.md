@@ -7,6 +7,7 @@ A simple website for Wallyford Community Council, built with [Jekyll](https://je
 | Page | File |
 | --- | --- |
 | Home | `index.html` |
+| News (list and posts) | `news.html`, posts in `_posts/` |
 | Wallyford (history, mining, the Bing, the Drift) | `wallyford.html` |
 | The Council (remit, who we are, meetings, Torchlight Parade) | `council.html` |
 | Local groups (TRAs, Neighbourhood Watch) | `groups.html` |
@@ -20,6 +21,9 @@ You can edit any of these files on github.com: open the file, click the pencil i
 - **Contact details, Facebook link, meeting details:** `_config.yml`
 - **Councillors (names, roles, photos, blurbs):** `_data/councillors.yml`. Put photos in `assets/img/people/` and add the file name to `photo:`.
 - **Local groups:** `_data/groups.yml`
+- **News:** add a Markdown file to `_posts/`, named like `2026-11-30-christmas-lights.md`. Copy `_posts/2026-10-28-agm.md` as a starting point. The newest post appears on the home page automatically.
+- **Coming up (home page):** regular events (meetings, Remembrance Sunday, Armistice Day, Torchlight Parade, Gala Day, Pinkie commemoration) are worked out automatically. Add one-off events to `_data/events.yml`. Past events disappear by themselves.
+- **Ward councillors (Report it page):** `_data/ward_councillors.yml`. Check after each council election.
 - **You said, we did:** you don't edit the website at all. Update the Google Sheet and the page picks up the changes (see below).
 
 ## You said, we did
@@ -32,7 +36,7 @@ The page reads a Google Sheet published as CSV.
 
 Only rows with **Show on website** ticked appear. Never put residents' names or contact details in the sheet: everything on the Tracker tab is public once published.
 
-Until a link is added, the page shows clearly labelled example entries (in draft mode only).
+Until a link is added, the page shows a labelled preview from `assets/data/tracker-preview.csv` (in draft mode only).
 
 ## Before going live
 

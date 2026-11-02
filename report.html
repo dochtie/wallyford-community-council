@@ -25,6 +25,7 @@ description: Who to contact about crime, antisocial behaviour, council services,
     <li><a href="#antisocial-behaviour">Antisocial behaviour</a></li>
     <li><a href="#council">Council services</a></li>
     <li><a href="#utilities">Power, gas and water</a></li>
+    <li><a href="#not-fixed">Not fixed?</a></li>
     <li><a href="#tell-us">Tell us too</a></li>
   </ul>
 
@@ -116,6 +117,17 @@ description: Who to contact about crime, antisocial behaviour, council services,
       <a class="btn btn-dark" href="https://www.eastlothian.gov.uk/reportit">All Report It options</a>
       <a class="btn btn-ghost" style="color:var(--ink)" href="https://eastlothian-chcentral.onmats.com/w/webpage/newcase?form=customer_contact_form">Anything else, like street lights</a>
     </div>
+
+    <div class="callout" style="margin-top:2rem">
+      <h3>Five steps to a report that gets fixed</h3>
+      <ol class="steps">
+        <li><strong>Pin down the exact spot.</strong> "Outside 12 Masons Way, by the lamp post" beats "Masons Way". Use the map on the form if there is one.</li>
+        <li><strong>Take a photo</strong> if it's safe to. It shows the size of the problem and helps the crew find it.</li>
+        <li><strong>Say why it matters.</strong> Mention if it's near the school, a bus stop or a crossing, or if someone could get hurt.</li>
+        <li><strong>Keep the reference number</strong> you're given, and the date you reported it.</li>
+        <li><strong>Nothing happened?</strong> <a href="#not-fixed">Contact your ward councillors</a> with the reference number and ask them to chase it up.</li>
+      </ol>
+    </div>
   </section>
 
   <section class="report-block" id="utilities">
@@ -147,6 +159,31 @@ description: Who to contact about crime, antisocial behaviour, council services,
         <a class="btn btn-dark" href="https://www.scottishwater.co.uk/help-and-resources/contact-us/contacting-us">Contact Scottish Water</a>
       </div>
     </div>
+  </section>
+
+  <section class="report-block" id="not-fixed">
+    <div class="report-head">
+      <span class="report-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.2c2.9.3 5.5 2.6 5.5 5.8"/></svg>
+      </span>
+      <div>
+        <h2 class="mb-0">Not fixed? Contact your ward councillors</h2>
+        <p class="muted mb-0">Tranent, Wallyford and Macmerry ward, East Lothian Council</p>
+      </div>
+    </div>
+    <p class="prose">Wallyford is in East Lothian Council's Tranent, Wallyford and Macmerry ward, which elects four councillors. They can chase up reports that have stalled and raise local problems inside the council. Include your report's reference number when you get in touch.</p>
+    <div class="grid grid-2">
+      {% for c in site.data.ward_councillors %}
+      <div class="contact-card">
+        <span class="label">{{ c.name }}</span>
+        <span class="when-to">{{ c.party }}</span>
+        <a href="mailto:{{ c.email }}">{{ c.email }}</a>
+        <span>Office: <a href="tel:{{ c.phone | remove: ' ' }}">{{ c.phone }}</a></span>
+        <a href="{{ c.profile }}">Profile and surgery times</a>
+      </div>
+      {% endfor %}
+    </div>
+    <p class="small muted" style="margin-top:1rem">Details from East Lothian Council's website, November 2026.</p>
   </section>
 
   <section class="report-block" id="tell-us">
