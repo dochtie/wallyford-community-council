@@ -18,11 +18,11 @@
   --emergency: #a3261b;
   --emergency-bg: #fbeae6;
 
-  --status-new: #2f5d8a;
-  --status-progress: #8a6a12;
-  --status-waiting: #9a4f12;
+  --status-new: #4b5563;
+  --status-progress: #1f5f8b;
+  --status-waiting: #8a5a00;
   --status-done: #2f6b3a;
-  --status-closed: #5f6468;
+  --status-closed: #6b7075;
 
   --serif: "Fraunces", Georgia, "Times New Roman", serif;
   --sans: "Source Sans 3", "Source Sans Pro", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
@@ -370,7 +370,7 @@ figure { margin: 0; }
 .ysd-meta .topic { font-weight: 700; color: var(--ink); }
 .ysd-body { display: grid; }
 @media (min-width: 760px) { .ysd-body { grid-template-columns: 1fr 1fr; } }
-.ysd-col { padding: 1rem 1.2rem 1.2rem; }
+.ysd-col { padding: .9rem 1.2rem 1rem; }
 .ysd-col + .ysd-col { border-top: 1px dashed var(--rule); }
 @media (min-width: 760px) { .ysd-col + .ysd-col { border-top: 0; border-left: 1px dashed var(--rule); } }
 .ysd-col h3 {
@@ -379,7 +379,11 @@ figure { margin: 0; }
 }
 .ysd-said { font-family: var(--serif); font-size: 1.15rem; line-height: 1.45; color: var(--coal); margin: 0; }
 .ysd-did { margin: 0; white-space: pre-line; }
-.ysd-updated { font-size: .88rem; color: var(--muted); margin-top: .6rem; }
+.ysd-updated { margin-left: auto; font-size: .88rem; color: var(--muted); white-space: nowrap; }
+.ysd-help {
+  margin: .7rem 0 0; padding: .55rem .75rem; font-size: .97rem; line-height: 1.5;
+  background: var(--cream); border-left: 3px solid var(--brass); border-radius: 0 4px 4px 0;
+}
 
 .status {
   display: inline-flex; align-items: center; gap: .4rem; font-weight: 700; font-size: .85rem;
@@ -388,7 +392,7 @@ figure { margin: 0; }
 .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: .7; }
 .status-new { background: var(--status-new); }
 .status-in-progress { background: var(--status-progress); }
-.status-waiting-on-others { background: var(--status-waiting); }
+.status-waiting-on-others { background: #fbe9bd; color: var(--status-waiting); box-shadow: inset 0 0 0 1px #e3c674; }
 .status-done { background: var(--status-done); }
 .status-closed { background: var(--status-closed); }
 

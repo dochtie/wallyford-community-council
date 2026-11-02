@@ -165,12 +165,23 @@
       o.group = (o.statusKey === "done" || o.statusKey === "closed") ? "done" : "open";
       o.raisedDate = parseDate(o.raised);
       o.updatedDate = parseDate(o.updated) || o.raisedDate;
+      o.row = r;
       items.push(o);
     }
-    items.sort(function (a, b) {
-      return (b.updatedDate ? b.updatedDate.getTime() : 0) - (a.updatedDate ? a.updatedDate.getTime() : 0);
-    });
-    return items;
+    return items.sort(byRecent);
+  }
+
+  // Most recently updated first. Same date: the row further down the
+  // sheet (usually the newer entry) comes first.
+  function byRecent(a, b) {
+    var t = (b.updatedDate ? b.updatedDate.getTime() : 0) - (a.updatedDate ? a.updatedDate.getTime() : 0);
+    return t || (b.row - a.row);
+  }
+
+  // Full list: ongoing items first, then done/closed, each most recent first.
+  function byGroupThenRecent(a, b) {
+    if (a.group !== b.group) return a.group === "open" ? -1 : 1;
+    return byRecent(a, b);
   }
 
   function make(tag, cls, text) {
@@ -190,16 +201,24 @@
     if (o.raisedDate) raised.push("Raised " + fmtShort.format(o.raisedDate));
     if (o.via) raised.push(o.via);
     if (raised.length) meta.appendChild(make("span", null, raised.join(" · ")));
+    if (o.updatedDate) meta.appendChild(make("span", "ysd-updated", "Updated " + fmtShort.format(o.updatedDate)));
     art.appendChild(meta);
 
     var body = make("div", "ysd-body");
     var said = make("div", "ysd-col");
     said.appendChild(make("h3", null, "You said"));
-    said.appendChild(make("p", "ysd-said", "“" + o.said + "”"));
+    said.appendChild(make("p", "ysd-said", o.said));
     var did = make("div", "ysd-col");
     did.appendChild(make("h3", null, "We did"));
-    did.appendChild(make("p", "ysd-did", o.did || "We've logged this and will post an update soon."));
-    if (o.updatedDate) did.appendChild(make("p", "ysd-updated", "Last updated " + fmtShort.format(o.updatedDate)));
+    // A line starting "You can help:" is shown as its own highlighted note.
+    var parts = (o.did || "We've logged this and will post an update soon.").split(/\n?\s*You can help:\s*/i);
+    did.appendChild(make("p", "ysd-did", parts[0].trim()));
+    if (parts[1]) {
+      var help = make("p", "ysd-help");
+      help.appendChild(make("strong", null, "You can help: "));
+      help.appendChild(document.createTextNode(parts.slice(1).join(" ").trim()));
+      did.appendChild(help);
+    }
     body.appendChild(said);
     body.appendChild(did);
     art.appendChild(body);
@@ -241,7 +260,7 @@
 
     function render() {
       var q = state.q.toLowerCase();
-      var shown = items.filter(function (o) {
+      var shown = items.slice().sort(byGroupThenRecent).filter(function (o) {
         if (state.group !== "all" && o.group !== state.group) return false;
         if (state.topic && o.topic !== state.topic) return false;
         if (q) {

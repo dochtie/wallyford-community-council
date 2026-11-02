@@ -34,7 +34,11 @@ The page reads a Google Sheet published as CSV.
 2. In the sheet: **File > Share > Publish to web**. Under *Link*, choose the **Tracker** tab and **Comma-separated values (.csv)**, then **Publish**.
 3. Copy the link and paste it into `tracker_csv_url` in `_config.yml`.
 
-Only rows with **Show on website** ticked appear. Never put residents' names or contact details in the sheet: everything on the Tracker tab is public once published.
+Only rows with **Show on website** ticked appear. The page lists ongoing entries first and done ones after, each with the most recently updated at the top.
+
+**Automatic "Last updated" (recommended):** paste `tools/tracker-auto-date.gs` into the sheet once (Extensions > Apps Script, paste, Save). After that, editing "You said", "We did", "Status" or "Show on website" sets "Last updated" to today, so edited entries move to the top by themselves.
+
+Never put residents' names or contact details in the sheet: everything on the Tracker tab is public once published.
 
 Until a link is added, the page shows a labelled preview from `assets/data/tracker-preview.csv` (in draft mode only).
 
