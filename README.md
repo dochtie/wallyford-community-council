@@ -48,6 +48,22 @@ Until a link is added, the page shows a labelled preview from `assets/data/track
 - Add the Facebook group link, the tracker link, councillor photos and blurbs, and local group details.
 - Check that you have permission to use every photo.
 
+## Getting on Google
+
+The site is already set up for search engines (page titles and descriptions, a sitemap, structured data describing the council, and sharing previews for Facebook). While `show_review_notes` is `true`, every page tells search engines **not** to list it, so draft notes never end up on Google. Setting it to `false` lifts that automatically.
+
+On launch day:
+
+1. Set `show_review_notes: false` in `_config.yml`.
+2. Go to [Google Search Console](https://search.google.com/search-console), add a **URL prefix** property for `https://dochtie.github.io/wallyford-community-council/`.
+3. Choose **HTML tag** verification. Copy just the code from inside `content="..."` and paste it into `google_site_verification` in `_config.yml`. Wait a couple of minutes for the site to update, then click **Verify**.
+4. In Search Console, open **Sitemaps** and submit `sitemap.xml`.
+5. Use **URL inspection** on the home page and click **Request indexing**.
+
+Links from other trusted sites help most: ask East Lothian Council (Connected Communities team) to add the website to the council's listing, and add it to the Facebook group's About section.
+
+If you move to your own web address later, add it in Search Console as a new property and submit the sitemap again.
+
 ## Turning on GitHub Pages
 
 In the repository on GitHub: **Settings > Pages**. Under *Build and deployment*, choose **Deploy from a branch**, pick `main` and `/ (root)`, and save. The site appears at `https://dochtie.github.io/wallyford-community-council/`.
