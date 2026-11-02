@@ -27,6 +27,9 @@
     </div>
   </div>
   <div class="wrap footer-base">
+    {%- if site.site_credit and site.site_credit != "" %}
+    <p class="site-credit"><strong>{{ site.site_credit }}</strong> Spotted a mistake? <a href="mailto:{{ site.email }}?subject=Website">Let us know</a>.</p>
+    {%- endif %}
     <p>Photographs from the <em>Welcome to Wallyford</em> leaflet by Wallyford Community Council and East Lothian Council Community Learning and Development.</p>
   </div>
   <a class="to-top" href="#top">Back to top</a>

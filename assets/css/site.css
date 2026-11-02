@@ -510,6 +510,9 @@ details.more > summary:hover { text-decoration: underline; }
 .footer-title { font-family: var(--serif); font-size: 1.15rem; font-weight: 600; color: var(--paper); margin-bottom: .5rem; }
 .footer-base { border-top: 1px solid var(--slate-2); padding-top: 1rem; padding-bottom: 1.5rem; font-size: .85rem; color: #a9a291; }
 .footer-base p { margin: 0; }
+.footer-base p + p { margin-top: .4rem; }
+.footer-base .site-credit { color: #d9d1bf; }
+.footer-base .site-credit strong { font-weight: 600; color: var(--cream); }
 
 /* ---------- Utilities ---------- */
 .mt-0 { margin-top: 0; }
