@@ -145,6 +145,7 @@ p, ul, ol { margin: 0 0 1em; }
   display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
   padding: .75rem 1.2rem; border-radius: var(--radius); border: 2px solid transparent;
   font-weight: 700; font-size: 1.02rem; text-decoration: none; line-height: 1.2; cursor: pointer;
+  font-family: inherit;
 }
 .btn-primary { background: var(--brass); color: var(--coal); }
 .btn-primary:hover { background: var(--brass-light); }
@@ -477,6 +478,111 @@ details.more > summary:hover { text-decoration: underline; }
 .steps { padding-left: 1.3em; margin: 0; }
 .steps li { margin-bottom: .5rem; }
 .steps li:last-child { margin-bottom: 0; }
+
+/* ---------- Community Speedwatch ---------- */
+.csw-filter { margin-bottom: 1rem; }
+
+/* Instrument panel with odometer counters */
+.csw-panel {
+  color: var(--cream); border-radius: 10px; padding: 1.4rem 1.1rem 1.2rem;
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(196, 146, 63, .16), transparent 62%),
+    linear-gradient(180deg, #262b30, var(--coal));
+  border: 1px solid var(--slate-2);
+  box-shadow: 0 12px 32px rgba(27, 30, 33, .22), inset 0 1px 0 rgba(255, 255, 255, .06);
+}
+@media (min-width: 720px) { .csw-panel { padding: 2rem 2.25rem 1.6rem; } }
+.csw-scope {
+  font-size: .8rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--brass-light); margin-bottom: 1.25rem;
+}
+.csw-counters { display: grid; gap: 1.6rem; }
+@media (min-width: 760px) { .csw-counters { grid-template-columns: 1fr 1fr; gap: 2rem; } }
+.csw-counter-label { font-weight: 700; font-size: 1.05rem; color: var(--paper); margin-bottom: .55rem; }
+.csw-counter-sub { font-size: .95rem; color: #cfc6b4; margin: .55rem 0 0; }
+
+.odometer {
+  display: inline-flex; gap: .08em; padding: .1em; border-radius: 8px; max-width: 100%;
+  background: #0d0f11; border: 2px solid var(--slate-2); box-shadow: inset 0 2px 6px rgba(0, 0, 0, .6);
+  font-family: var(--sans); font-weight: 700; font-size: clamp(2.5rem, 11vw, 4.25rem); line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.csw-counter-over .odometer { border-color: var(--brass); }
+.odo-cell {
+  position: relative; display: block; width: .68em; height: 1.2em; overflow: hidden; border-radius: 4px;
+  color: var(--paper);
+  background: linear-gradient(180deg, #121417 0%, #2e343a 24%, #363d44 50%, #2e343a 76%, #121417 100%);
+}
+/* Shading so each digit looks like a turning drum */
+.odo-cell::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(0, 0, 0, .4), transparent 28%, transparent 72%, rgba(0, 0, 0, .4));
+}
+.odo-strip { display: block; will-change: transform; }
+.odo-strip > span { display: block; height: 1.2em; line-height: 1.2em; text-align: center; }
+.odo-cell.is-lead { color: rgba(255, 253, 248, .26); }
+.csw-counter-over .odo-cell { color: var(--brass-light); }
+.csw-counter-over .odo-cell.is-lead { color: rgba(224, 183, 104, .3); }
+
+.csw-meter { margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid rgba(255, 255, 255, .1); }
+.csw-meter-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: .55rem; }
+.csw-meter-label { font-weight: 700; color: var(--paper); }
+.csw-meter-value { font-weight: 700; font-size: 2rem; line-height: 1; color: var(--paper); }
+.csw-meter-track { display: block; height: 12px; border-radius: 999px; background: rgba(224, 183, 104, .18); overflow: hidden; }
+.csw-meter-fill { display: block; height: 100%; width: 0; border-radius: 999px; background: var(--brass-light); }
+.csw-thanks { margin: .6rem 0 0; color: #cfc6b4; font-size: .98rem; }
+.csw-latest { margin: 1.25rem 0 0; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, .1); font-size: .95rem; color: #bfb6a3; }
+
+.csw-empty {
+  text-align: center; padding: 2.5rem 1rem; color: var(--muted); background: var(--paper);
+  border: 2px dashed var(--rule); border-radius: var(--radius); margin: 0;
+}
+
+/* Recent sessions table */
+.csw-recent { margin-top: 2.5rem; }
+.table-scroll {
+  overflow-x: auto; -webkit-overflow-scrolling: touch; background: var(--paper);
+  border: 1px solid var(--rule); border-radius: var(--radius); box-shadow: var(--shadow);
+}
+.csw-table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+.csw-table th, .csw-table td { padding: .7rem 1rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--rule); }
+.csw-table thead th {
+  font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); background: var(--cream); white-space: nowrap;
+}
+.csw-table tbody tr:last-child td { border-bottom: 0; }
+.csw-table .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.csw-date { white-space: nowrap; }
+.csw-where { display: block; font-weight: 600; }
+.csw-detail, .csw-note { display: block; font-size: .9rem; color: var(--muted); }
+.csw-note { font-style: italic; }
+.csw-more { margin-top: 1rem; }
+.csw-when { display: none; }
+@media (max-width: 560px) {
+  .csw-table th, .csw-table td { padding: .6rem .6rem; font-size: .95rem; }
+  .csw-table thead th { font-size: .7rem; letter-spacing: .06em; white-space: normal; }
+  .csw-table .csw-col-date { display: none; }
+  .csw-when { display: inline; }
+}
+
+.csw-how-title { margin-top: 2.5rem; }
+
+/* The four areas */
+.csw-areas {
+  list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+.csw-area {
+  background: var(--paper); border: 1px solid var(--rule); border-top: 4px solid var(--slate);
+  border-radius: var(--radius); padding: 1.1rem 1.2rem; display: flex; flex-direction: column; align-items: flex-start; gap: .5rem;
+}
+.csw-area h3 { margin: 0; }
+.status-up-and-running { background: var(--status-done); }
+.status-getting-set-up { background: var(--status-progress); }
+
+.timeline li ul { margin: .4rem 0 0; padding-left: 1.2em; list-style: disc; }
+.timeline li li { padding: 0; margin-bottom: .2rem; }
+.timeline li li::before { content: none; }
 
 /* ---------- Back to top ---------- */
 .to-top {

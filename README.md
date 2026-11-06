@@ -13,6 +13,7 @@ A simple website for Wallyford Community Council, built with [Jekyll](https://je
 | Local groups (TRAs, Neighbourhood Watch) | `groups.html` |
 | Report it | `report.html` |
 | You said, we did | `you-said-we-did.html` |
+| Community Speedwatch (results ticker, how it works, volunteering) | `speedwatch.html` |
 
 ## Everyday updates (no coding needed)
 
@@ -25,6 +26,8 @@ You can edit any of these files on github.com: open the file, click the pencil i
 - **Coming up (home page):** regular events (meetings, Remembrance Sunday, Armistice Day, Torchlight Parade, Gala Day, Pinkie commemoration) are worked out automatically. Add one-off events to `_data/events.yml`. Past events disappear by themselves.
 - **Ward councillors (Report it page):** `_data/ward_councillors.yml`. Check after each council election.
 - **You said, we did:** you don't edit the website at all. Update the Google Sheet and the page picks up the changes (see below).
+- **Speedwatch results:** the same. Add a row to the Speedwatch results sheet after each session (see below).
+- **Speedwatch areas (Up and running / Getting set up):** `_data/speedwatch.yml`. When Wallyford's scheme starts, change its status to `Up and running`.
 
 ## You said, we did
 
@@ -42,10 +45,42 @@ Never put residents' names or contact details in the sheet: everything on the Tr
 
 Until a link is added, the page shows a labelled preview from `assets/data/tracker-preview.csv` (in draft mode only).
 
+## Community Speedwatch results
+
+The Speedwatch page shows a running total (vehicles checked, how many were over the limit, and the share who kept to the limit) as rolling odometer-style counters, plus a list of recent sessions. Like *You said, we did*, it reads a Google Sheet published as CSV.
+
+**Connecting the sheet (once):**
+
+1. Open the results sheet in Google Drive (*Wallyford CC - Community Speedwatch results*). Its **How to use** tab explains each column. The **Results** tab has these columns, with dropdowns for Area and Speed limit and a checkbox for Show on website:
+
+   | Date | Area | Location | Speed limit (mph) | Vehicles checked | Over the limit | Note for website | Show on website |
+   | --- | --- | --- | --- | --- | --- | --- | --- |
+
+2. In the sheet: **File > Share > Publish to web**. Under *Link*, choose the **Results** tab and **Comma-separated values (.csv)**, then **Publish**.
+3. Copy the link and paste it into `speedwatch_csv_url` in `_config.yml`.
+
+If you ever make a new sheet instead, keep the same column headings and set **File > Settings > Locale** to *United Kingdom*, so dates are read as day/month.
+
+**After each session**, add one row:
+
+- **Date:** type it as 4/11/2026.
+- **Area** and **Location:** for example *Wallyford* and *Salters Road*.
+- **Speed limit (mph):** just the number, for example 30.
+- **Vehicles checked:** every vehicle the device recorded.
+- **Over the limit:** the number of vehicles passed to Police Scotland.
+- **Note for website** (optional): a short public note, for example a thank-you.
+- Tick **Show on website**.
+
+Only rows with **Show on website** ticked are counted. The area buttons on the page appear by themselves once there are results from more than one area.
+
+Never put registration numbers, descriptions of vehicles or drivers, or volunteers' names in this sheet: everything on the Results tab is public once published.
+
+Until a link is added, the page shows clearly labelled example figures from `assets/data/speedwatch-preview.csv` (in draft mode only). With draft mode off and no link, it says results will appear soon.
+
 ## Before going live
 
 - Set `show_review_notes: false` in `_config.yml`. This hides the purple "Please check" and "To fill in" notes, which are there for the council to work through.
-- Add the Facebook group link, the tracker link, councillor photos and blurbs, and local group details.
+- Add the Facebook group link, the tracker link, the Speedwatch results link, councillor photos and blurbs, and local group details.
 - Check that you have permission to use every photo.
 
 ## Getting on Google

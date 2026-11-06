@@ -1,0 +1,13 @@
+# Community Speedwatch areas, shown on the Speedwatch page.
+# When an area's scheme starts, change its status to "Up and running".
+# Status can be "Up and running" or "Getting set up".
+
+areas:
+  - name: Inveresk
+    status: Up and running
+  - name: Carberry
+    status: Up and running
+  - name: Wallyford
+    status: Getting set up
+  - name: Whitecraig
+    status: Getting set up

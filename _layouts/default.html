@@ -49,6 +49,8 @@
     window.WCC = {
       trackerUrl: {{ site.tracker_csv_url | jsonify }},
       sampleUrl: {{ '/assets/data/tracker-preview.csv' | relative_url | jsonify }},
+      speedwatchUrl: {{ site.speedwatch_csv_url | jsonify }},
+      speedwatchSampleUrl: {{ '/assets/data/speedwatch-preview.csv' | relative_url | jsonify }},
       draft: {{ site.show_review_notes | jsonify }},
       base: {{ '/' | relative_url | jsonify }},
       events: {{ site.data.events | jsonify }}
