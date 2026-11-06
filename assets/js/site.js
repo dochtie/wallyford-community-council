@@ -557,13 +557,14 @@
     this.value = v;
   };
 
-  // Keep every digit turning, like a slot machine, while we wait for results.
-  // Each digit gets its own speed (slower to the left) and a random start.
+  // Keep every digit slowly turning while we wait for results.
+  // Each digit gets its own slow, steady speed (slower to the left) and a
+  // random start. The right-hand digit takes about 1.5 to 2 seconds per number.
   Odometer.prototype.spin = function () {
     this.el.classList.add("is-spinning");
     for (var i = 0; i < this.strips.length; i++) {
       var strip = this.strips[i];
-      var dur = 1.4 + i * 1.6 + Math.random() * 0.6;
+      var dur = 14 + i * 16 + Math.random() * 6;
       strip.style.transform = "";
       strip.style.animationDuration = dur.toFixed(2) + "s";
       strip.style.animationDelay = (-Math.random() * dur).toFixed(2) + "s";
