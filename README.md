@@ -75,7 +75,7 @@ Only rows with **Show on website** ticked are counted. The area buttons on the p
 
 Never put registration numbers, descriptions of vehicles or drivers, or volunteers' names in this sheet: everything on the Results tab is public once published.
 
-Until a link is added, the page shows clearly labelled example figures from `assets/data/speedwatch-preview.csv` (in draft mode only). With draft mode off and no link, it says results will appear soon.
+Until a link is added, the page shows clearly labelled example figures from `assets/data/speedwatch-preview.csv` (in draft mode only). While results are loading, or when the sheet has no rows yet, the counters spin with a "No results yet" message.
 
 ## Before going live
 
