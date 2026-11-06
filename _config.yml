@@ -40,7 +40,7 @@ tracker_csv_url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRhLqQXUZWSXX9
 # Paste the link between the quotes. While it is empty (and draft mode
 # is on) the Speedwatch page shows example figures from
 # assets/data/speedwatch-preview.csv, clearly labelled as examples.
-speedwatch_csv_url: ""
+speedwatch_csv_url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRzqNjkyAlQKOKbo7DR9slFmBGY8o5Upr4oc-ROvGqI5xeY_J2i2zTtmKkSz4cSpoDgKpcfMudWRoVf/pub?gid=884708559&single=true&output=csv"
 
 # Google Search Console: paste the code from Google's "HTML tag"
 # verification between the quotes (just the code, e.g. "abc123...").
