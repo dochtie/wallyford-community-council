@@ -1,0 +1,10 @@
+Date,Area,Location,Speed limit (mph),Vehicles checked,Over the limit,Note for website,Show on website
+14/09/2026,Inveresk,Example site A,30,118,11,,TRUE
+21/09/2026,Carberry,Example site B,30,64,7,,TRUE
+03/10/2026,Inveresk,Example site C,20,142,16,,TRUE
+10/10/2026,Carberry,Example site B,30,71,5,,TRUE
+17/10/2026,Inveresk,Example site A,30,126,9,,TRUE
+24/10/2026,Carberry,Example site D,40,88,6,,TRUE
+31/10/2026,Inveresk,Example site C,20,151,12,Example of a short note for the website.,TRUE
+02/11/2026,Carberry,Example site B,30,69,3,,TRUE
+04/11/2026,Inveresk,Example site A,30,133,8,,TRUE

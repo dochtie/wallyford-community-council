@@ -1,0 +1,134 @@
+---
+layout: default
+title: Community Speedwatch
+nav: speedwatch
+permalink: /speedwatch/
+description: Community Speedwatch in Wallyford, Inveresk, Carberry and Whitecraig. Trained local volunteers checking traffic speeds in support of Police Scotland, with the latest results and how to volunteer.
+---
+
+<header class="page-head">
+  <div class="wrap">
+    <p class="eyebrow">Safer streets together</p>
+    <h1>Community Speedwatch</h1>
+    <p class="lede">Trained local volunteers checking traffic speeds in support of Police Scotland. It's about reminding everyone to slow down, so our streets are safer for people walking, cycling, driving and playing.</p>
+  </div>
+</header>
+<div class="strata" aria-hidden="true"></div>
+
+<nav class="jump-bar" aria-label="On this page">
+  <div class="wrap">
+    <ul class="jump">
+      <li><a href="#results">Results</a></li>
+      <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="#where">Where</a></li>
+      <li><a href="#volunteer">Volunteer</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="section" id="results">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Speedwatch so far</h2>
+      <p>A running total from every Speedwatch session in our four areas. It updates as new results come in.</p>
+      {% include review.html type="check" text="Confirm with the Speedwatch Coordinator that Police Scotland are happy for us to publish results and name the places where checks happen." %}
+    </div>
+    <div id="csw-notice"></div>
+    <div id="csw-results">
+      <noscript><p class="ysd-empty">Turn on JavaScript to see the latest Speedwatch results.</p></noscript>
+    </div>
+  </div>
+</section>
+
+<section class="section section-paper" id="how-it-works">
+  <div class="wrap">
+    <div class="split">
+      <div class="prose">
+        <h2>Why Speedwatch?</h2>
+        <p>Speeding is one of the concerns raised most often at Community and Police Partnership meetings, where we take local issues to Police Scotland. It affects quality of life right across East Lothian.</p>
+        <p>Road safety is a priority for Police Scotland. Officers focus their speed enforcement on the roads where it will do most to prevent injuries, so quieter village streets don't always get regular checks. The police still respond to community concerns, and Community Speedwatch lets local people keep an eye on the streets that matter to us, in support of the police.</p>
+      </div>
+      <div class="card">
+        <h3>Not about catching people out</h3>
+        <p>Speedwatch is neighbours reminding neighbours to slow down, and showing that speeding matters to the people who live here.</p>
+        <p>Volunteers simply record what they see and pass the details to Police Scotland, who decide what happens next.</p>
+      </div>
+    </div>
+
+    <h3 class="csw-how-title">How it works</h3>
+    <div class="grid grid-3 ysd-how">
+      <div class="card">
+        <p class="step-num">1</p>
+        <h3>We check speeds</h3>
+        <p>Trained, vetted volunteers use a speed detection device at agreed Speedwatch sites.</p>
+      </div>
+      <div class="card">
+        <p class="step-num">2</p>
+        <h3>We pass on the details</h3>
+        <p>Details of vehicles going over the limit go to Police Scotland, who carry out the appropriate checks.</p>
+      </div>
+      <div class="card">
+        <p class="step-num">3</p>
+        <h3>The police follow up</h3>
+        <p>Where needed, Police Scotland send the driver a follow-up letter.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="where">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Four areas, one team</h2>
+      <p>Community Speedwatch covers four neighbouring areas. We're working together so volunteers can be shared across all four.</p>
+    </div>
+    <ul class="csw-areas">
+      {% for area in site.data.speedwatch.areas %}
+        <li class="csw-area">
+          <h3>{{ area.name }}</h3>
+          <span class="status status-{{ area.status | slugify }}">{{ area.status }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="section section-paper" id="volunteer">
+  <div class="wrap split">
+    <div class="prose">
+      <h2>Become a volunteer</h2>
+      <p>Anyone who cares about road safety in the village can apply, and full training is given. Here's what happens after you get in touch.</p>
+      <ol class="timeline">
+        <li>
+          <span class="when">Vetting</span>
+          The Speedwatch Coordinator will give you a Police Scotland vetting form (Non-Police Personnel Vetting, Level 1, Parts 1 and 2) and send it to the Police Scotland Vetting Unit for you.
+        </li>
+        <li>
+          <span class="when">Training</span>
+          Once your vetting is complete, the coordinator arranges your training. It covers:
+          <ul>
+            <li>road safety and health and safety awareness</li>
+            <li>personal safety advice</li>
+            <li>how to use the speed detection device</li>
+            <li>a practical demonstration at a Speedwatch site</li>
+          </ul>
+        </li>
+        <li>
+          <span class="when">Code of conduct</span>
+          Every volunteer signs the Community Speedwatch code of conduct before taking part in any checks.
+        </li>
+        <li>
+          <span class="when">Join a session</span>
+          Because the four areas share volunteers, you could help at checks in neighbouring villages as well as in Wallyford.
+        </li>
+      </ol>
+      <p class="small muted">Police Scotland make the final decision on who can join a Community Speedwatch scheme.</p>
+    </div>
+    <div class="card">
+      <h3>Interested?</h3>
+      <p>Email us to find out more or to sign up. We'd love to hear from you.</p>
+      <p><a class="btn btn-dark" href="mailto:{{ site.email }}?subject=Community%20Speedwatch">Email us about Speedwatch</a></p>
+      <p class="small muted">{{ site.email }}</p>
+    </div>
+  </div>
+</section>

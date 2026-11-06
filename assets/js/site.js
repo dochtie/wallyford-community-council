@@ -4,6 +4,7 @@
    3. "You said, we did" tracker, read from a published Google Sheet (CSV)
    4. "Coming up" list of events
    5. Back to top button
+   6. Community Speedwatch results, read from a published Google Sheet (CSV)
 */
 (function () {
   "use strict";
@@ -457,6 +458,360 @@
     onScroll();
   }
 
+  /* ---------------- 6. Community Speedwatch ---------------- */
+
+  // Column headings in the Speedwatch results sheet -> field names used here.
+  // Matching ignores case, spaces and punctuation, like the tracker.
+  var CSW_COLUMNS = {
+    date: "date",
+    area: "area",
+    location: "location",
+    speedlimit: "limit",
+    speedlimitmph: "limit",
+    vehicleschecked: "checked",
+    overthelimit: "over",
+    noteforwebsite: "note",
+    showonwebsite: "show"
+  };
+
+  var fmtNum = new Intl.NumberFormat("en-GB");
+  var fmtMonthYear = new Intl.DateTimeFormat("en-GB", { month: "long", year: "numeric" });
+  var fmtDayMonthYear = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric" });
+  var reduceMotion = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+  function toCount(s) {
+    var n = parseInt(String(s || "").replace(/[^\d]/g, ""), 10);
+    return isNaN(n) ? null : n;
+  }
+
+  function toSessions(rows) {
+    if (!rows.length) return [];
+    var keys = rows[0].map(function (h) {
+      return CSW_COLUMNS[h.toLowerCase().replace(/[^a-z]/g, "")] || null;
+    });
+    var hasShow = keys.indexOf("show") !== -1;
+    var out = [];
+    for (var r = 1; r < rows.length; r++) {
+      var o = {};
+      for (var k = 0; k < keys.length; k++) {
+        if (keys[k]) o[keys[k]] = (rows[r][k] || "").trim();
+      }
+      if (hasShow && !/^(true|yes|y|1|x)$/i.test(o.show || "")) continue;
+      var date = parseDate(o.date);
+      var checked = toCount(o.checked);
+      if (!date || !checked) continue;
+      out.push({
+        date: date,
+        area: o.area || "",
+        location: o.location || "",
+        limit: toCount(o.limit),
+        checked: checked,
+        over: Math.min(toCount(o.over) || 0, checked),
+        note: o.note || "",
+        row: r
+      });
+    }
+    // Newest first. Same date: the row further down the sheet first.
+    return out.sort(function (a, b) { return (b.date - a.date) || (b.row - a.row); });
+  }
+
+  // A rolling-digit counter, like a car's odometer.
+  function Odometer(minDigits) {
+    this.min = minDigits;
+    this.value = 0;
+    this.strips = []; // strips[0] is the units digit
+    this.el = make("span", "odometer");
+    this.el.setAttribute("aria-hidden", "true");
+    this.render(0);
+  }
+
+  Odometer.prototype.size = function (digits) {
+    while (this.strips.length < digits) {
+      var cell = make("span", "odo-cell");
+      var strip = make("span", "odo-strip");
+      // 0-9 then 0 again, so 9 can roll smoothly round to 0.
+      for (var d = 0; d <= 10; d++) strip.appendChild(make("span", null, String(d % 10)));
+      cell.appendChild(strip);
+      this.el.insertBefore(cell, this.el.firstChild);
+      this.strips.push(strip);
+    }
+    while (this.strips.length > digits) {
+      this.el.removeChild(this.strips.pop().parentNode);
+    }
+  };
+
+  // v can be fractional mid-animation: each digit turns only while the
+  // digit to its right rolls from 9 to 0, as on a real odometer.
+  Odometer.prototype.render = function (v) {
+    v = Math.max(0, v);
+    var whole = Math.floor(v);
+    this.size(Math.max(this.min, String(whole).length));
+    for (var i = 0; i < this.strips.length; i++) {
+      var p = Math.pow(10, i);
+      var pos = Math.floor(v / p) % 10;
+      var rest = v % p;
+      if (rest > p - 1) pos += rest - (p - 1);
+      this.strips[i].style.transform = "translateY(" + (-pos * 100 / 11) + "%)";
+      this.strips[i].parentNode.classList.toggle("is-lead", i > 0 && whole < p);
+    }
+    this.value = v;
+  };
+
+  // Calls frame(e) with e easing from 0 to 1 over ms milliseconds.
+  function tween(ms, frame) {
+    var job = { stopped: false };
+    if (reduceMotion || ms <= 0 || !window.requestAnimationFrame) { frame(1); return job; }
+    var start = null;
+    function step(t) {
+      if (job.stopped) return;
+      if (start === null) start = t;
+      var k = Math.min(1, (t - start) / ms);
+      frame(k === 1 ? 1 : 1 - Math.pow(1 - k, 3));
+      if (k < 1) window.requestAnimationFrame(step);
+    }
+    window.requestAnimationFrame(step);
+    return job;
+  }
+
+  function cswEmpty() {
+    return make("p", "csw-empty", "No results yet. The first Speedwatch results will appear here soon.");
+  }
+
+  function counter(label, odo, sub, cls) {
+    var box = make("div", "csw-counter" + (cls ? " " + cls : ""));
+    box.appendChild(make("p", "csw-counter-label", label));
+    box.appendChild(odo.el);
+    var value = make("span", "visually-hidden");
+    box.appendChild(value);
+    if (sub) box.appendChild(make("p", "csw-counter-sub", sub));
+    return { el: box, value: value };
+  }
+
+  function renderSpeedwatch(sessions, box) {
+    box.innerHTML = "";
+    if (!sessions.length) { box.appendChild(cswEmpty()); return; }
+
+    var areas = [];
+    sessions.forEach(function (s) { if (s.area && areas.indexOf(s.area) === -1) areas.push(s.area); });
+    areas.sort();
+    var state = { area: "", showAll: false };
+
+    // Area filter, only when there's more than one area to choose from.
+    if (areas.length > 1) {
+      var filter = make("div", "csw-filter");
+      var flabel = make("span", "visually-hidden", "Show results for");
+      flabel.id = "csw-area-label";
+      var chips = make("div", "chips");
+      chips.setAttribute("role", "group");
+      chips.setAttribute("aria-labelledby", "csw-area-label");
+      [""].concat(areas).forEach(function (a) {
+        var chip = make("button", "chip", a || "All areas");
+        chip.type = "button";
+        chip.setAttribute("aria-pressed", String(a === state.area));
+        chip.addEventListener("click", function () {
+          state.area = a;
+          state.showAll = false;
+          Array.prototype.forEach.call(chips.children, function (c) { c.setAttribute("aria-pressed", String(c === chip)); });
+          update(true, true);
+        });
+        chips.appendChild(chip);
+      });
+      filter.appendChild(flabel);
+      filter.appendChild(chips);
+      box.appendChild(filter);
+    }
+
+    // The instrument panel.
+    var panel = make("div", "csw-panel");
+    var scope = make("p", "csw-scope");
+    panel.appendChild(scope);
+
+    var checkedOdo = new Odometer(5);
+    var overOdo = new Odometer(4);
+    var counters = make("div", "csw-counters");
+    var checkedBox = counter("Vehicles checked", checkedOdo, null);
+    var overBox = counter("Over the limit", overOdo, "Details passed to Police Scotland to follow up.", "csw-counter-over");
+    counters.appendChild(checkedBox.el);
+    counters.appendChild(overBox.el);
+    panel.appendChild(counters);
+
+    var meter = make("div", "csw-meter");
+    var meterHead = make("div", "csw-meter-head");
+    meterHead.appendChild(make("span", "csw-meter-label", "Kept to the limit"));
+    var pctEl = make("span", "csw-meter-value", "0%");
+    meterHead.appendChild(pctEl);
+    meter.appendChild(meterHead);
+    var track = make("div", "csw-meter-track");
+    track.setAttribute("aria-hidden", "true");
+    var fill = make("span", "csw-meter-fill");
+    track.appendChild(fill);
+    meter.appendChild(track);
+    meter.appendChild(make("p", "csw-thanks", "Thank you to everyone who keeps to the limit."));
+    panel.appendChild(meter);
+
+    var latest = make("p", "csw-latest");
+    panel.appendChild(latest);
+    box.appendChild(panel);
+
+    var announce = make("p", "visually-hidden");
+    announce.setAttribute("aria-live", "polite");
+    box.appendChild(announce);
+
+    // Recent sessions table.
+    var recent = make("div", "csw-recent");
+    recent.appendChild(make("h3", null, "Recent sessions"));
+    var scroll = make("div", "table-scroll");
+    var table = make("table", "csw-table");
+    table.appendChild(make("caption", "visually-hidden", "Speedwatch sessions, newest first"));
+    var thead = make("thead");
+    var hr = make("tr");
+    [["Date", "csw-col-date"], ["Where", ""], ["Checked", "num"], ["Over the limit", "num"]].forEach(function (h) {
+      var th = make("th", h[1] || null, h[0]);
+      th.scope = "col";
+      hr.appendChild(th);
+    });
+    thead.appendChild(hr);
+    table.appendChild(thead);
+    var tbody = make("tbody");
+    table.appendChild(tbody);
+    scroll.appendChild(table);
+    recent.appendChild(scroll);
+    var moreBtn = make("button", "btn btn-dark csw-more");
+    moreBtn.type = "button";
+    moreBtn.addEventListener("click", function () { state.showAll = !state.showAll; update(false, false); });
+    recent.appendChild(moreBtn);
+    box.appendChild(recent);
+
+    var PAGE = 6;
+    var job = null;
+    var shownPct = 0;
+
+    function renderTable(list) {
+      tbody.innerHTML = "";
+      var rows = state.showAll ? list : list.slice(0, PAGE);
+      rows.forEach(function (s) {
+        var tr = make("tr");
+        tr.appendChild(make("td", "csw-date csw-col-date", fmtShort.format(s.date)));
+        var where = make("td");
+        where.appendChild(make("span", "csw-where", s.location || s.area || "Speedwatch session"));
+        var bits = [];
+        if (s.area && s.location) bits.push(s.area);
+        if (s.limit) bits.push(s.limit + " mph limit");
+        // On phones the date column is hidden and the date shows here instead.
+        var detail = make("span", "csw-detail");
+        detail.appendChild(make("span", "csw-when", fmtShort.format(s.date) + (bits.length ? " · " : "")));
+        detail.appendChild(document.createTextNode(bits.join(" · ")));
+        where.appendChild(detail);
+        if (s.note) where.appendChild(make("span", "csw-note", s.note));
+        tr.appendChild(where);
+        tr.appendChild(make("td", "num", fmtNum.format(s.checked)));
+        tr.appendChild(make("td", "num", fmtNum.format(s.over)));
+        tbody.appendChild(tr);
+      });
+      moreBtn.hidden = list.length <= PAGE;
+      moreBtn.textContent = state.showAll ? "Show fewer" : "Show all " + list.length + " sessions";
+    }
+
+    function update(animate, speak) {
+      var list = state.area ? sessions.filter(function (s) { return s.area === state.area; }) : sessions;
+      var checked = 0, over = 0;
+      list.forEach(function (s) { checked += s.checked; over += s.over; });
+      // Never round up to 100% if anyone at all was over the limit.
+      var pct = over ? Math.min(99, Math.round((checked - over) / checked * 100)) : 100;
+
+      var first = list[list.length - 1];
+      var newest = list[0];
+      var where = state.area || (areas.length > 1 ? "All areas" : areas[0] || "");
+      scope.textContent = (where ? where + " · " : "") + "Since " + fmtMonthYear.format(first.date);
+
+      var place = [newest.location, state.area ? "" : newest.area].filter(Boolean).join(", ");
+      latest.textContent = list.length + (list.length === 1 ? " session" : " sessions") +
+        " so far. Latest: " + fmtDayMonthYear.format(newest.date) + (place ? ", " + place : "") + ".";
+
+      checkedBox.value.textContent = fmtNum.format(checked);
+      overBox.value.textContent = fmtNum.format(over);
+
+      var from = { c: checkedOdo.value, o: overOdo.value, p: shownPct };
+      if (job) job.stopped = true;
+      job = tween(animate ? 1800 : 0, function (e) {
+        checkedOdo.render(from.c + (checked - from.c) * e);
+        overOdo.render(from.o + (over - from.o) * e);
+        shownPct = from.p + (pct - from.p) * e;
+        pctEl.textContent = Math.round(shownPct) + "%";
+        fill.style.width = shownPct + "%";
+      });
+
+      if (speak) {
+        announce.textContent = (where || "Results") + ": " + fmtNum.format(checked) + " vehicles checked, " +
+          fmtNum.format(over) + " over the limit, " + pct + "% kept to the limit.";
+      }
+      renderTable(list);
+    }
+
+    // Show the table and text straight away, and roll the counters up
+    // from zero when the panel scrolls into view.
+    var started = false;
+    function begin() {
+      if (started) return;
+      started = true;
+      update(true, false);
+    }
+    update(false, false);
+    checkedOdo.render(0);
+    overOdo.render(0);
+    shownPct = 0;
+    pctEl.textContent = "0%";
+    fill.style.width = "0%";
+    if ("IntersectionObserver" in window && !reduceMotion) {
+      var io = new IntersectionObserver(function (entries) {
+        if (entries.some(function (en) { return en.isIntersecting; })) { io.disconnect(); begin(); }
+      }, { threshold: 0.35 });
+      io.observe(panel);
+    } else {
+      begin();
+    }
+  }
+
+  function initSpeedwatch() {
+    var box = document.getElementById("csw-results");
+    if (!box) return;
+    var notice = document.getElementById("csw-notice");
+
+    var live = !!(cfg.speedwatchUrl && String(cfg.speedwatchUrl).trim());
+    if (!live && !cfg.draft) {
+      // Not connected and not in draft mode: don't show example figures to the public.
+      box.innerHTML = "";
+      box.appendChild(cswEmpty());
+      return;
+    }
+
+    var url = live ? String(cfg.speedwatchUrl).trim() : cfg.speedwatchSampleUrl;
+    box.setAttribute("aria-busy", "true");
+    box.innerHTML = "";
+    box.appendChild(make("p", "csw-empty", "Loading results…"));
+
+    fetch(url, { cache: "no-cache" })
+      .then(function (res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.text();
+      })
+      .then(function (text) {
+        if (/^\s*</.test(text)) throw new Error("Expected CSV, got HTML");
+        var sessions = toSessions(parseCSV(text));
+        if (!live) {
+          showNotice(notice, "info",
+            "<strong>Example figures only.</strong> These aren't real results. Once the Speedwatch results sheet is connected, real figures will show here and update automatically.");
+        }
+        renderSpeedwatch(sessions, box);
+      })
+      .catch(function () {
+        box.innerHTML = "";
+        showNotice(notice, "warn",
+          "Sorry, we couldn't load the latest Speedwatch results just now. Please try again later.");
+      })
+      .then(function () { box.removeAttribute("aria-busy"); });
+  }
+
   /* ---------------- Start ---------------- */
 
   function start() {
@@ -465,6 +820,7 @@
     initTracker();
     initComingUp();
     initToTop();
+    initSpeedwatch();
   }
 
   if (document.readyState === "loading") {
