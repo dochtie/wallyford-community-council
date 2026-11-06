@@ -49,17 +49,17 @@ Until a link is added, the page shows a labelled preview from `assets/data/track
 
 The Speedwatch page shows a running total (vehicles checked, how many were over the limit, and the share who kept to the limit) as rolling odometer-style counters, plus a list of recent sessions. Like *You said, we did*, it reads a Google Sheet published as CSV.
 
-**Setting up the sheet (once):**
+**Connecting the sheet (once):**
 
-1. Create a new Google Sheet called *Wallyford CC - Community Speedwatch results*, and name the first tab **Results**. Check **File > Settings > Locale** is *United Kingdom*, so dates are read as day/month.
-2. Put these headings in row 1, one per column:
+1. Open the results sheet in Google Drive (*Wallyford CC - Community Speedwatch results*). Its **How to use** tab explains each column. The **Results** tab has these columns, with dropdowns for Area and Speed limit and a checkbox for Show on website:
 
    | Date | Area | Location | Speed limit (mph) | Vehicles checked | Over the limit | Note for website | Show on website |
    | --- | --- | --- | --- | --- | --- | --- | --- |
 
-3. Optional but handy: make **Area** a dropdown (Data > Data validation) with Wallyford, Inveresk, Carberry and Whitecraig, and make **Show on website** a checkbox (Insert > Checkbox).
-4. **File > Share > Publish to web**. Under *Link*, choose the **Results** tab and **Comma-separated values (.csv)**, then **Publish**.
-5. Copy the link and paste it into `speedwatch_csv_url` in `_config.yml`.
+2. In the sheet: **File > Share > Publish to web**. Under *Link*, choose the **Results** tab and **Comma-separated values (.csv)**, then **Publish**.
+3. Copy the link and paste it into `speedwatch_csv_url` in `_config.yml`.
+
+If you ever make a new sheet instead, keep the same column headings and set **File > Settings > Locale** to *United Kingdom*, so dates are read as day/month.
 
 **After each session**, add one row:
 
