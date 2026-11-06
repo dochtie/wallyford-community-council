@@ -19,6 +19,8 @@ A simple website for Wallyford Community Council, built with [Jekyll](https://je
 
 You can edit any of these files on github.com: open the file, click the pencil icon, make the change, then click **Commit changes**. The live site updates a minute or two later.
 
+**If the site hasn't updated after 15 minutes:** open the **Actions** tab on GitHub and click the newest *pages build and deployment* run. If it failed, click **Re-run all jobs**. If it's stuck on *Queued*, the problem is on GitHub's side: wait, or make any new change, which starts a fresh run that publishes everything. Your changes are safe either way.
+
 - **Contact details, Facebook link, meeting details:** `_config.yml`
 - **Councillors (names, roles, photos, blurbs):** `_data/councillors.yml`. Put photos in `assets/img/people/` and add the file name to `photo:`.
 - **Local groups:** `_data/groups.yml`
