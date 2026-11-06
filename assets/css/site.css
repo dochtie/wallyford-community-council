@@ -533,9 +533,13 @@ details.more > summary:hover { text-decoration: underline; }
 .csw-thanks { margin: .6rem 0 0; color: #cfc6b4; font-size: .98rem; }
 .csw-latest { margin: 1.25rem 0 0; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, .1); font-size: .95rem; color: #bfb6a3; }
 
-.csw-empty {
-  text-align: center; padding: 2.5rem 1rem; color: var(--muted); background: var(--paper);
-  border: 2px dashed var(--rule); border-radius: var(--radius); margin: 0;
+/* Waiting for results: the digits keep turning */
+.odometer.is-spinning .odo-strip { animation: odo-spin 2s linear infinite; }
+/* 10 of the strip's 11 cells: it ends on the second 0, which looks the same as the first, so the loop is seamless */
+@keyframes odo-spin { from { transform: translateY(0); } to { transform: translateY(-90.9091%); } }
+@media (prefers-reduced-motion: reduce) { .odometer.is-spinning .odo-strip { animation: none; } }
+.csw-waiting-text {
+  margin: 1.5rem 0 0; padding-top: 1.1rem; border-top: 1px solid rgba(255, 255, 255, .1); color: #cfc6b4;
 }
 
 /* Recent sessions table */

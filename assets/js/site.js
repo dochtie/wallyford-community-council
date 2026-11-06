@@ -557,6 +557,20 @@
     this.value = v;
   };
 
+  // Keep every digit turning, like a slot machine, while we wait for results.
+  // Each digit gets its own speed (slower to the left) and a random start.
+  Odometer.prototype.spin = function () {
+    this.el.classList.add("is-spinning");
+    for (var i = 0; i < this.strips.length; i++) {
+      var strip = this.strips[i];
+      var dur = 1.4 + i * 1.6 + Math.random() * 0.6;
+      strip.style.transform = "";
+      strip.style.animationDuration = dur.toFixed(2) + "s";
+      strip.style.animationDelay = (-Math.random() * dur).toFixed(2) + "s";
+      strip.parentNode.classList.remove("is-lead");
+    }
+  };
+
   // Calls frame(e) with e easing from 0 to 1 over ms milliseconds.
   function tween(ms, frame) {
     var job = { stopped: false };
@@ -573,9 +587,7 @@
     return job;
   }
 
-  function cswEmpty() {
-    return make("p", "csw-empty", "No results yet. The first Speedwatch results will appear here soon.");
-  }
+  var CSW_NO_RESULTS = "No results yet. The counters will settle on real numbers once the first Speedwatch results are in.";
 
   function counter(label, odo, sub, cls) {
     var box = make("div", "csw-counter" + (cls ? " " + cls : ""));
@@ -587,9 +599,30 @@
     return { el: box, value: value };
   }
 
+  // The instrument panel with spinning counters, shown while results load
+  // and while there are no results yet.
+  function cswWaiting(message) {
+    var panel = make("div", "csw-panel csw-waiting");
+    panel.appendChild(make("p", "csw-scope", "Waiting for results"));
+    var counters = make("div", "csw-counters");
+    var checkedOdo = new Odometer(5);
+    var overOdo = new Odometer(4);
+    var checkedBox = counter("Vehicles checked", checkedOdo, null);
+    var overBox = counter("Over the limit", overOdo, "Details passed to Police Scotland to follow up.", "csw-counter-over");
+    checkedBox.value.textContent = "waiting for results";
+    overBox.value.textContent = "waiting for results";
+    counters.appendChild(checkedBox.el);
+    counters.appendChild(overBox.el);
+    panel.appendChild(counters);
+    panel.appendChild(make("p", "csw-waiting-text", message));
+    checkedOdo.spin();
+    overOdo.spin();
+    return panel;
+  }
+
   function renderSpeedwatch(sessions, box) {
     box.innerHTML = "";
-    if (!sessions.length) { box.appendChild(cswEmpty()); return; }
+    if (!sessions.length) { box.appendChild(cswWaiting(CSW_NO_RESULTS)); return; }
 
     var areas = [];
     sessions.forEach(function (s) { if (s.area && areas.indexOf(s.area) === -1) areas.push(s.area); });
@@ -781,14 +814,14 @@
     if (!live && !cfg.draft) {
       // Not connected and not in draft mode: don't show example figures to the public.
       box.innerHTML = "";
-      box.appendChild(cswEmpty());
+      box.appendChild(cswWaiting(CSW_NO_RESULTS));
       return;
     }
 
     var url = live ? String(cfg.speedwatchUrl).trim() : cfg.speedwatchSampleUrl;
     box.setAttribute("aria-busy", "true");
     box.innerHTML = "";
-    box.appendChild(make("p", "csw-empty", "Loading results…"));
+    box.appendChild(cswWaiting("Loading the latest results…"));
 
     fetch(url, { cache: "no-cache" })
       .then(function (res) {
