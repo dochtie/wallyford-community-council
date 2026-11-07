@@ -42,9 +42,26 @@ tras:
     link: ""
     placeholder: true
 
+# Schemes registered with Neighbourhood Watch Scotland. The streets were
+# matched against each scheme's map on the Neighbourhood Watch Scotland
+# scheme lookup. The link opens the scheme's page, where people can join.
 neighbourhood_watches:
-  - name: "TO DO: name of Neighbourhood Watch scheme"
-    area: "Which streets it covers"
+  - name: "St Clements Wells, Ravensheugh"
+    area: "Laing Loan, Laing Park, Colliers Row, Colliers Park and part of Masons Way"
     contact: ""
-    link: ""
-    placeholder: true
+    link: "https://schemelookup.neighbourhoodwatchscotland.co.uk/Content/DisplayScheme/187463"
+
+  - name: "St Clements Wells, Persimmon development"
+    area: "Old Row, Castle Rise, Innes Neuk and Harvey Avenue"
+    contact: ""
+    link: "https://schemelookup.neighbourhoodwatchscotland.co.uk/Content/DisplayScheme/175306"
+
+  - name: "Ravensheugh, Taylor Wimpey phase 1"
+    area: "Harvester Road and Baler Crescent"
+    contact: ""
+    link: "https://schemelookup.neighbourhoodwatchscotland.co.uk/Content/DisplayScheme/187860"
+
+  - name: "St Clements Wells, Brae and View (Barratt development)"
+    area: "Auburn Locks, Bath Crescent, Chute Crescent, Cleugh Rise, Eskfield View, Howe Mire, Krause Walk, Ormond Avenue, Ormond Drive, Rosehill Cusp, Sweethope Crescent, Windlass Drive, Windlass Gardens and part of Masons Way"
+    contact: ""
+    link: "https://schemelookup.neighbourhoodwatchscotland.co.uk/Content/DisplayScheme/187416"
