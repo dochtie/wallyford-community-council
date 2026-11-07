@@ -39,10 +39,10 @@ meeting_rule: "Last Wednesday of every month, except July and December"
 # Tracker tab: the "You said, we did" page and the home page updates.
 tracker_csv_url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRhLqQXUZWSXX9WMuhjoLAvN9B2GUNI3OXTp7LB90Bueh7ppSRrnt8P-RbpYSKymi3hFJwz1RM0faPn/pub?gid=0&single=true&output=csv"
 
-# Upcoming dates tab: Community Council meetings and one-off dates, shown
-# in the home page "Coming up" box, the What's on page and as the "next
-# meeting" date. (Remembrance, the Torchlight Parade, Gala Day and the
-# Pinkie commemoration are added automatically.)
+# Upcoming dates tab: every date on the site (meetings, Remembrance, the
+# Torchlight Parade, Gala Day and anything else), shown in the home page
+# "Coming up" box, the What's on page and as the "next meeting" and
+# Torchlight Parade dates. Nothing is worked out automatically.
 events_csv_url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRhLqQXUZWSXX9WMuhjoLAvN9B2GUNI3OXTp7LB90Bueh7ppSRrnt8P-RbpYSKymi3hFJwz1RM0faPn/pub?gid=1388422878&single=true&output=csv"
 
 # Speedwatch tab: results for the counter on the Speedwatch page.
