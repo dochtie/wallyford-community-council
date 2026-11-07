@@ -2,7 +2,7 @@
    1. Mobile menu
    2. Next meeting and Torchlight Parade dates
    3. "You said, we did" tracker, read from a published Google Sheet (CSV)
-   4. "Coming up" list of events
+   4. "Coming up" list of events (home page) and the What's on page
    5. Back to top button
    6. Community Speedwatch results, read from a published Google Sheet (CSV)
 */
@@ -461,11 +461,16 @@
 
   function initComingUp() {
     var box = document.getElementById("coming-up");
-    if (!box) return;
+    var year = document.getElementById("whats-on");
+    if (!box && !year) return;
     var now = new Date();
     var regular = regularEvents(now.getFullYear()).concat(regularEvents(now.getFullYear() + 1));
+    var show = function (events) {
+      if (box) renderComingUp(box, events, now);
+      if (year) renderWhatsOn(year, events, now);
+    };
     // Show the regular dates straight away, then add the sheet's dates when they arrive.
-    renderComingUp(box, regular, now);
+    show(regular);
     var url = cfg.eventsUrl && String(cfg.eventsUrl).trim();
     if (!url) return;
     fetch(url, { cache: "no-cache" })
@@ -476,29 +481,32 @@
       .then(function (text) {
         if (/^\s*</.test(text)) throw new Error("Expected CSV, got HTML");
         var extra = sheetEvents(parseCSV(text));
-        if (extra.length) renderComingUp(box, regular.concat(extra), now);
+        if (extra.length) show(regular.concat(extra));
       })
       .catch(function () { /* keep showing the regular dates */ });
   }
 
-  function renderComingUp(box, events, now) {
-    var all = events
+  // Events that haven't finished yet, soonest first.
+  function upcoming(events, now) {
+    return events
       .filter(function (e) { return atTime(e.date, e.ends) >= now; })
-      .sort(function (a, b) { return a.date - b.date; })
-      .slice(0, +(box.getAttribute("data-count") || 4));
-    if (!all.length) return;
+      .sort(function (a, b) { return (a.date - b.date) || a.title.localeCompare(b.title); });
+  }
 
-    var dayFmt = new Intl.DateTimeFormat("en-GB", { weekday: "short" });
-    var monFmt = new Intl.DateTimeFormat("en-GB", { month: "short" });
+  var evDayFmt = new Intl.DateTimeFormat("en-GB", { weekday: "short" });
+  var evMonFmt = new Intl.DateTimeFormat("en-GB", { month: "short" });
+  var evMonthFmt = new Intl.DateTimeFormat("en-GB", { month: "long", year: "numeric" });
+
+  function eventList(events, now) {
     var list = make("ul", "events");
-    all.forEach(function (e) {
+    events.forEach(function (e) {
       var li = make("li", "event");
       var inner = e.link ? make("a", "event-inner") : make("div", "event-inner");
       if (e.link) inner.href = e.link;
       var badge = make("span", "event-date");
-      badge.appendChild(make("span", "event-day", sameDay(e.date, now) ? "Today" : dayFmt.format(e.date)));
+      badge.appendChild(make("span", "event-day", sameDay(e.date, now) ? "Today" : evDayFmt.format(e.date)));
       badge.appendChild(make("span", "event-num", String(e.date.getDate())));
-      badge.appendChild(make("span", "event-mon", monFmt.format(e.date)));
+      badge.appendChild(make("span", "event-mon", evMonFmt.format(e.date)));
       var text = make("span", "event-text");
       text.appendChild(make("span", "event-title", e.title));
       var detail = [e.time, e.place].filter(Boolean).join(" \u00b7 ");
@@ -508,8 +516,36 @@
       li.appendChild(inner);
       list.appendChild(li);
     });
+    return list;
+  }
+
+  // Home page: the next few dates.
+  function renderComingUp(box, events, now) {
+    var all = upcoming(events, now).slice(0, +(box.getAttribute("data-count") || 4));
+    if (!all.length) return;
     box.innerHTML = "";
-    box.appendChild(list);
+    box.appendChild(eventList(all, now));
+  }
+
+  // What's on page: everything in the next twelve months, a heading per month.
+  function renderWhatsOn(box, events, now) {
+    var until = new Date(now.getFullYear() + 1, now.getMonth(), now.getDate());
+    var all = upcoming(events, now).filter(function (e) { return e.date < until; });
+    if (!all.length) return;
+    var months = [];
+    all.forEach(function (e) {
+      var key = e.date.getFullYear() * 12 + e.date.getMonth();
+      var last = months[months.length - 1];
+      if (!last || last.key !== key) months.push(last = { key: key, date: e.date, events: [] });
+      last.events.push(e);
+    });
+    box.innerHTML = "";
+    months.forEach(function (m) {
+      var section = make("section", "whats-on-month");
+      section.appendChild(make("h2", "whats-on-heading", evMonthFmt.format(m.date)));
+      section.appendChild(eventList(m.events, now));
+      box.appendChild(section);
+    });
   }
 
   /* ---------------- 5. Back to top ---------------- */

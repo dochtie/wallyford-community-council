@@ -1,0 +1,40 @@
+---
+layout: default
+title: What's on
+nav: whatson
+permalink: /whats-on/
+description: Dates for the year ahead in Wallyford. Community Council meetings, Remembrance, the Torchlight Parade, Gala Day and other local events.
+---
+
+<header class="page-head">
+  <div class="wrap">
+    <p class="eyebrow">The year ahead</p>
+    <h1>What's on</h1>
+    <p class="lede">Community Council meetings and local events in Wallyford over the next twelve months. Past dates drop off by themselves.</p>
+  </div>
+</header>
+<div class="strata" aria-hidden="true"></div>
+
+<section class="section">
+  <div class="wrap split whats-on-layout">
+    <div>
+      <h2 class="visually-hidden">Dates</h2>
+      <div id="whats-on" class="whats-on">
+        <ul class="events-fallback">
+          <li><strong>Community Council meetings:</strong> {{ site.meeting_rule | downcase }}, {{ site.meeting_time }}, {{ site.meeting_place }}.</li>
+          <li><strong>Remembrance Sunday:</strong> second Sunday in November.</li>
+          <li><strong>Armistice Day service:</strong> 11 November, 10.45am, Crookston War Memorial.</li>
+          <li><strong>Torchlight Parade:</strong> first Friday in December, 6.30pm.</li>
+          <li><strong>Wallyford Gala Day:</strong> first Saturday in June.</li>
+          <li><strong>Battle of Pinkie commemoration:</strong> 10 September, 1pm.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Got a date to add?</h3>
+      <p>If your group is running something in Wallyford that's open to everyone, let us know and we'll add it here.</p>
+      <p><a class="btn btn-dark" href="mailto:{{ site.email }}?subject=Event%20for%20the%20website">Email us your date</a></p>
+      <p class="small muted">Meetings are open to everyone. <a href="{{ '/council/#meetings' | relative_url }}">About our meetings</a>.</p>
+    </div>
+  </div>
+</section>
