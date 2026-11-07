@@ -24,7 +24,7 @@ You can edit any of these files on github.com: open the file, click the pencil i
 - **Contact details, Facebook link, meeting details:** `_config.yml`
 - **Councillors (names, roles, photos, blurbs):** `_data/councillors.yml`. Put photos in `assets/img/people/` and add the file name to `photo:`.
 - **Local groups:** `_data/groups.yml`
-- **Coming up (home page) and What's on:** the home page shows the next four dates; the *What's on* page shows everything in the next twelve months, month by month. Regular events (meetings, Remembrance Sunday, Armistice Day, Torchlight Parade, Gala Day, Pinkie commemoration) are worked out automatically. Add anything else to the **Upcoming dates** tab of the website sheet (see below). Past events disappear by themselves. Nothing shows twice: if you add one of the automatic events to the sheet (say a meeting that's been moved), your row replaces the automatic one for that month, and the same event typed twice on the same day only shows once. Blank time, place or link are filled in from the automatic one.
+- **Coming up (home page) and What's on:** the home page shows the next four dates; the *What's on* page shows everything in the next twelve months, month by month. **Community Council meetings come from the Upcoming dates tab of the website sheet** (see below): put each meeting on its own row with *Community Council Meeting* in the Event column and tick *Show on website*. The next one on the sheet is also the "next meeting" date on the Council, Report it and You said, we did pages. If there are no meetings on the sheet, those pages fall back to the general wording in `_config.yml` (`meeting_rule`). Other regular events (Remembrance Sunday, Armistice Day, Torchlight Parade, Gala Day, Pinkie commemoration) are worked out automatically. Add anything else to the sheet too. Past events disappear by themselves. Nothing shows twice: if you add one of the automatic events to the sheet (say to change its details), your row replaces the automatic one for that month, and the same event typed twice on the same day only shows once. Blank time, place or link are filled in from the automatic one.
 - **Ward councillors (Report it page):** `_data/ward_councillors.yml`. Check after each council election.
 - **You said, we did, Upcoming dates and Speedwatch results:** you don't edit the website at all. Update the website sheet and the pages pick up the changes (see below).
 - **Speedwatch areas (Up and running / Getting set up):** `_data/speedwatch.yml`. When Wallyford's scheme starts, change its status to `Up and running`.
@@ -36,7 +36,7 @@ One Google Sheet in Drive, *Wallyford CC - Website updates*, feeds three parts o
 | Tab | Shows on | What to add |
 | --- | --- | --- |
 | **Tracker** | *You said, we did*, and the latest three on the home page | An issue residents raised and what the Community Council did |
-| **Upcoming dates** | The *Coming up* box on the home page and the *What's on* page | One-off dates: date, time, event, place and an optional link |
+| **Upcoming dates** | The *Coming up* box on the home page, the *What's on* page and the "next meeting" dates | Community Council meetings and one-off dates: date, time, event, place and an optional link |
 | **Speedwatch** | The Speedwatch page (results counter is switched off for now) | One row per Speedwatch session |
 
 Only rows with **Show on website** ticked appear. The website reads the sheet each time someone opens a page, and Google can take up to 5 minutes to pass on changes.

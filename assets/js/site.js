@@ -1,8 +1,9 @@
 /* Wallyford Community Council: small site helpers.
    1. Mobile menu
-   2. Next meeting and Torchlight Parade dates
+   2. Torchlight Parade date
    3. "You said, we did" tracker, read from a published Google Sheet (CSV)
-   4. "Coming up" list of events (home page) and the What's on page
+   4. "Coming up" list of events (home page), the What's on page and the
+      "next meeting" dates, with meetings read from the website sheet
    5. Back to top button
    6. Community Speedwatch results, read from a published Google Sheet (CSV)
 */
@@ -31,12 +32,6 @@
   var fmtLong = new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
   var fmtShort = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric" });
 
-  function lastWeekday(year, month, weekday) {
-    var d = new Date(year, month + 1, 0);
-    while (d.getDay() !== weekday) d.setDate(d.getDate() - 1);
-    return d;
-  }
-
   function firstWeekday(year, month, weekday) {
     var d = new Date(year, month, 1);
     while (d.getDay() !== weekday) d.setDate(d.getDate() + 1);
@@ -45,18 +40,6 @@
 
   function sameDay(a, b) {
     return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
-  }
-
-  // Last Wednesday of the month, 6.30pm, no meetings in July or December.
-  function nextMeeting(now) {
-    for (var i = 0; i < 14; i++) {
-      var d = lastWeekday(now.getFullYear(), now.getMonth() + i, 3);
-      if (d.getMonth() === 6 || d.getMonth() === 11) continue;
-      var finished = new Date(d);
-      finished.setHours(21, 0, 0, 0);
-      if (finished >= now) return d;
-    }
-    return null;
   }
 
   // First Friday of December.
@@ -79,7 +62,6 @@
 
   function initDates() {
     var now = new Date();
-    fillDates("[data-next-meeting]", nextMeeting(now), now);
     fillDates("[data-parade-date]", nextParade(now), now);
   }
 
@@ -375,20 +357,17 @@
     return x;
   }
 
+  function siteLink(path) { return (cfg.base || "/") + path; }
+
+  // Community Council meetings come from the "Upcoming dates" tab of the
+  // website sheet: any row whose event name says "Community Council meeting".
+  var MEETING = /community council meeting|\bcc meeting/i;
+
   // Regular events, worked out for a given year. "match" spots the same
   // event when it's also typed into the website sheet (see mergeEvents).
   function regularEvents(year) {
     var list = [];
-    var link = function (path) { return (cfg.base || "/") + path; };
-    for (var m = 0; m < 12; m++) {
-      if (m === 6 || m === 11) continue;
-      list.push({
-        date: lastWeekday(year, m, 3), ends: 21,
-        title: "Community Council meeting", match: /community council meeting|\bcc meeting/i,
-        time: "6.30pm", place: "Assembly Hall, Wallyford Learning Campus (Leisure entrance)",
-        link: link("council/#meetings")
-      });
-    }
+    var link = siteLink;
     // Remembrance Sunday is the second Sunday in November.
     var firstSunday = firstWeekday(year, 10, 0);
     list.push({
@@ -451,10 +430,13 @@
       if (hasShow && !/^(true|yes|y|1|x)$/i.test(o.show || "")) continue;
       var d = parseDate(o.date);
       if (!d || !o.title) continue;
+      var meeting = MEETING.test(o.title);
+      // Only ordinary web links, so nothing odd typed in the sheet can run.
+      var link = /^https?:\/\//i.test(o.link || "") ? o.link : "";
       out.push({
-        date: d, ends: 23, title: o.title, time: niceTime(o.time), place: o.place || "",
-        // Only ordinary web links, so nothing odd typed in the sheet can run.
-        link: /^https?:\/\//i.test(o.link || "") ? o.link : ""
+        date: d, ends: meeting ? 21 : 23, title: o.title, time: niceTime(o.time), place: o.place || "",
+        link: link || (meeting ? siteLink("council/#meetings") : ""),
+        meeting: meeting
       });
     }
     return out;
@@ -504,6 +486,26 @@
     return regular.filter(function (r, i) { return !replaced[i]; }).concat(out);
   }
 
+  // The "Upcoming dates" tab, fetched once per page and shared by the
+  // Coming up box, the What's on page and the "next meeting" dates.
+  var sheetPromise = null;
+  function loadSheetEvents() {
+    if (sheetPromise) return sheetPromise;
+    var url = cfg.eventsUrl && String(cfg.eventsUrl).trim();
+    if (!url) return (sheetPromise = Promise.resolve([]));
+    sheetPromise = fetch(url, { cache: "no-cache" })
+      .then(function (res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.text();
+      })
+      .then(function (text) {
+        if (/^\s*</.test(text)) throw new Error("Expected CSV, got HTML");
+        return sheetEvents(parseCSV(text));
+      })
+      .catch(function () { return []; });
+    return sheetPromise;
+  }
+
   function initComingUp() {
     var box = document.getElementById("coming-up");
     var year = document.getElementById("whats-on");
@@ -516,19 +518,21 @@
     };
     // Show the regular dates straight away, then add the sheet's dates when they arrive.
     show(regular);
-    var url = cfg.eventsUrl && String(cfg.eventsUrl).trim();
-    if (!url) return;
-    fetch(url, { cache: "no-cache" })
-      .then(function (res) {
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        return res.text();
-      })
-      .then(function (text) {
-        if (/^\s*</.test(text)) throw new Error("Expected CSV, got HTML");
-        var extra = sheetEvents(parseCSV(text));
-        if (extra.length) show(mergeEvents(regular, extra));
-      })
-      .catch(function () { /* keep showing the regular dates */ });
+    loadSheetEvents().then(function (extra) {
+      if (extra.length) show(mergeEvents(regular, extra));
+    });
+  }
+
+  // "Next meeting" dates on the Council, Report it and You said, we did
+  // pages: the next meeting on the sheet. If there isn't one, the general
+  // wording (last Wednesday of every month...) stays.
+  function initNextMeeting() {
+    if (!document.querySelector("[data-next-meeting]")) return;
+    var now = new Date();
+    loadSheetEvents().then(function (events) {
+      var next = upcoming(events.filter(function (e) { return e.meeting; }), now)[0];
+      if (next) fillDates("[data-next-meeting]", next.date, now);
+    });
   }
 
   // Events that haven't finished yet, soonest first.
@@ -1000,6 +1004,7 @@
     initDates();
     initTracker();
     initComingUp();
+    initNextMeeting();
     initToTop();
     initSpeedwatch();
   }

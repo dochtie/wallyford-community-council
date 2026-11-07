@@ -23,7 +23,8 @@ site_credit: "Website by Matthew Williams, Community Council Treasurer."
 # Facebook group link
 facebook_url: "https://www.facebook.com/groups/170616703520157/"
 
-# Meetings (used on the home page and Council page)
+# Meetings (general wording used across the site; the actual dates come
+# from the Upcoming dates tab of the website sheet)
 meeting_time: "6.30pm"
 meeting_place: "Assembly Hall, Wallyford Learning Campus"
 meeting_way_in: "Come in through the Leisure entrance, by the car park."
@@ -38,9 +39,10 @@ meeting_rule: "Last Wednesday of every month, except July and December"
 # Tracker tab: the "You said, we did" page and the home page updates.
 tracker_csv_url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRhLqQXUZWSXX9WMuhjoLAvN9B2GUNI3OXTp7LB90Bueh7ppSRrnt8P-RbpYSKymi3hFJwz1RM0faPn/pub?gid=0&single=true&output=csv"
 
-# Upcoming dates tab: one-off dates in the home page "Coming up" box.
-# (Meetings, Remembrance, the Torchlight Parade, Gala Day and the Pinkie
-# commemoration are added automatically.)
+# Upcoming dates tab: Community Council meetings and one-off dates, shown
+# in the home page "Coming up" box, the What's on page and as the "next
+# meeting" date. (Remembrance, the Torchlight Parade, Gala Day and the
+# Pinkie commemoration are added automatically.)
 events_csv_url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRhLqQXUZWSXX9WMuhjoLAvN9B2GUNI3OXTp7LB90Bueh7ppSRrnt8P-RbpYSKymi3hFJwz1RM0faPn/pub?gid=1388422878&single=true&output=csv"
 
 # Speedwatch tab: results for the counter on the Speedwatch page.
