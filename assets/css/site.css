@@ -586,6 +586,29 @@ details.more > summary:hover { text-decoration: underline; }
 .status-up-and-running { background: var(--status-done); }
 .status-getting-set-up { background: var(--status-progress); }
 
+/* ---------- Names on the coal hutches (History page) ---------- */
+.miners-names { margin-top: 3rem; }
+.miners-names > p { max-width: 68ch; }
+.hutch-photos { margin: 1.5rem 0 2rem; }
+.miners-tables { align-items: start; }
+.miners-table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+.miners-table caption {
+  caption-side: top; text-align: left; padding: .8rem 1rem; font-family: var(--serif); font-size: 1.15rem;
+  font-weight: 600; color: var(--ink); border-bottom: 1px solid var(--rule);
+}
+.miners-table th, .miners-table td { padding: .45rem 1rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--rule); }
+.miners-table thead th {
+  font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); background: var(--cream); white-space: nowrap;
+}
+.miners-table tbody tr:last-child td { border-bottom: 0; }
+.miners-table .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.miners-date { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.miners-note { margin-top: 1rem; font-size: .92rem; color: var(--muted); }
+@media (max-width: 560px) {
+  .miners-table th, .miners-table td { padding: .45rem .6rem; font-size: .95rem; }
+}
+
 .timeline li ul { margin: .4rem 0 0; padding-left: 1.2em; list-style: disc; }
 .timeline li li { padding: 0; margin-bottom: .2rem; }
 .timeline li li::before { content: none; }

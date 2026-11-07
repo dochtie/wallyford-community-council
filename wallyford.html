@@ -92,8 +92,8 @@ description: The story of Wallyford, East Lothian. Mining and the Miners' Stones
     <div class="prose">
       <p class="eyebrow">Mining and the Miners' Stones</p>
       <h2>Remembering the men who worked underground</h2>
-      <p>For more than a century, most Wallyford families depended on the pits. The work was hard and dangerous, and 38 men lost their lives in Wallyford's collieries between 1857 and 1929.</p>
-      <p>The Miners' Stone in St Clement's Gardens, off Salters Road, was commissioned by the Community Council, carved by the sculptor Shawn Williamson, and unveiled in 2010. It is carved with scenes from underground, and the coal hutches on either side carry the names of all 38 miners. Each December the Torchlight Parade ends here with a short service and a floral tribute.</p>
+      <p>For more than a century, most Wallyford families depended on the pits. The work was hard and dangerous, and 37 men lost their lives in Wallyford's collieries between 1857 and 1929.</p>
+      <p>The Miners' Stone in St Clement's Gardens, off Salters Road, was commissioned by the Community Council, carved by the sculptor Shawn Williamson, and unveiled in 2010. It is carved with scenes from underground, and the coal hutches on either side carry the names of all 37 miners. Each December the Torchlight Parade ends here with a short service and a floral tribute.</p>
       <figure class="figure" style="margin-top:1.5rem">
         <img src="{{ '/assets/img/miners-stone-plaque.jpg' | relative_url }}" alt="Metal plaque set into the red sandstone of the Miners' Stone. It reads: Wallyford Mining Memorial Stone. In recognition of Wallyford as a Mining Community. Dedicated to all the Miners of our village, including those who lost their lives prematurely, as a result of their working conditions. No more deep dark mine shafts never seeing the light of day, no more toiling hard for very little pay, in memory of the miners, our fathers of today. Stone carved by Shawn Williamson F.R.S.A. Stone commissioned by Wallyford Community Council 2009. Financed by Viridor (Forward Scotland), Wallyford Miners Welfare Club, Scottish Coal Industry Special Welfare Fund and East Lothian Council." width="1000" height="747" loading="lazy">
         <figcaption>The plaque on the Miners' Stone. Photo: Allison Coyle.</figcaption>
@@ -101,14 +101,51 @@ description: The story of Wallyford, East Lothian. Mining and the Miners' Stones
     </div>
     <div>
       <figure class="figure">
-        <img src="{{ '/assets/img/miners-stone.jpg' | relative_url }}" alt="A large carved stone on a paved circle, with a replica coal hutch on either side, in a grassy garden" width="720" height="480" loading="lazy">
-        <figcaption>The Miners' Stone, with the coal hutches bearing the miners' names.</figcaption>
+        <img src="{{ '/assets/img/miners-stone-closeup.jpg' | relative_url }}" alt="The Miners' Stone up close: a long block of red sandstone carved with the words Wallyford Miner's Stone and two bands of scenes from underground, with miners pushing a hutch, a pit pony and men at the coal face" width="1000" height="750" loading="lazy">
+        <figcaption>The Miners' Stone. Photo: Allison Coyle.</figcaption>
       </figure>
       <figure class="figure figure-carving">
         <img src="{{ '/assets/img/miners-stone-pithead.jpg' | relative_url }}" alt="Close-up of a carved panel on the Miners' Stone: a pithead with a spoked winding wheel, a rope, and a braced frame" width="700" height="700" loading="lazy">
         <figcaption>The pithead carved on the Miners' Stone. Our logo is based on it. Photo: Allison Coyle.</figcaption>
       </figure>
     </div>
+  </div>
+
+  <div class="wrap miners-names" id="the-names">
+    <h3>The names on the coal hutches</h3>
+    <p>The two replica coal hutches beside the stone were commissioned by Wallyford Community Council in 2012 and paid for by East Lothian Council's Civic Pride Fund. Two of their plaques list the miners who lost their lives in Wallyford's coal mines. The third carries the poem <em>A Wallyford Miner</em> by Janet Bourhill.</p>
+    <div class="grid grid-3 hutch-photos">
+      <figure class="figure">
+        <img src="{{ '/assets/img/miners-hutch-1857-1904.jpg' | relative_url }}" alt="A replica wooden coal hutch on iron wheels, planted with red geraniums, with a metal plaque listing the miners who lost their lives between 1857 and 1904" width="800" height="600" loading="lazy">
+        <figcaption>The plaque for 1857 to 1904. Photo: Allison Coyle.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="{{ '/assets/img/miners-hutch-poem.jpg' | relative_url }}" alt="The side of a replica coal hutch with a metal plaque carrying the poem A Wallyford Miner by Janet Bourhill" width="800" height="600" loading="lazy">
+        <figcaption><em>A Wallyford Miner</em>, by Janet Bourhill. Photo: Allison Coyle.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="{{ '/assets/img/miners-hutch-1905-1929.jpg' | relative_url }}" alt="A replica wooden coal hutch on iron wheels with a metal plaque listing the miners who lost their lives between 1905 and 1929" width="800" height="600" loading="lazy">
+        <figcaption>The plaque for 1905 to 1929. Photo: Allison Coyle.</figcaption>
+      </figure>
+    </div>
+    <div class="grid grid-2 miners-tables">
+      {%- for plaque in site.data.miners %}
+      <div class="table-scroll">
+        <table class="miners-table">
+          <caption>Miners who lost their lives, {{ plaque.plaque }}</caption>
+          <thead>
+            <tr><th scope="col">Date</th><th scope="col">Name</th><th scope="col" class="num">Age</th></tr>
+          </thead>
+          <tbody>
+            {%- for m in plaque.miners %}
+            <tr><td class="miners-date">{{ m.date }}</td><td>{{ m.name }}</td><td class="num">{% if m.age != "" %}{{ m.age }}{% else %}<span aria-hidden="true">&ndash;</span><span class="visually-hidden">not recorded</span>{% endif %}</td></tr>
+            {%- endfor %}
+          </tbody>
+        </table>
+      </div>
+      {%- endfor %}
+    </div>
+    <p class="miners-note">Names, dates and ages are as they appear on the hutches. Where no age is shown, none is given on the plaque.</p>
   </div>
 </section>
 
