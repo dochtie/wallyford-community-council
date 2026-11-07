@@ -55,7 +55,8 @@
       speedwatchSampleUrl: {{ '/assets/data/speedwatch-preview.csv' | relative_url | jsonify }},
       draft: {{ site.show_review_notes | jsonify }},
       base: {{ '/' | relative_url | jsonify }},
-      eventsUrl: {{ site.events_csv_url | jsonify }}
+      eventsUrl: {{ site.events_csv_url | jsonify }},
+      eventsBackupUrl: {{ '/assets/data/events-backup.csv' | relative_url | jsonify }}
     };
   </script>
   <script src="{{ '/assets/js/site.js' | relative_url }}?v={{ asset_version }}" defer></script>

@@ -1,0 +1,84 @@
+# Every night, save a copy of the "Upcoming dates" tab of the website
+# sheet into the website (assets/data/events-backup.csv). If Google ever
+# can't supply the sheet (it's deleted, unpublished, or Google is down),
+# the site shows the dates from this copy instead.
+#
+# It only saves a copy that looks right, so a broken sheet never
+# overwrites the last good backup. A failed run in the Actions tab means
+# something is wrong with the sheet: the message says what.
+#
+# To run it straight away: Actions tab > "Back up the website dates" >
+# Run workflow.
+
+name: Back up the website dates
+
+on:
+  schedule:
+    - cron: "23 3 * * *" # every night at 3.23am UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: backup-dates
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download the Upcoming dates tab
+        run: |
+          url=$(sed -n 's/^events_csv_url: *"\(.*\)".*/\1/p' _config.yml)
+          if [ -z "$url" ]; then
+            echo "::error::There's no events_csv_url in _config.yml."
+            exit 1
+          fi
+          if ! curl -fsSL --retry 3 --max-time 60 "$url" -o new.csv; then
+            echo "::error::Couldn't download the Upcoming dates tab. Is the sheet still published (File > Share > Publish to web)?"
+            exit 1
+          fi
+          header=$(head -n 1 new.csv | tr -d '\r' | tr 'A-Z' 'a-z')
+          case "$header" in
+            "<"*)
+              echo "::error::Google sent a web page instead of the sheet. Is the sheet still published?"
+              exit 1 ;;
+          esac
+          for column in date event "show on website"; do
+            if ! printf '%s\n' "$header" | grep -q "$column"; then
+              echo "::error::The Upcoming dates tab has no '$column' column. Was a heading renamed?"
+              exit 1
+            fi
+          done
+          # Keep the rows with something in them; drop the empty ones.
+          tr -d '\r' < new.csv | grep -v '^,*\(TRUE\|FALSE\)\?$' > assets/data/events-backup.csv
+          rm new.csv
+          echo "Saved $(($(wc -l < assets/data/events-backup.csv) - 1)) rows."
+
+      - name: Save the copy if it changed
+        id: save
+        run: |
+          if [ -z "$(git status --porcelain -- assets/data/events-backup.csv)" ]; then
+            echo "No changes since the last backup."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/data/events-backup.csv
+          git commit -m "Back up the website dates from the sheet"
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      # A save made by this job doesn't always republish the site by
+      # itself, so ask GitHub Pages to rebuild.
+      - name: Republish the website
+        if: steps.save.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" \
+            || echo "::warning::Couldn't ask GitHub Pages to rebuild. The backup will go live with the next change to the site."

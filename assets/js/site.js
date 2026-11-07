@@ -412,23 +412,38 @@
     return norm(a) === norm(b);
   }
 
-  // The "Upcoming dates" tab, fetched once per page and shared by the
-  // Coming up box, the What's on page and the "next meeting" and parade
-  // dates. Gives null if the sheet couldn't be loaded.
-  var sheetPromise = null;
-  function loadSheetEvents() {
-    if (sheetPromise) return sheetPromise;
-    var url = cfg.eventsUrl && String(cfg.eventsUrl).trim();
-    if (!url) return (sheetPromise = Promise.resolve([]));
-    sheetPromise = fetch(url, { cache: "no-cache" })
+  // Fetch a copy of the "Upcoming dates" tab and read its events. Fails if
+  // it isn't the tab we expect (an error page, or the Date or Event column
+  // is missing).
+  function fetchEvents(url) {
+    return fetch(url, { cache: "no-cache" })
       .then(function (res) {
         if (!res.ok) throw new Error("HTTP " + res.status);
         return res.text();
       })
       .then(function (text) {
         if (/^\s*</.test(text)) throw new Error("Expected CSV, got HTML");
-        return sheetEvents(parseCSV(text));
-      })
+        var rows = parseCSV(text);
+        var heads = (rows[0] || []).map(function (h) { return EVENT_COLUMNS[h.toLowerCase().replace(/[^a-z]/g, "")]; });
+        if (heads.indexOf("date") === -1 || heads.indexOf("title") === -1) throw new Error("Missing columns");
+        return sheetEvents(rows);
+      });
+  }
+
+  // The "Upcoming dates" tab, fetched once per page and shared by the
+  // Coming up box, the What's on page and the "next meeting" and parade
+  // dates. If the live sheet can't be read (deleted, unpublished, Google
+  // down), the nightly backup in assets/data/events-backup.csv is used
+  // instead. Gives null if neither can be loaded.
+  var sheetPromise = null;
+  function loadSheetEvents() {
+    if (sheetPromise) return sheetPromise;
+    var url = cfg.eventsUrl && String(cfg.eventsUrl).trim();
+    var backup = cfg.eventsBackupUrl && String(cfg.eventsBackupUrl).trim();
+    var useBackup = function () {
+      return backup ? fetchEvents(backup) : Promise.reject(new Error("No backup"));
+    };
+    sheetPromise = (url ? fetchEvents(url).catch(useBackup) : useBackup())
       .catch(function () { return null; });
     return sheetPromise;
   }
