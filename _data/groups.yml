@@ -4,6 +4,7 @@
 # contact: how to get in touch (only publish a personal phone number or
 #          email with that person's OK)
 # link:    a web address, such as the group's website or Facebook page
+# check:   a draft note asking the council to confirm something (optional)
 
 community:
   - name: "Wallyford Children's Gala Day Committee"
@@ -13,8 +14,26 @@ community:
 
   - name: "Wallyford Community Church"
     about: "Albert Place. Hosts the village's Remembrance Sunday service."
+    contact: "office@wallyfordchurch.org"
+    link: "https://www.wallyfordchurch.org/"
+
+  - name: "Tots+"
+    about: "A weekly group at Wallyford Community Church, Albert Place, where parents and carers of young children can meet. Thursdays, 10am to 11.30am, in term time. A donation of £1.50 is asked."
+    contact: "office@wallyfordchurch.org"
+    link: "https://www.wallyfordchurch.org/what-s-happening"
+    check: "Is this the tots group you meant? Details are from the church's website."
+
+  - name: "Wallyford Parents and Carers Council (WPACC)"
+    about: "The parent council for Wallyford Primary School and Nursery. It represents parents and carers, supports the school, and raises money through things like bake sales and discos. Everyone is welcome at its meetings, and you don't need to be a member."
+    contact: "wallyfordpacc@gmail.com"
+    link: "https://sites.google.com/view/wallyfordprimaryschoolpacc/home"
+    check: "From the parent council's own pages. Do they still meet monthly in term time, and is there a Facebook page to link to?"
+
+  - name: "Wallyford Miners' Charitable Society Club"
+    about: "The Miners' Club, 24 Salters Road. A members' social club run by a registered charity (SC010359) that provides recreation and leisure for local people. It was built in the 1970s with subscriptions from miners' wages, served as a soup kitchen during the 1984 to 1985 miners' strike, and has long been at the centre of village life. The Torchlight Parade sets off from its car park every December."
     contact: ""
     link: ""
+    check: "The history is from East Lothian's local heritage pages. Is it all right?"
 
 tras:
   - name: "TO DO: name of tenants' and residents' association"
