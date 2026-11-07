@@ -47,6 +47,8 @@ The sheet is published with **File > Share > Publish to web > Entire document**,
 
 Never put residents' names or contact details, vehicle registrations or volunteers' names in the sheet.
 
+**Backup of the dates:** every night GitHub saves a copy of the Upcoming dates tab into the website (`assets/data/events-backup.csv`, by `.github/workflows/backup-dates.yml`). If the sheet can't be read (deleted, unpublished, a column heading renamed, or Google is down), the site shows the dates from that copy instead, so they're at most a day old. To back up straight away: **Actions** tab > *Back up the website dates* > **Run workflow**. A failed run means something's wrong with the sheet, and its message says what; the last good copy is kept. GitHub pauses nightly jobs after 60 days without any change to the repository and emails you first: click **Enable workflow** in the Actions tab to restart it.
+
 If you ever make a new sheet, keep the same column headings and set **File > Settings > Locale** to *United Kingdom*, so dates are read as day/month.
 
 **You said, we did:** the page has a **Completed** section at the top, then an **Ongoing** section (and a **Closed** one if any entries are closed), each with the most recently updated first. The home page shows the three most recently updated entries, whether ongoing or completed. (Older rows marked *Done* show as *Completed*.) For an automatic "Last updated" date, paste `tools/tracker-auto-date.gs` into the sheet once (Extensions > Apps Script, paste, Save). After that, editing "You said", "We did", "Status" or "Show on website" sets "Last updated" to today.
