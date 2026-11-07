@@ -1,75 +1,57 @@
-"""Draws the site logo: the pithead carved on the Wallyford Miners' Stone.
+"""Draws the site logo: the pithead carved on the Wallyford Miners' Stone, set in a
+square "carved panel" like the recessed panel it sits in on the stone.
 
-The coordinates below are a trace of the carving (from a 1500 x 2000 px photo),
-scaled into the 48 x 48 logo. Run it to rebuild both versions:
+The pithead is a tidied, symmetrical version of the carving: an eight-spoked winding
+wheel, the rope running off its top right, legs that angle out from under the wheel
+and then drop straight, a crossbar and an X brace.
 
     python3 tools/make_logo.py out
 
-then copy out/logo.svg to _includes/logo.svg and out/favicon.svg to
-assets/img/favicon.svg. The PNG icons (favicon-48.png, apple-touch-icon.png,
+writes out/logo.svg (copy to _includes/logo.svg) and out/favicon.svg (copy to
+assets/img/favicon.svg). The PNG icons (favicon-48.png, apple-touch-icon.png,
 logo-512.png) are favicon.svg saved at 48, 180 and 512 px with a transparent
 background.
 """
-import math, sys, pathlib
+import math, pathlib, sys
 
-WHEEL_C = (715, 730)          # wheel centre
-RIM_R = 262                   # middle of the rim band (outer 290, inner 235)
-SPOKE_R = 235                 # spokes run from the hub to the inner edge of the rim
-ROPE = [(945, 550), (1238, 822)]                     # rope leaving the top right of the wheel
-LEFT_LEG = [(562, 976), (458, 1150), (462, 1497)]    # leaves wheel, angles out, drops straight
-RIGHT_LEG = [(913, 942), (1072, 1098), (1078, 1497)]
-CROSSBAR_Y = 1165
-GROUND_Y = 1497
-GROUND_X = (380, 1180)
-TOP_Y = 440                   # top of the wheel
-
-def build(scale, top, cx_svg=24, cx_photo=790, w=None, dec=2):
-    X = lambda x: round(cx_svg + (x - cx_photo) * scale, dec)
-    Y = lambda y: round(top + (y - TOP_Y) * scale, dec)
-    P = lambda p: f"{X(p[0])} {Y(p[1])}"
-    cx, cy = X(WHEEL_C[0]), Y(WHEEL_C[1])
-    r_rim, r_sp = round(RIM_R * scale, dec), round(SPOKE_R * scale, dec)
+def pithead(cx, top, scale, w_frame, w_spoke, w_brace, w_rope):
+    X = lambda x: round(cx + x * scale, 2)          # x relative to the centre line
+    Y = lambda y: round(top + y * scale, 2)          # y down from the top of the wheel
+    R, Rs = 6.6, 5.75                                # wheel rim radius, spoke length
     spokes = []
-    for k in range(4):                     # 4 lines through the hub = 8 spokes
-        a = math.radians(k * 45)
-        dx, dy = r_sp * math.cos(a), r_sp * math.sin(a)
-        spokes.append(f"M{round(cx-dx,dec)} {round(cy-dy,dec)} {round(cx+dx,dec)} {round(cy+dy,dec)}")
-    lx, rx = LEFT_LEG[2][0], RIGHT_LEG[2][0]
-    frame = (f"M{P(LEFT_LEG[0])} {P(LEFT_LEG[1])} {P(LEFT_LEG[2])}"
-             f"M{P(RIGHT_LEG[0])} {P(RIGHT_LEG[1])} {P(RIGHT_LEG[2])}"
-             f"M{X(LEFT_LEG[1][0] + 4)} {Y(CROSSBAR_Y)}H{X(RIGHT_LEG[1][0] + 6)}")
-    brace = (f"M{X(lx + 4)} {Y(CROSSBAR_Y)} {X(rx - 4)} {Y(GROUND_Y)}"
-             f"M{X(rx - 2)} {Y(CROSSBAR_Y)} {X(lx + 2)} {Y(GROUND_Y)}")
-    ground = f"M{X(GROUND_X[0])} {Y(GROUND_Y)}H{X(GROUND_X[1])}"
-    rope = f"M{P(ROPE[0])} {P(ROPE[1])}"
-    return dict(cx=cx, cy=cy, r=r_rim, spokes="".join(spokes), frame=frame, brace=brace, ground=ground, rope=rope)
+    for k in range(4):                               # 4 lines through the hub = 8 spokes
+        a = math.radians(k * 45); dx, dy = Rs * math.cos(a), Rs * math.sin(a)
+        spokes.append(f"M{X(-dx)} {Y(R - dy)} {X(dx)} {Y(R + dy)}")
+    a1, a2 = math.radians(125), math.radians(55)     # where the legs leave the wheel
+    lt = (R * math.cos(a1), R + R * math.sin(a1)); rt = (R * math.cos(a2), R + R * math.sin(a2))
+    half, bend, base = 7.6, 16.6, 27.6               # frame half-width, crossbar height, base
+    ra = math.radians(-45); r0 = (R * math.cos(ra), R + R * math.sin(ra))
+    rope = f"M{X(r0[0])} {Y(r0[1])} {X(r0[0] + 6.2)} {Y(r0[1] + 6.2)}"
+    frame = (f"M{X(lt[0])} {Y(lt[1])} {X(-half)} {Y(bend)} {X(-half)} {Y(base)}"
+             f"M{X(rt[0])} {Y(rt[1])} {X(half)} {Y(bend)} {X(half)} {Y(base)}"
+             f"M{X(-half)} {Y(bend)}H{X(half)}M{X(-half - 2.4)} {Y(base)}H{X(half + 2.4)}")
+    brace = f"M{X(-half)} {Y(bend)} {X(half)} {Y(base)}M{X(half)} {Y(bend)} {X(-half)} {Y(base)}"
+    return (f'<circle cx="{X(0)}" cy="{Y(R)}" r="{round(R * scale, 2)}" stroke-width="{w_frame}"/>'
+            f'<path d="{"".join(spokes)}" stroke-width="{w_spoke}"/>'
+            f'<path d="{rope}" stroke-width="{w_rope}"/>'
+            f'<path d="{frame}" stroke-width="{w_frame}"/>'
+            f'<path d="{brace}" stroke-width="{w_brace}"/>')
 
-# Header logo: thin lines inside the round badge, coloured by the page (currentColor).
-h = build(scale=28.5 / 1057, top=7.6)
-header = f'''<svg class="logo" viewBox="0 0 48 48" width="48" height="48" aria-hidden="true" focusable="false">
-  <circle cx="24" cy="24" r="22.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
-  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="{h['cx']}" cy="{h['cy']}" r="{h['r']}" stroke-width="1.5"/>
-    <path d="{h['spokes']}" stroke-width=".9"/>
-    <path d="{h['rope']}" stroke-width="1.1"/>
-    <path d="{h['frame']}{h['ground']}" stroke-width="1.5"/>
-    <path d="{h['brace']}" stroke-width="1.1"/>
-  </g>
-</svg>
-'''
-# Icon (browser tab, phone home screen, Google): bolder lines on the dark rounded square.
-i = build(scale=31 / 1057, top=7)
-icon = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-  <rect width="48" height="48" rx="10" fill="#1b1e21"/>
-  <g fill="none" stroke="#e0b768" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="{i['cx']}" cy="{i['cy']}" r="{i['r']}" stroke-width="2.4"/>
-    <path d="{i['spokes']}" stroke-width="1.3"/>
-    <path d="{i['rope']}" stroke-width="1.7"/>
-    <path d="{i['frame']}{i['ground']}" stroke-width="2.4"/>
-    <path d="{i['brace']}" stroke-width="1.7"/>
-  </g>
-</svg>
-'''
+def panel(colour, k=1.0):
+    """Outer frame, recessed inner border and pithead. k thickens every line (for icons)."""
+    w = lambda v: round(v * k, 2)
+    return (f'<rect x="2.75" y="2.75" width="42.5" height="42.5" rx="5" fill="none" stroke="{colour}" stroke-width="{w(1.5)}"/>'
+            f'<rect x="6.5" y="6.5" width="35" height="35" rx="1.5" fill="none" stroke="{colour}" stroke-width="{w(.8)}" opacity=".55"/>'
+            f'<g fill="none" stroke="{colour}" stroke-linecap="round" stroke-linejoin="round">'
+            + pithead(cx=23.4, top=9.6, scale=.98, w_frame=w(1.5), w_spoke=w(.9), w_brace=w(1.1), w_rope=w(1.2)) + '</g>')
+
+# Header: coloured by the page (currentColor), hidden from screen readers (the name is next to it).
+header = ('<svg class="logo" viewBox="0 0 48 48" width="48" height="48" aria-hidden="true" focusable="false">\n  '
+          + panel("currentColor") + '\n</svg>\n')
+# Icon (browser tab, phone home screen, search engines): bolder brass lines on the dark rounded square.
+# The panel is shrunk to 86% so a dark margin shows round it, and the lines are thickened to match.
+icon = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">\n  <rect width="48" height="48" rx="10" fill="#1b1e21"/>\n  '
+        '<g transform="translate(3.36 3.36) scale(.86)">' + panel("#e0b768", k=1.6) + '</g>\n</svg>\n')
 out = pathlib.Path(sys.argv[1]); out.mkdir(parents=True, exist_ok=True)
 (out / "logo.svg").write_text(header); (out / "favicon.svg").write_text(icon)
-print(header); print(icon)
+print("wrote", out / "logo.svg", "and", out / "favicon.svg")

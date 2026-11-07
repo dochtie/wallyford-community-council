@@ -260,6 +260,7 @@ a.more:hover { text-decoration: underline; }
 figure { margin: 0; }
 .figure img { border-radius: var(--radius); box-shadow: var(--shadow); width: 100%; }
 .figure figcaption { font-size: .92rem; color: var(--muted); margin-top: .5rem; }
+.figure-carving { max-width: 340px; margin-top: 1.5rem; }
 
 .photo-needed {
   aspect-ratio: 4 / 3; border-radius: var(--radius);
