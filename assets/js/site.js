@@ -165,7 +165,7 @@
       o.statusKey = slug(o.status);
       // "Done" was renamed "Completed"; show older rows the new way too.
       if (o.statusKey === "done") { o.status = "Completed"; o.statusKey = "completed"; }
-      o.group = (o.statusKey === "completed" || o.statusKey === "closed") ? "done" : "open";
+      o.group = (o.statusKey === "completed" || o.statusKey === "closed") ? o.statusKey : "open";
       o.raisedDate = parseDate(o.raised);
       o.updatedDate = parseDate(o.updated) || o.raisedDate;
       o.row = r;
@@ -181,11 +181,12 @@
     return t || (b.row - a.row);
   }
 
-  // Full list: completed/closed items first, then ongoing, each most recent first.
-  function byGroupThenRecent(a, b) {
-    if (a.group !== b.group) return a.group === "done" ? -1 : 1;
-    return byRecent(a, b);
-  }
+  // The sections on the "You said, we did" page, in order.
+  var TRACKER_GROUPS = [
+    { key: "completed", title: "Completed", intro: "Issues you raised that have been sorted." },
+    { key: "open", title: "Ongoing", intro: "What we're still working on, most recently updated first." },
+    { key: "closed", title: "Closed", intro: "Where no further action is possible. Each one says why." }
+  ];
 
   function make(tag, cls, text) {
     var e = document.createElement(tag);
@@ -194,7 +195,10 @@
     return e;
   }
 
-  function renderItem(o) {
+  // heading: the tag for "You said" / "We did" (h3 on the home page, h4
+  // under the section headings on the "You said, we did" page).
+  function renderItem(o, heading) {
+    heading = heading || "h3";
     var art = make("article", "ysd-item");
 
     var meta = make("div", "ysd-meta");
@@ -209,10 +213,10 @@
 
     var body = make("div", "ysd-body");
     var said = make("div", "ysd-col");
-    said.appendChild(make("h3", null, "You said"));
+    said.appendChild(make(heading, null, "You said"));
     said.appendChild(make("p", "ysd-said", o.said));
     var did = make("div", "ysd-col");
-    did.appendChild(make("h3", null, "We did"));
+    did.appendChild(make(heading, null, "We did"));
     // A line starting "You can help:" is shown as its own highlighted note.
     var parts = (o.did || "We've logged this and will post an update soon.").split(/\n?\s*You can help:\s*/i);
     did.appendChild(make("p", "ysd-did", parts[0].trim()));
@@ -263,7 +267,7 @@
 
     function render() {
       var q = state.q.toLowerCase();
-      var shown = items.slice().sort(byGroupThenRecent).filter(function (o) {
+      var shown = items.filter(function (o) {
         if (state.group !== "all" && o.group !== state.group) return false;
         if (state.topic && o.topic !== state.topic) return false;
         if (q) {
@@ -273,13 +277,29 @@
         return true;
       });
       list.innerHTML = "";
-      shown.forEach(function (o) { list.appendChild(renderItem(o)); });
+      // Each section (Completed, Ongoing, Closed) gets its own heading, and
+      // only appears when something in it matches the filters.
+      TRACKER_GROUPS.forEach(function (g) {
+        var inGroup = shown.filter(function (o) { return o.group === g.key; }).sort(byRecent);
+        if (!inGroup.length) return;
+        var sec = make("section", "ysd-group ysd-group-" + g.key);
+        var title = make("h3", "ysd-group-title", g.title + " ");
+        var count = make("span", "ysd-group-count", String(inGroup.length));
+        count.appendChild(make("span", "visually-hidden", inGroup.length === 1 ? " item" : " items"));
+        title.appendChild(count);
+        sec.appendChild(title);
+        sec.appendChild(make("p", "ysd-group-intro", g.intro));
+        var group = make("div", "ysd-group-items");
+        inGroup.forEach(function (o) { group.appendChild(renderItem(o, "h4")); });
+        sec.appendChild(group);
+        list.appendChild(sec);
+      });
       if (!shown.length) list.appendChild(make("p", "ysd-empty", "Nothing matches that. Try a different search or filter."));
 
-      var open = items.filter(function (o) { return o.group === "open"; }).length;
-      var done = items.length - open;
+      var counts = { completed: 0, open: 0, closed: 0 };
+      items.forEach(function (o) { counts[o.group]++; });
       summary.textContent = (shown.length === items.length ? items.length + " items" : "Showing " + shown.length + " of " + items.length + " items") +
-        ": " + done + " completed, " + open + " ongoing.";
+        ": " + counts.completed + " completed, " + counts.open + " ongoing" + (counts.closed ? ", " + counts.closed + " closed." : ".");
     }
 
     Array.prototype.forEach.call(chips, function (chip) {
@@ -295,13 +315,15 @@
     render();
   }
 
+  // Home page: the three most recently updated issues still being worked on.
   function renderLatest(items, box) {
     box.innerHTML = "";
-    if (!items.length) {
-      box.appendChild(make("p", "ysd-empty", "No updates yet. Check back soon."));
+    var ongoing = items.filter(function (o) { return o.group === "open"; });
+    if (!ongoing.length) {
+      box.appendChild(make("p", "ysd-empty", "Nothing ongoing right now. Check back soon."));
       return;
     }
-    items.slice(0, 3).forEach(function (o) { box.appendChild(renderItem(o)); });
+    ongoing.slice(0, 3).forEach(function (o) { box.appendChild(renderItem(o)); });
   }
 
   function initTracker() {

@@ -46,7 +46,7 @@ Never put residents' names or contact details, vehicle registrations or voluntee
 
 If you ever make a new sheet, keep the same column headings and set **File > Settings > Locale** to *United Kingdom*, so dates are read as day/month.
 
-**You said, we did:** the page lists **Completed** entries first, then everything still ongoing, each with the most recently updated at the top. (Older rows marked *Done* show as *Completed*.) For an automatic "Last updated" date, paste `tools/tracker-auto-date.gs` into the sheet once (Extensions > Apps Script, paste, Save). After that, editing "You said", "We did", "Status" or "Show on website" sets "Last updated" to today.
+**You said, we did:** the page has a **Completed** section at the top, then an **Ongoing** section (and a **Closed** one if any entries are closed), each with the most recently updated first. The home page shows the three most recently updated ongoing entries. (Older rows marked *Done* show as *Completed*.) For an automatic "Last updated" date, paste `tools/tracker-auto-date.gs` into the sheet once (Extensions > Apps Script, paste, Save). After that, editing "You said", "We did", "Status" or "Show on website" sets "Last updated" to today.
 
 **Speedwatch:** the results counter is switched off. To put it back, set `speedwatch_show_results: true` in `_config.yml`. It then shows running totals (vehicles checked, how many were over the limit, and the share who kept to the limit) as rolling odometer-style counters, plus a list of recent sessions. Until there are results, the counters spin with a "No results yet" message.
 
