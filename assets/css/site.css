@@ -450,6 +450,17 @@ a.event-inner:hover .event-title { text-decoration: underline; }
 .events-fallback { padding-left: 1.1em; margin: 0; }
 .js .events-fallback { display: none; }
 
+/* ---------- What's on page ---------- */
+@media (min-width: 860px) { .whats-on-layout { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); } }
+.whats-on { display: grid; gap: 2rem; }
+.whats-on .events-fallback { padding-left: 1.1em; }
+.whats-on-heading {
+  font-size: 1.35rem; margin: 0 0 .6rem; padding-bottom: .4rem; border-bottom: 2px solid var(--brass);
+}
+.whats-on .event-inner { padding: .6rem .5rem; }
+.whats-on .events { gap: .25rem; }
+.whats-on-layout > .card { position: sticky; top: 1.5rem; }
+
 /* ---------- Show more (details) ---------- */
 details.more { margin: 1rem 0 0; border-top: 1px solid var(--rule); }
 details.more > summary {

@@ -2,7 +2,7 @@
    1. Mobile menu
    2. Next meeting and Torchlight Parade dates
    3. "You said, we did" tracker, read from a published Google Sheet (CSV)
-   4. "Coming up" list of events
+   4. "Coming up" list of events (home page) and the What's on page
    5. Back to top button
    6. Community Speedwatch results, read from a published Google Sheet (CSV)
 */
@@ -375,7 +375,8 @@
     return x;
   }
 
-  // Regular events, worked out for a given year.
+  // Regular events, worked out for a given year. "match" spots the same
+  // event when it's also typed into the website sheet (see mergeEvents).
   function regularEvents(year) {
     var list = [];
     var link = function (path) { return (cfg.base || "/") + path; };
@@ -383,7 +384,7 @@
       if (m === 6 || m === 11) continue;
       list.push({
         date: lastWeekday(year, m, 3), ends: 21,
-        title: "Community Council meeting",
+        title: "Community Council meeting", match: /community council meeting|\bcc meeting/i,
         time: "6.30pm", place: "Assembly Hall, Wallyford Learning Campus (Leisure entrance)",
         link: link("council/#meetings")
       });
@@ -392,32 +393,32 @@
     var firstSunday = firstWeekday(year, 10, 0);
     list.push({
       date: new Date(year, 10, firstSunday.getDate() + 7), ends: 13,
-      title: "Remembrance Sunday",
+      title: "Remembrance Sunday", match: /remembrance/i,
       time: "10am service at Wallyford Community Church, 10.50am wreath laying",
       place: "War memorial, foot of St Clement's Crescent",
       link: link("wallyford/#remembering")
     });
     list.push({
       date: new Date(year, 10, 11), ends: 12,
-      title: "Armistice Day service",
+      title: "Armistice Day service", match: /armistice/i,
       time: "10.45am", place: "Crookston War Memorial, Inveresk Cemetery",
       link: link("wallyford/#remembering")
     });
     list.push({
       date: firstWeekday(year, 11, 5), ends: 22,
-      title: "Torchlight Parade and Christmas lights switch-on",
+      title: "Torchlight Parade and Christmas lights switch-on", match: /torchlight|lights switch/i,
       time: "6.30pm", place: "Starts at the Miners' Charitable Society Club car park",
       link: link("council/#torchlight-parade")
     });
     list.push({
       date: firstWeekday(year, 5, 6), ends: 18,
-      title: "Wallyford Gala Day",
+      title: "Wallyford Gala Day", match: /\bgala\b/i,
       time: "", place: "",
       link: ""
     });
     list.push({
       date: new Date(year, 8, 10), ends: 15,
-      title: "Battle of Pinkie commemoration",
+      title: "Battle of Pinkie commemoration", match: /pinkie/i,
       time: "1pm", place: "Pinkie Cleugh memorial stone, off Salters Road",
       link: link("wallyford/#pinkie")
     });
@@ -451,7 +452,7 @@
       var d = parseDate(o.date);
       if (!d || !o.title) continue;
       out.push({
-        date: d, ends: 23, title: o.title, time: o.time || "", place: o.place || "",
+        date: d, ends: 23, title: o.title, time: niceTime(o.time), place: o.place || "",
         // Only ordinary web links, so nothing odd typed in the sheet can run.
         link: /^https?:\/\//i.test(o.link || "") ? o.link : ""
       });
@@ -459,13 +460,62 @@
     return out;
   }
 
+  // Sheet times are often typed as 18:30 or 18:30:00; show them the way the
+  // rest of the site does (6.30pm, 10am). Anything else is shown as typed.
+  function niceTime(t) {
+    t = (t || "").trim();
+    var m = t.match(/^(\d{1,2})[:.](\d{2})(?::\d{2})?$/);
+    if (!m || +m[1] > 23) return t;
+    var h = +m[1], mins = m[2];
+    var suffix = h < 12 ? "am" : "pm";
+    h = h % 12 || 12;
+    return h + (mins === "00" ? "" : "." + mins) + suffix;
+  }
+
+  function sameText(a, b) {
+    var norm = function (s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g, ""); };
+    return norm(a) === norm(b);
+  }
+
+  // Put the sheet's dates together with the regular ones without showing
+  // anything twice:
+  // - A sheet row for an event that's also worked out automatically (e.g. a
+  //   Community Council meeting) replaces the automatic one for that month.
+  //   That's how to move a date or change its details. Blank time, place or
+  //   link are filled in from the automatic one.
+  // - The same event typed twice on the same day only shows once.
+  function mergeEvents(regular, extra) {
+    var out = [];
+    var replaced = [];
+    extra.forEach(function (e) {
+      var dupe = out.some(function (x) { return sameDay(x.date, e.date) && sameText(x.title, e.title); });
+      if (dupe) return;
+      regular.forEach(function (r, i) {
+        if (replaced[i] || !r.match || !r.match.test(e.title)) return;
+        if (r.date.getFullYear() !== e.date.getFullYear() || r.date.getMonth() !== e.date.getMonth()) return;
+        replaced[i] = true;
+        e.time = e.time || r.time;
+        e.place = e.place || r.place;
+        e.link = e.link || r.link;
+        e.ends = Math.min(e.ends, r.ends);
+      });
+      out.push(e);
+    });
+    return regular.filter(function (r, i) { return !replaced[i]; }).concat(out);
+  }
+
   function initComingUp() {
     var box = document.getElementById("coming-up");
-    if (!box) return;
+    var year = document.getElementById("whats-on");
+    if (!box && !year) return;
     var now = new Date();
     var regular = regularEvents(now.getFullYear()).concat(regularEvents(now.getFullYear() + 1));
+    var show = function (events) {
+      if (box) renderComingUp(box, events, now);
+      if (year) renderWhatsOn(year, events, now);
+    };
     // Show the regular dates straight away, then add the sheet's dates when they arrive.
-    renderComingUp(box, regular, now);
+    show(regular);
     var url = cfg.eventsUrl && String(cfg.eventsUrl).trim();
     if (!url) return;
     fetch(url, { cache: "no-cache" })
@@ -476,29 +526,32 @@
       .then(function (text) {
         if (/^\s*</.test(text)) throw new Error("Expected CSV, got HTML");
         var extra = sheetEvents(parseCSV(text));
-        if (extra.length) renderComingUp(box, regular.concat(extra), now);
+        if (extra.length) show(mergeEvents(regular, extra));
       })
       .catch(function () { /* keep showing the regular dates */ });
   }
 
-  function renderComingUp(box, events, now) {
-    var all = events
+  // Events that haven't finished yet, soonest first.
+  function upcoming(events, now) {
+    return events
       .filter(function (e) { return atTime(e.date, e.ends) >= now; })
-      .sort(function (a, b) { return a.date - b.date; })
-      .slice(0, +(box.getAttribute("data-count") || 4));
-    if (!all.length) return;
+      .sort(function (a, b) { return (a.date - b.date) || a.title.localeCompare(b.title); });
+  }
 
-    var dayFmt = new Intl.DateTimeFormat("en-GB", { weekday: "short" });
-    var monFmt = new Intl.DateTimeFormat("en-GB", { month: "short" });
+  var evDayFmt = new Intl.DateTimeFormat("en-GB", { weekday: "short" });
+  var evMonFmt = new Intl.DateTimeFormat("en-GB", { month: "short" });
+  var evMonthFmt = new Intl.DateTimeFormat("en-GB", { month: "long", year: "numeric" });
+
+  function eventList(events, now) {
     var list = make("ul", "events");
-    all.forEach(function (e) {
+    events.forEach(function (e) {
       var li = make("li", "event");
       var inner = e.link ? make("a", "event-inner") : make("div", "event-inner");
       if (e.link) inner.href = e.link;
       var badge = make("span", "event-date");
-      badge.appendChild(make("span", "event-day", sameDay(e.date, now) ? "Today" : dayFmt.format(e.date)));
+      badge.appendChild(make("span", "event-day", sameDay(e.date, now) ? "Today" : evDayFmt.format(e.date)));
       badge.appendChild(make("span", "event-num", String(e.date.getDate())));
-      badge.appendChild(make("span", "event-mon", monFmt.format(e.date)));
+      badge.appendChild(make("span", "event-mon", evMonFmt.format(e.date)));
       var text = make("span", "event-text");
       text.appendChild(make("span", "event-title", e.title));
       var detail = [e.time, e.place].filter(Boolean).join(" \u00b7 ");
@@ -508,8 +561,36 @@
       li.appendChild(inner);
       list.appendChild(li);
     });
+    return list;
+  }
+
+  // Home page: the next few dates.
+  function renderComingUp(box, events, now) {
+    var all = upcoming(events, now).slice(0, +(box.getAttribute("data-count") || 4));
+    if (!all.length) return;
     box.innerHTML = "";
-    box.appendChild(list);
+    box.appendChild(eventList(all, now));
+  }
+
+  // What's on page: everything in the next twelve months, a heading per month.
+  function renderWhatsOn(box, events, now) {
+    var until = new Date(now.getFullYear() + 1, now.getMonth(), now.getDate());
+    var all = upcoming(events, now).filter(function (e) { return e.date < until; });
+    if (!all.length) return;
+    var months = [];
+    all.forEach(function (e) {
+      var key = e.date.getFullYear() * 12 + e.date.getMonth();
+      var last = months[months.length - 1];
+      if (!last || last.key !== key) months.push(last = { key: key, date: e.date, events: [] });
+      last.events.push(e);
+    });
+    box.innerHTML = "";
+    months.forEach(function (m) {
+      var section = make("section", "whats-on-month");
+      section.appendChild(make("h2", "whats-on-heading", evMonthFmt.format(m.date)));
+      section.appendChild(eventList(m.events, now));
+      box.appendChild(section);
+    });
   }
 
   /* ---------------- 5. Back to top ---------------- */
