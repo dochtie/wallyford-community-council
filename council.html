@@ -82,14 +82,13 @@ description: What Wallyford Community Council does, who we are, when we meet, th
             <p>{{ person.blurb }}</p>
           {% endif %}
           {%- comment -%} Draft note asking only for what's still missing. {%- endcomment -%}
-          {% if person.blurb and person.photo %}
-          {% elsif person.photo %}
-            {% include review.html type="todo" text="A line or two about yourself." %}
-          {% elsif person.blurb %}
-            {% include review.html type="todo" text="A photo." %}
-          {% else %}
-            {% include review.html type="todo" text="Photo and a line or two about yourself." %}
-          {% endif %}
+          {%- if person.vacant -%}{%- assign ask = "Can you send me" -%}{%- else -%}{%- capture ask %}{{ words[0] }}, can you send me{% endcapture -%}{%- endif -%}
+          {%- if person.blurb and person.photo -%}{%- assign missing = "" -%}
+          {%- elsif person.photo -%}{%- assign missing = " a line or two about yourself?" -%}
+          {%- elsif person.blurb -%}{%- assign missing = " a photo?" -%}
+          {%- else -%}{%- assign missing = " a photo and a line or two about yourself?" -%}
+          {%- endif %}
+          {% if missing != "" %}{% assign note = ask | append: missing %}{% include review.html type="todo" text=note %}{% endif %}
         </article>
       {% endfor %}
     </div>
@@ -104,7 +103,7 @@ description: What Wallyford Community Council does, who we are, when we meet, th
       <p>We meet at <strong>{{ site.meeting_time }}</strong> on the <strong>last Wednesday of every month</strong>, except July and December, in the <strong>{{ site.meeting_place }}</strong>.</p>
       <p><strong>Way in:</strong> {{ site.meeting_way_in }}</p>
       <p>All our meetings are held in public, and residents are welcome to come along. You don't need to book. If you'd like to raise something, it helps to <a href="mailto:{{ site.email }}">email us</a> beforehand so we can put it on the agenda.</p>
-      {% include review.html type="todo" text="Where people can find agendas and minutes (Facebook, email list, or add them to this site)." %}
+      {% include review.html type="todo" text="Where should people find agendas and minutes? Facebook, email, or on here?" %}
     </div>
     <figure class="figure">
       <img src="{{ '/assets/img/leisure-entrance.jpg' | relative_url }}" alt="The Sports and Leisure Entrance of the Wallyford Learning Campus, with the campus direction sign in front" width="1000" height="721" loading="lazy">
@@ -122,7 +121,7 @@ description: What Wallyford Community Council does, who we are, when we meet, th
       <p>The Torchlight Parade is the biggest night in our calendar. On the first Friday of December, the parade sets off at 6.30pm from the Wallyford Miners' Charitable Society Club car park and, led by the Preston Lodge High School Pipe Band, makes its way up Salters Road to the Miners' Stone.</p>
       <p>There we hold a short Christmas service with carol singing and lay a floral tribute to remember the 37 miners lost in Wallyford's pits. Then the Gala King and Queen switch on the village Christmas lights for the festive season.</p>
       <p>The lights and the parade are paid for by our fundraising throughout the year.</p>
-      {% include review.html type="todo" text="How people can help: volunteering on the night, donating, or sponsoring the lights." %}
+      {% include review.html type="todo" text="How can people help on the night? Volunteering, donating, sponsoring the lights?" %}
     </div>
     <div>
       <figure class="figure">
@@ -168,7 +167,7 @@ description: What Wallyford Community Council does, who we are, when we meet, th
           <p>News, updates and reminders in our <a href="{{ site.facebook_url }}">Facebook group</a>.</p>
         {% else %}
           <p>News, updates and reminders in our Facebook group.</p>
-          {% include review.html type="todo" text="Facebook group link." %}
+          {% include review.html type="todo" text="Need to add the Facebook group link." %}
         {% endif %}
       </div>
       <div class="card">
