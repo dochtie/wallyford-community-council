@@ -7,9 +7,10 @@
     {% include review.html type="todo" text="Add real groups in _data/groups.yml. This is a placeholder." %}
   {%- endif %}
   <h3>{% if g.link and g.link != "" %}<a href="{{ g.link }}">{{ g.name }}</a>{% else %}{{ g.name }}{% endif %}</h3>
-  {% if g.about and g.about != "" %}<p class="mb-0">{{ g.about }}</p>{% endif %}
+  {% if g.about and g.about != "" %}<p class="mb-0">{{ g.about }}{% if g.check and g.check != "" %} {% include review.html type="check" text=g.check %}{% endif %}</p>{% endif %}
   {% if g.area and g.area != "" %}<p class="muted mb-0">{{ g.area }}</p>{% endif %}
-  {% if g.contact and g.contact != "" %}<p class="mb-0">Contact: {{ g.contact }}</p>{% endif %}
+  {%- assign contact_words = g.contact | split: " " | size %}
+  {% if g.contact and g.contact != "" %}<p class="mb-0">Contact: {% if g.contact contains "@" and contact_words == 1 %}<a href="mailto:{{ g.contact }}">{{ g.contact }}</a>{% else %}{{ g.contact }}{% endif %}</p>{% endif %}
   {%- unless g.placeholder or g.contact != "" or g.link != "" %}
   {% include review.html type="todo" text="Add a contact or a link, such as the group's Facebook page." %}
   {%- endunless %}
