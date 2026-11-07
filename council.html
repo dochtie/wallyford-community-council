@@ -80,6 +80,13 @@ description: What Wallyford Community Council does, who we are, when we meet, th
           <p class="role">{{ person.role }}</p>
           {% if person.blurb %}
             <p>{{ person.blurb }}</p>
+          {% endif %}
+          {%- comment -%} Draft note asking only for what's still missing. {%- endcomment -%}
+          {% if person.blurb and person.photo %}
+          {% elsif person.photo %}
+            {% include review.html type="todo" text="A line or two about yourself." %}
+          {% elsif person.blurb %}
+            {% include review.html type="todo" text="A photo." %}
           {% else %}
             {% include review.html type="todo" text="Photo and a line or two about yourself." %}
           {% endif %}
