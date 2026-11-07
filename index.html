@@ -31,7 +31,7 @@ description: Wallyford Community Council. Meetings, reporting problems, local hi
         <h2 class="card-kicker">Coming up</h2>
         <div id="coming-up" data-count="4">
           <ul class="events-fallback">
-            <li><strong>Community council meetings:</strong> {{ site.meeting_rule | downcase }}, {{ site.meeting_time }}, {{ site.meeting_place }}.</li>
+            <li><strong>Community Council meetings:</strong> {{ site.meeting_rule | downcase }}, {{ site.meeting_time }}, {{ site.meeting_place }}.</li>
             <li><strong>Torchlight Parade:</strong> first Friday in December, 6.30pm.</li>
           </ul>
         </div>
@@ -68,30 +68,7 @@ description: Wallyford Community Council. Meetings, reporting problems, local hi
   </div>
 </section>
 
-{% assign latest = site.posts | first %}
-{% if latest %}
 <section class="section">
-  <div class="wrap split">
-    <div>
-      <p class="eyebrow">Latest news</p>
-      <h2><a class="plain-link" href="{{ latest.url | relative_url }}">{{ latest.title }}</a></h2>
-      <p class="muted">{{ latest.date | date: "%-d %B %Y" }}</p>
-      <p>{{ latest.summary }}</p>
-      <div class="btn-row">
-        <a class="btn btn-dark" href="{{ latest.url | relative_url }}">Read more</a>
-        <a class="btn btn-ghost" style="color:var(--ink)" href="{{ '/news/' | relative_url }}">All news</a>
-      </div>
-    </div>
-    {% if latest.image %}
-    <figure class="figure">
-      <img src="{{ latest.image | relative_url }}" alt="{{ latest.image_alt }}" loading="lazy">
-    </figure>
-    {% endif %}
-  </div>
-</section>
-{% endif %}
-
-<section class="section section-paper">
   <div class="wrap split">
     <div>
       <p class="eyebrow">About Wallyford</p>
@@ -112,12 +89,12 @@ description: Wallyford Community Council. Meetings, reporting problems, local hi
     <div class="section-head">
       <p class="eyebrow" style="color:var(--brass-light)">Get involved</p>
       <h2>Your village, your say</h2>
-      <p>Community council meetings are open to everyone. Come along, ask a question, or just listen in. You can also get in touch any time.</p>
+      <p>Community Council meetings are open to everyone. Come along, ask a question, or just listen in. You can also get in touch any time.</p>
     </div>
     <div class="btn-row">
       <a class="btn btn-primary" href="mailto:{{ site.email }}">Email us</a>
       {% if site.facebook_url != "" %}<a class="btn btn-ghost" href="{{ site.facebook_url }}">Join our Facebook group</a>{% endif %}
-      <a class="btn btn-ghost" href="{{ '/council/#get-involved' | relative_url }}">Become a community councillor</a>
+      <a class="btn btn-ghost" href="{{ '/council/#get-involved' | relative_url }}">Join the Community Council</a>
     </div>
     {% if site.facebook_url == "" %}{% include review.html type="todo" text="A 'Join our Facebook group' button appears here once facebook_url is set in _config.yml." %}{% endif %}
   </div>

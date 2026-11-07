@@ -29,18 +29,26 @@ meeting_place: "Assembly Hall, Wallyford Learning Campus"
 meeting_way_in: "Come in through the Leisure entrance, by the car park."
 meeting_rule: "Last Wednesday of every month, except July and December"
 
-# "You said, we did" tracker.
-# In the Google Sheet: File > Share > Publish to web > Tracker tab > CSV.
-# Paste the link between the quotes. While it is empty (and draft mode
-# is on) the page shows a labelled preview from assets/data/tracker-preview.csv.
+# The website sheet in Google Drive: "Wallyford CC - Website updates".
+# It is published with File > Share > Publish to web > Entire document,
+# so every tab has its own CSV link: the same link with a different gid.
+# While a link is empty (and draft mode is on) the page shows a labelled
+# preview from the assets/data folder instead.
+
+# Tracker tab: the "You said, we did" page and the home page updates.
 tracker_csv_url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRhLqQXUZWSXX9WMuhjoLAvN9B2GUNI3OXTp7LB90Bueh7ppSRrnt8P-RbpYSKymi3hFJwz1RM0faPn/pub?gid=0&single=true&output=csv"
 
-# Community Speedwatch results.
-# In the Google Sheet: File > Share > Publish to web > Results tab > CSV.
-# Paste the link between the quotes. While it is empty (and draft mode
-# is on) the Speedwatch page shows example figures from
-# assets/data/speedwatch-preview.csv, clearly labelled as examples.
-speedwatch_csv_url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRzqNjkyAlQKOKbo7DR9slFmBGY8o5Upr4oc-ROvGqI5xeY_J2i2zTtmKkSz4cSpoDgKpcfMudWRoVf/pub?gid=884708559&single=true&output=csv"
+# Upcoming dates tab: one-off dates in the home page "Coming up" box.
+# (Meetings, Remembrance, the Torchlight Parade, Gala Day and the Pinkie
+# commemoration are added automatically.)
+events_csv_url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRhLqQXUZWSXX9WMuhjoLAvN9B2GUNI3OXTp7LB90Bueh7ppSRrnt8P-RbpYSKymi3hFJwz1RM0faPn/pub?gid=1388422878&single=true&output=csv"
+
+# Speedwatch tab: results for the counter on the Speedwatch page.
+speedwatch_csv_url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRhLqQXUZWSXX9WMuhjoLAvN9B2GUNI3OXTp7LB90Bueh7ppSRrnt8P-RbpYSKymi3hFJwz1RM0faPn/pub?gid=416366346&single=true&output=csv"
+
+# Show the Speedwatch results counter. It's switched off for now:
+# change to true to put it back on the Speedwatch page.
+speedwatch_show_results: false
 
 # Google Search Console: paste the code from Google's "HTML tag"
 # verification between the quotes (just the code, e.g. "abc123...").
@@ -50,16 +58,6 @@ google_site_verification: ""
 # visible on the pages, and search engines are asked not to list the
 # site. Set to false before the site goes public.
 show_review_notes: true
-
-# News posts live in the _posts folder (one Markdown file per post,
-# named like 2026-10-28-agm.md). Their web addresses look like
-# /news/2026/10/28/agm/
-defaults:
-  - scope:
-      type: posts
-    values:
-      layout: post
-      permalink: /news/:year/:month/:day/:title/
 
 exclude:
   - README.md

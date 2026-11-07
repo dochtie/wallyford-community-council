@@ -22,7 +22,7 @@
   <link rel="canonical" href="{{ page_url }}">
   <meta property="og:site_name" content="{{ site.title | escape }}">
   <meta property="og:locale" content="en_GB">
-  <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+  <meta property="og:type" content="website">
   <meta property="og:title" content="{{ page_title | escape }}">
   <meta property="og:description" content="{{ page_desc | escape }}">
   <meta property="og:url" content="{{ page_url }}">
@@ -55,7 +55,7 @@
       speedwatchSampleUrl: {{ '/assets/data/speedwatch-preview.csv' | relative_url | jsonify }},
       draft: {{ site.show_review_notes | jsonify }},
       base: {{ '/' | relative_url | jsonify }},
-      events: {{ site.data.events | jsonify }}
+      eventsUrl: {{ site.events_csv_url | jsonify }}
     };
   </script>
   <script src="{{ '/assets/js/site.js' | relative_url }}?v={{ asset_version }}" defer></script>

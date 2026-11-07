@@ -7,13 +7,12 @@ A simple website for Wallyford Community Council, built with [Jekyll](https://je
 | Page | File |
 | --- | --- |
 | Home | `index.html` |
-| News (list and posts) | `news.html`, posts in `_posts/` |
 | History (village history, mining, the Bing, the Drift) | `wallyford.html` |
-| The Council (remit, who we are, meetings, Torchlight Parade) | `council.html` |
-| Local groups (TRAs, Neighbourhood Watch) | `groups.html` |
+| The Community Council (remit, who we are, meetings, Torchlight Parade) | `council.html` |
+| Local groups (community groups, TRAs, Neighbourhood Watch) | `groups.html` |
 | Report it | `report.html` |
 | You said, we did | `you-said-we-did.html` |
-| Community Speedwatch (results ticker, how it works, volunteering) | `speedwatch.html` |
+| Community Speedwatch (how it works, the four areas, volunteering) | `speedwatch.html` |
 
 ## Everyday updates (no coding needed)
 
@@ -24,65 +23,39 @@ You can edit any of these files on github.com: open the file, click the pencil i
 - **Contact details, Facebook link, meeting details:** `_config.yml`
 - **Councillors (names, roles, photos, blurbs):** `_data/councillors.yml`. Put photos in `assets/img/people/` and add the file name to `photo:`.
 - **Local groups:** `_data/groups.yml`
-- **News:** add a Markdown file to `_posts/`, named like `2026-11-30-christmas-lights.md`. Copy `_posts/2026-10-28-agm.md` as a starting point. The newest post appears on the home page automatically.
-- **Coming up (home page):** regular events (meetings, Remembrance Sunday, Armistice Day, Torchlight Parade, Gala Day, Pinkie commemoration) are worked out automatically. Add one-off events to `_data/events.yml`. Past events disappear by themselves.
+- **Coming up (home page):** regular events (meetings, Remembrance Sunday, Armistice Day, Torchlight Parade, Gala Day, Pinkie commemoration) are worked out automatically. Add anything else to the **Upcoming dates** tab of the website sheet (see below). Past events disappear by themselves.
 - **Ward councillors (Report it page):** `_data/ward_councillors.yml`. Check after each council election.
-- **You said, we did:** you don't edit the website at all. Update the Google Sheet and the page picks up the changes (see below).
-- **Speedwatch results:** the same. Add a row to the Speedwatch results sheet after each session (see below).
+- **You said, we did, Upcoming dates and Speedwatch results:** you don't edit the website at all. Update the website sheet and the pages pick up the changes (see below).
 - **Speedwatch areas (Up and running / Getting set up):** `_data/speedwatch.yml`. When Wallyford's scheme starts, change its status to `Up and running`.
 
-## You said, we did
+## The website sheet
 
-The page reads a Google Sheet published as CSV.
+One Google Sheet in Drive, *Wallyford CC - Website updates*, feeds three parts of the site. Its **How to use** tab explains every column.
 
-1. Open the tracker sheet in Google Drive (*Wallyford CC - You said, we did tracker*). Its **How to use** tab explains each column.
-2. In the sheet: **File > Share > Publish to web**. Under *Link*, choose the **Tracker** tab and **Comma-separated values (.csv)**, then **Publish**.
-3. Copy the link and paste it into `tracker_csv_url` in `_config.yml`.
+| Tab | Shows on | What to add |
+| --- | --- | --- |
+| **Tracker** | *You said, we did*, and the latest three on the home page | An issue residents raised and what the Community Council did |
+| **Upcoming dates** | The *Coming up* box on the home page | One-off dates: date, time, event, place and an optional link |
+| **Speedwatch** | The Speedwatch page (results counter is switched off for now) | One row per Speedwatch session |
 
-Only rows with **Show on website** ticked appear. The page lists ongoing entries first and done ones after, each with the most recently updated at the top.
+Only rows with **Show on website** ticked appear. The website reads the sheet each time someone opens a page, and Google can take up to 5 minutes to pass on changes.
 
-**Automatic "Last updated" (recommended):** paste `tools/tracker-auto-date.gs` into the sheet once (Extensions > Apps Script, paste, Save). After that, editing "You said", "We did", "Status" or "Show on website" sets "Last updated" to today, so edited entries move to the top by themselves.
+The sheet is published with **File > Share > Publish to web > Entire document**, so any tab you add is public too. Each tab's CSV link is in `_config.yml` (`tracker_csv_url`, `events_csv_url`, `speedwatch_csv_url`): they're the same published link with a different `gid` number. Don't stop publishing the sheet, or the lists on the website will go blank.
 
-Never put residents' names or contact details in the sheet: everything on the Tracker tab is public once published.
+Never put residents' names or contact details, vehicle registrations or volunteers' names in the sheet.
 
-Until a link is added, the page shows a labelled preview from `assets/data/tracker-preview.csv` (in draft mode only).
+If you ever make a new sheet, keep the same column headings and set **File > Settings > Locale** to *United Kingdom*, so dates are read as day/month.
 
-## Community Speedwatch results
+**You said, we did:** the page lists **Completed** entries first, then everything still ongoing, each with the most recently updated at the top. (Older rows marked *Done* show as *Completed*.) For an automatic "Last updated" date, paste `tools/tracker-auto-date.gs` into the sheet once (Extensions > Apps Script, paste, Save). After that, editing "You said", "We did", "Status" or "Show on website" sets "Last updated" to today.
 
-The Speedwatch page shows a running total (vehicles checked, how many were over the limit, and the share who kept to the limit) as rolling odometer-style counters, plus a list of recent sessions. Like *You said, we did*, it reads a Google Sheet published as CSV.
+**Speedwatch:** the results counter is switched off. To put it back, set `speedwatch_show_results: true` in `_config.yml`. It then shows running totals (vehicles checked, how many were over the limit, and the share who kept to the limit) as rolling odometer-style counters, plus a list of recent sessions. Until there are results, the counters spin with a "No results yet" message.
 
-**Connecting the sheet (once):**
-
-1. Open the results sheet in Google Drive (*Wallyford CC - Community Speedwatch results*). Its **How to use** tab explains each column. The **Results** tab has these columns, with dropdowns for Area and Speed limit and a checkbox for Show on website:
-
-   | Date | Area | Location | Speed limit (mph) | Vehicles checked | Over the limit | Note for website | Show on website |
-   | --- | --- | --- | --- | --- | --- | --- | --- |
-
-2. In the sheet: **File > Share > Publish to web**. Under *Link*, choose the **Results** tab and **Comma-separated values (.csv)**, then **Publish**.
-3. Copy the link and paste it into `speedwatch_csv_url` in `_config.yml`.
-
-If you ever make a new sheet instead, keep the same column headings and set **File > Settings > Locale** to *United Kingdom*, so dates are read as day/month.
-
-**After each session**, add one row:
-
-- **Date:** type it as 4/11/2026.
-- **Area** and **Location:** for example *Wallyford* and *Salters Road*.
-- **Speed limit (mph):** just the number, for example 30.
-- **Vehicles checked:** every vehicle the device recorded.
-- **Over the limit:** the number of vehicles passed to Police Scotland.
-- **Note for website** (optional): a short public note, for example a thank-you.
-- Tick **Show on website**.
-
-Only rows with **Show on website** ticked are counted. The area buttons on the page appear by themselves once there are results from more than one area.
-
-Never put registration numbers, descriptions of vehicles or drivers, or volunteers' names in this sheet: everything on the Results tab is public once published.
-
-Until a link is added, the page shows clearly labelled example figures from `assets/data/speedwatch-preview.csv` (in draft mode only). While results are loading, or when the sheet has no rows yet, the counters spin with a "No results yet" message.
+While a sheet link is empty and draft mode is on, the pages show clearly labelled previews from `assets/data/tracker-preview.csv` and `assets/data/speedwatch-preview.csv`.
 
 ## Before going live
 
-- Set `show_review_notes: false` in `_config.yml`. This hides the purple "Please check" and "To fill in" notes, which are there for the council to work through.
-- Add the Facebook group link, the tracker link, the Speedwatch results link, councillor photos and blurbs, and local group details.
+- Set `show_review_notes: false` in `_config.yml`. This hides the purple "Please check" and "To fill in" notes, which are there for the Community Council to work through.
+- Add councillor photos and blurbs, and contact details or links for the local groups.
 - Check that you have permission to use every photo.
 
 ## Getting on Google
