@@ -44,7 +44,8 @@ tras:
 
 # Schemes registered with Neighbourhood Watch Scotland. The streets were
 # matched against each scheme's map on the Neighbourhood Watch Scotland
-# scheme lookup. The link opens the scheme's page, where people can join.
+# scheme lookup and confirmed by the council. The link opens the scheme's
+# page, where people can join.
 neighbourhood_watches:
   - name: "St Clements Wells, Ravensheugh"
     area: "Laing Loan, Laing Park, Colliers Row, Colliers Park and part of Masons Way"
