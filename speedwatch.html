@@ -3,7 +3,7 @@ layout: default
 title: Community Speedwatch
 nav: speedwatch
 permalink: /speedwatch/
-description: Community Speedwatch in Wallyford, Inveresk, Carberry and Whitecraig. Trained local volunteers checking traffic speeds in support of Police Scotland, with the latest results and how to volunteer.
+description: Community Speedwatch in Wallyford, Inveresk, Carberry and Whitecraig. Trained local volunteers checking traffic speeds in support of Police Scotland, and how to volunteer.
 ---
 
 <header class="page-head">
@@ -18,7 +18,9 @@ description: Community Speedwatch in Wallyford, Inveresk, Carberry and Whitecrai
 <nav class="jump-bar" aria-label="On this page">
   <div class="wrap">
     <ul class="jump">
+      {%- if site.speedwatch_show_results %}
       <li><a href="#results">Results</a></li>
+      {%- endif %}
       <li><a href="#how-it-works">How it works</a></li>
       <li><a href="#where">Where</a></li>
       <li><a href="#volunteer">Volunteer</a></li>
@@ -26,6 +28,7 @@ description: Community Speedwatch in Wallyford, Inveresk, Carberry and Whitecrai
   </div>
 </nav>
 
+{% if site.speedwatch_show_results %}
 <section class="section" id="results">
   <div class="wrap">
     <div class="section-head">
@@ -39,20 +42,14 @@ description: Community Speedwatch in Wallyford, Inveresk, Carberry and Whitecrai
     </div>
   </div>
 </section>
+{% endif %}
 
 <section class="section section-paper" id="how-it-works">
   <div class="wrap">
-    <div class="split">
-      <div class="prose">
+    <div class="prose">
         <h2>Why Speedwatch?</h2>
         <p>Speeding is one of the concerns raised most often at Community and Police Partnership meetings, where we take local issues to Police Scotland. It affects quality of life right across East Lothian.</p>
         <p>Road safety is a priority for Police Scotland. Officers focus their speed enforcement on the roads where it will do most to prevent injuries, so quieter village streets don't always get regular checks. The police still respond to community concerns, and Community Speedwatch lets local people keep an eye on the streets that matter to us, in support of the police.</p>
-      </div>
-      <div class="card">
-        <h3>Not about catching people out</h3>
-        <p>Speedwatch is neighbours reminding neighbours to slow down, and showing that speeding matters to the people who live here.</p>
-        <p>Volunteers simply record what they see and pass the details to Police Scotland, who decide what happens next.</p>
-      </div>
     </div>
 
     <h3 class="csw-how-title">How it works</h3>

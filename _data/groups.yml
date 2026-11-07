@@ -1,6 +1,20 @@
 # Local groups shown on the Local groups page.
 # Copy an entry and fill in what you have. Any line can be left blank.
-# Only publish a personal phone number or email with that person's OK.
+# about:   a line about what the group does
+# contact: how to get in touch (only publish a personal phone number or
+#          email with that person's OK)
+# link:    a web address, such as the group's website or Facebook page
+
+community:
+  - name: "Wallyford Children's Gala Day Committee"
+    about: "Organises Wallyford Children's Gala Day every June."
+    contact: ""
+    link: ""
+
+  - name: "Wallyford Community Church"
+    about: "Albert Place. Hosts the village's Remembrance Sunday service."
+    contact: ""
+    link: ""
 
 tras:
   - name: "TO DO: name of tenants' and residents' association"

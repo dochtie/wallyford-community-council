@@ -1,6 +1,6 @@
 {%- comment -%}
   Structured data (schema.org JSON-LD) so search engines know who we are.
-  Home page: the organisation and the website. News posts: the article.
+  Home page: the organisation and the website.
 {%- endcomment -%}
 {%- assign home = "/" | absolute_url -%}
 {%- assign org_id = home | append: "#organization" -%}
@@ -31,25 +31,6 @@
       "publisher": { "@id": {{ org_id | jsonify }} }
     }
   ]
-}
-</script>
-{%- elsif page.layout == "post" %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": {{ page.title | jsonify }},
-  "description": {{ page.summary | default: site.description | strip_newlines | strip | jsonify }},
-  "datePublished": {{ page.date | date_to_xmlschema | jsonify }},
-  "dateModified": {{ page.last_modified_at | default: page.date | date_to_xmlschema | jsonify }},
-  "mainEntityOfPage": {{ page.url | absolute_url | jsonify }},
-  "image": {{ page.image | default: "/assets/img/miners-stone.jpg" | absolute_url | jsonify }},
-  "author": { "@type": "Organization", "name": {{ site.title | jsonify }}, "url": {{ home | jsonify }} },
-  "publisher": {
-    "@type": "Organization",
-    "name": {{ site.title | jsonify }},
-    "logo": { "@type": "ImageObject", "url": {{ "/assets/img/logo-512.png" | absolute_url | jsonify }} }
-  }
 }
 </script>
 {%- endif -%}

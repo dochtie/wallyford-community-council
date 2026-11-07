@@ -163,7 +163,9 @@
       if (hasShow && !/^(true|yes|y|1|x)$/i.test(o.show || "")) continue;
       o.status = o.status || "New";
       o.statusKey = slug(o.status);
-      o.group = (o.statusKey === "done" || o.statusKey === "closed") ? "done" : "open";
+      // "Done" was renamed "Completed"; show older rows the new way too.
+      if (o.statusKey === "done") { o.status = "Completed"; o.statusKey = "completed"; }
+      o.group = (o.statusKey === "completed" || o.statusKey === "closed") ? "done" : "open";
       o.raisedDate = parseDate(o.raised);
       o.updatedDate = parseDate(o.updated) || o.raisedDate;
       o.row = r;
@@ -179,9 +181,9 @@
     return t || (b.row - a.row);
   }
 
-  // Full list: ongoing items first, then done/closed, each most recent first.
+  // Full list: completed/closed items first, then ongoing, each most recent first.
   function byGroupThenRecent(a, b) {
-    if (a.group !== b.group) return a.group === "open" ? -1 : 1;
+    if (a.group !== b.group) return a.group === "done" ? -1 : 1;
     return byRecent(a, b);
   }
 
@@ -277,7 +279,7 @@
       var open = items.filter(function (o) { return o.group === "open"; }).length;
       var done = items.length - open;
       summary.textContent = (shown.length === items.length ? items.length + " items" : "Showing " + shown.length + " of " + items.length + " items") +
-        ": " + open + " ongoing, " + done + " done.";
+        ": " + done + " completed, " + open + " ongoing.";
     }
 
     Array.prototype.forEach.call(chips, function (chip) {
@@ -360,7 +362,7 @@
       if (m === 6 || m === 11) continue;
       list.push({
         date: lastWeekday(year, m, 3), ends: 21,
-        title: "Community council meeting",
+        title: "Community Council meeting",
         time: "6.30pm", place: "Assembly Hall, Wallyford Learning Campus (Leisure entrance)",
         link: link("council/#meetings")
       });
@@ -401,22 +403,65 @@
     return list;
   }
 
-  function oneOffEvents() {
-    var raw = Array.isArray(cfg.events) ? cfg.events : [];
-    return raw.map(function (e) {
-      var d = parseDate(String(e.date || ""));
-      if (!d) return null;
-      return { date: d, ends: 23, title: e.title || "", time: e.time || "", place: e.place || "", link: e.link || "" };
-    }).filter(function (e) { return e && e.title; });
+  // Column headings on the "Upcoming dates" tab -> field names used here.
+  var EVENT_COLUMNS = {
+    date: "date",
+    time: "time",
+    event: "title",
+    place: "place",
+    link: "link",
+    showonwebsite: "show"
+  };
+
+  // One-off dates from the "Upcoming dates" tab of the website sheet.
+  function sheetEvents(rows) {
+    if (!rows.length) return [];
+    var keys = rows[0].map(function (h) {
+      return EVENT_COLUMNS[h.toLowerCase().replace(/[^a-z]/g, "")] || null;
+    });
+    var hasShow = keys.indexOf("show") !== -1;
+    var out = [];
+    for (var r = 1; r < rows.length; r++) {
+      var o = {};
+      for (var k = 0; k < keys.length; k++) {
+        if (keys[k]) o[keys[k]] = (rows[r][k] || "").trim();
+      }
+      if (hasShow && !/^(true|yes|y|1|x)$/i.test(o.show || "")) continue;
+      var d = parseDate(o.date);
+      if (!d || !o.title) continue;
+      out.push({
+        date: d, ends: 23, title: o.title, time: o.time || "", place: o.place || "",
+        // Only ordinary web links, so nothing odd typed in the sheet can run.
+        link: /^https?:\/\//i.test(o.link || "") ? o.link : ""
+      });
+    }
+    return out;
   }
 
   function initComingUp() {
     var box = document.getElementById("coming-up");
     if (!box) return;
     var now = new Date();
-    var all = regularEvents(now.getFullYear())
-      .concat(regularEvents(now.getFullYear() + 1))
-      .concat(oneOffEvents())
+    var regular = regularEvents(now.getFullYear()).concat(regularEvents(now.getFullYear() + 1));
+    // Show the regular dates straight away, then add the sheet's dates when they arrive.
+    renderComingUp(box, regular, now);
+    var url = cfg.eventsUrl && String(cfg.eventsUrl).trim();
+    if (!url) return;
+    fetch(url, { cache: "no-cache" })
+      .then(function (res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.text();
+      })
+      .then(function (text) {
+        if (/^\s*</.test(text)) throw new Error("Expected CSV, got HTML");
+        var extra = sheetEvents(parseCSV(text));
+        if (extra.length) renderComingUp(box, regular.concat(extra), now);
+      })
+      .catch(function () { /* keep showing the regular dates */ });
+  }
+
+  function renderComingUp(box, events, now) {
+    var all = events
       .filter(function (e) { return atTime(e.date, e.ends) >= now; })
       .sort(function (a, b) { return a.date - b.date; })
       .slice(0, +(box.getAttribute("data-count") || 4));

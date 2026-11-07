@@ -3,7 +3,7 @@ layout: default
 title: Local groups
 nav: groups
 permalink: /groups/
-description: Tenants' and residents' associations, Neighbourhood Watch schemes and other groups working for Wallyford.
+description: The Gala committee, Wallyford Community Church, residents' associations, Neighbourhood Watch and other groups working for Wallyford.
 ---
 
 <header class="page-head">
@@ -15,7 +15,21 @@ description: Tenants' and residents' associations, Neighbourhood Watch schemes a
 </header>
 <div class="strata" aria-hidden="true"></div>
 
-<section class="section" id="tras">
+<section class="section" id="community-groups">
+  <div class="wrap split">
+    <div class="prose">
+      <h2>Community groups</h2>
+      <p>The groups that bring the village together through the year, from the Gala to the church.</p>
+    </div>
+    <div class="group-list">
+      {% for g in site.data.groups.community %}
+        {% include group.html group=g %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section-paper" id="tras">
   <div class="wrap split">
     <div class="prose">
       <h2>Tenants' and residents' associations</h2>
@@ -29,7 +43,7 @@ description: Tenants' and residents' associations, Neighbourhood Watch schemes a
   </div>
 </section>
 
-<section class="section section-paper" id="neighbourhood-watch">
+<section class="section" id="neighbourhood-watch">
   <div class="wrap split">
     <div class="prose">
       <h2>Neighbourhood Watch</h2>
@@ -45,7 +59,7 @@ description: Tenants' and residents' associations, Neighbourhood Watch schemes a
   </div>
 </section>
 
-<section class="section" id="partnerships">
+<section class="section section-paper" id="partnerships">
   <div class="wrap">
     <div class="section-head">
       <h2>Wider partnerships</h2>
