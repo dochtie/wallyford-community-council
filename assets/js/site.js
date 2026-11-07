@@ -1,9 +1,10 @@
 /* Wallyford Community Council: small site helpers.
    1. Mobile menu
-   2. Torchlight Parade date
+   2. Date helpers
    3. "You said, we did" tracker, read from a published Google Sheet (CSV)
-   4. "Coming up" list of events (home page), the What's on page and the
-      "next meeting" dates, with meetings read from the website sheet
+   4. Dates from the "Upcoming dates" tab of the website sheet: the home page
+      "Coming up" box, the What's on page, and the "next meeting" and
+      Torchlight Parade dates
    5. Back to top button
    6. Community Speedwatch results, read from a published Google Sheet (CSV)
 */
@@ -32,23 +33,8 @@
   var fmtLong = new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
   var fmtShort = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric" });
 
-  function firstWeekday(year, month, weekday) {
-    var d = new Date(year, month, 1);
-    while (d.getDay() !== weekday) d.setDate(d.getDate() + 1);
-    return d;
-  }
-
   function sameDay(a, b) {
     return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
-  }
-
-  // First Friday of December.
-  function nextParade(now) {
-    var d = firstWeekday(now.getFullYear(), 11, 5);
-    var finished = new Date(d);
-    finished.setHours(22, 0, 0, 0);
-    if (finished < now) d = firstWeekday(now.getFullYear() + 1, 11, 5);
-    return d;
   }
 
   function fillDates(selector, date, now) {
@@ -58,11 +44,6 @@
       var prefix = nodes[i].getAttribute("data-prefix") || "";
       nodes[i].textContent = prefix + (sameDay(date, now) ? "Tonight, " + fmtLong.format(date) : fmtLong.format(date));
     }
-  }
-
-  function initDates() {
-    var now = new Date();
-    fillDates("[data-parade-date]", nextParade(now), now);
   }
 
   /* ---------------- 3. You said, we did ---------------- */
@@ -359,50 +340,16 @@
 
   function siteLink(path) { return (cfg.base || "/") + path; }
 
-  // Community Council meetings come from the "Upcoming dates" tab of the
-  // website sheet: any row whose event name says "Community Council meeting".
-  var MEETING = /community council meeting|\bcc meeting/i;
-
-  // Regular events, worked out for a given year. "match" spots the same
-  // event when it's also typed into the website sheet (see mergeEvents).
-  function regularEvents(year) {
-    var list = [];
-    var link = siteLink;
-    // Remembrance Sunday is the second Sunday in November.
-    var firstSunday = firstWeekday(year, 10, 0);
-    list.push({
-      date: new Date(year, 10, firstSunday.getDate() + 7), ends: 13,
-      title: "Remembrance Sunday", match: /remembrance/i,
-      time: "10am service at Wallyford Community Church, 10.50am wreath laying",
-      place: "War memorial, foot of St Clement's Crescent",
-      link: link("wallyford/#remembering")
-    });
-    list.push({
-      date: new Date(year, 10, 11), ends: 12,
-      title: "Armistice Day service", match: /armistice/i,
-      time: "10.45am", place: "Crookston War Memorial, Inveresk Cemetery",
-      link: link("wallyford/#remembering")
-    });
-    list.push({
-      date: firstWeekday(year, 11, 5), ends: 22,
-      title: "Torchlight Parade and Christmas lights switch-on", match: /torchlight|lights switch/i,
-      time: "6.30pm", place: "Starts at the Miners' Charitable Society Club car park",
-      link: link("council/#torchlight-parade")
-    });
-    list.push({
-      date: firstWeekday(year, 5, 6), ends: 18,
-      title: "Wallyford Gala Day", match: /\bgala\b/i,
-      time: "", place: "",
-      link: ""
-    });
-    list.push({
-      date: new Date(year, 8, 10), ends: 15,
-      title: "Battle of Pinkie commemoration", match: /pinkie/i,
-      time: "1pm", place: "Pinkie Cleugh memorial stone, off Salters Road",
-      link: link("wallyford/#pinkie")
-    });
-    return list;
-  }
+  // Every date comes from the "Upcoming dates" tab of the website sheet;
+  // nothing is worked out here. These only recognise some events by name
+  // so that, when the sheet has no link, they link to the right part of
+  // this site. "ends" is the hour after which the event counts as over.
+  var KNOWN_EVENTS = [
+    { key: "meeting", match: /community council meeting|\bcc meeting/i, link: "council/#meetings", ends: 21 },
+    { key: "parade", match: /torchlight/i, link: "council/#torchlight-parade", ends: 22 },
+    { key: "remembrance", match: /remembrance|armistice/i, link: "wallyford/#remembering", ends: 13 },
+    { key: "pinkie", match: /pinkie/i, link: "wallyford/#pinkie", ends: 15 }
+  ];
 
   // Column headings on the "Upcoming dates" tab -> field names used here.
   var EVENT_COLUMNS = {
@@ -414,7 +361,8 @@
     showonwebsite: "show"
   };
 
-  // One-off dates from the "Upcoming dates" tab of the website sheet.
+  // Dates from the "Upcoming dates" tab of the website sheet. The same
+  // event typed twice on the same day only shows once.
   function sheetEvents(rows) {
     if (!rows.length) return [];
     var keys = rows[0].map(function (h) {
@@ -430,13 +378,18 @@
       if (hasShow && !/^(true|yes|y|1|x)$/i.test(o.show || "")) continue;
       var d = parseDate(o.date);
       if (!d || !o.title) continue;
-      var meeting = MEETING.test(o.title);
+      var dupe = out.some(function (x) { return sameDay(x.date, d) && sameText(x.title, o.title); });
+      if (dupe) continue;
+      var known = null;
+      for (var j = 0; j < KNOWN_EVENTS.length && !known; j++) {
+        if (KNOWN_EVENTS[j].match.test(o.title)) known = KNOWN_EVENTS[j];
+      }
       // Only ordinary web links, so nothing odd typed in the sheet can run.
       var link = /^https?:\/\//i.test(o.link || "") ? o.link : "";
       out.push({
-        date: d, ends: meeting ? 21 : 23, title: o.title, time: niceTime(o.time), place: o.place || "",
-        link: link || (meeting ? siteLink("council/#meetings") : ""),
-        meeting: meeting
+        date: d, ends: known ? known.ends : 23, title: o.title, time: niceTime(o.time), place: o.place || "",
+        link: link || (known ? siteLink(known.link) : ""),
+        kind: known ? known.key : ""
       });
     }
     return out;
@@ -459,35 +412,9 @@
     return norm(a) === norm(b);
   }
 
-  // Put the sheet's dates together with the regular ones without showing
-  // anything twice:
-  // - A sheet row for an event that's also worked out automatically (e.g. a
-  //   Community Council meeting) replaces the automatic one for that month.
-  //   That's how to move a date or change its details. Blank time, place or
-  //   link are filled in from the automatic one.
-  // - The same event typed twice on the same day only shows once.
-  function mergeEvents(regular, extra) {
-    var out = [];
-    var replaced = [];
-    extra.forEach(function (e) {
-      var dupe = out.some(function (x) { return sameDay(x.date, e.date) && sameText(x.title, e.title); });
-      if (dupe) return;
-      regular.forEach(function (r, i) {
-        if (replaced[i] || !r.match || !r.match.test(e.title)) return;
-        if (r.date.getFullYear() !== e.date.getFullYear() || r.date.getMonth() !== e.date.getMonth()) return;
-        replaced[i] = true;
-        e.time = e.time || r.time;
-        e.place = e.place || r.place;
-        e.link = e.link || r.link;
-        e.ends = Math.min(e.ends, r.ends);
-      });
-      out.push(e);
-    });
-    return regular.filter(function (r, i) { return !replaced[i]; }).concat(out);
-  }
-
   // The "Upcoming dates" tab, fetched once per page and shared by the
-  // Coming up box, the What's on page and the "next meeting" dates.
+  // Coming up box, the What's on page and the "next meeting" and parade
+  // dates. Gives null if the sheet couldn't be loaded.
   var sheetPromise = null;
   function loadSheetEvents() {
     if (sheetPromise) return sheetPromise;
@@ -502,8 +429,13 @@
         if (/^\s*</.test(text)) throw new Error("Expected CSV, got HTML");
         return sheetEvents(parseCSV(text));
       })
-      .catch(function () { return []; });
+      .catch(function () { return null; });
     return sheetPromise;
+  }
+
+  function eventsMessage(box, text) {
+    box.innerHTML = "";
+    box.appendChild(make("p", "events-message", text));
   }
 
   function initComingUp() {
@@ -511,27 +443,32 @@
     var year = document.getElementById("whats-on");
     if (!box && !year) return;
     var now = new Date();
-    var regular = regularEvents(now.getFullYear()).concat(regularEvents(now.getFullYear() + 1));
-    var show = function (events) {
-      if (box) renderComingUp(box, events, now);
-      if (year) renderWhatsOn(year, events, now);
-    };
-    // Show the regular dates straight away, then add the sheet's dates when they arrive.
-    show(regular);
-    loadSheetEvents().then(function (extra) {
-      if (extra.length) show(mergeEvents(regular, extra));
+    [box, year].forEach(function (b) { if (b) eventsMessage(b, "Loading dates\u2026"); });
+    loadSheetEvents().then(function (events) {
+      [box, year].forEach(function (b) {
+        if (!b) return;
+        if (!events) return eventsMessage(b, "Sorry, we couldn't load the dates just now. Please try again later.");
+        var shown = b === box ? renderComingUp(b, events, now) : renderWhatsOn(b, events, now);
+        if (!shown) eventsMessage(b, "No dates listed just now. Check back soon.");
+      });
     });
   }
 
-  // "Next meeting" dates on the Council, Report it and You said, we did
-  // pages: the next meeting on the sheet. If there isn't one, the general
-  // wording (last Wednesday of every month...) stays.
-  function initNextMeeting() {
-    if (!document.querySelector("[data-next-meeting]")) return;
+  // "Next meeting" dates (Council, Report it and You said, we did pages)
+  // and the Torchlight Parade date (Council page): the next one on the
+  // sheet. If there isn't one, the general wording in the page stays.
+  function initSheetDates() {
+    var wanted = [["meeting", "[data-next-meeting]"], ["parade", "[data-parade-date]"]].filter(function (w) {
+      return document.querySelector(w[1]);
+    });
+    if (!wanted.length) return;
     var now = new Date();
     loadSheetEvents().then(function (events) {
-      var next = upcoming(events.filter(function (e) { return e.meeting; }), now)[0];
-      if (next) fillDates("[data-next-meeting]", next.date, now);
+      if (!events) return;
+      wanted.forEach(function (w) {
+        var next = upcoming(events.filter(function (e) { return e.kind === w[0]; }), now)[0];
+        if (next) fillDates(w[1], next.date, now);
+      });
     });
   }
 
@@ -571,16 +508,17 @@
   // Home page: the next few dates.
   function renderComingUp(box, events, now) {
     var all = upcoming(events, now).slice(0, +(box.getAttribute("data-count") || 4));
-    if (!all.length) return;
+    if (!all.length) return false;
     box.innerHTML = "";
     box.appendChild(eventList(all, now));
+    return true;
   }
 
   // What's on page: everything in the next twelve months, a heading per month.
   function renderWhatsOn(box, events, now) {
     var until = new Date(now.getFullYear() + 1, now.getMonth(), now.getDate());
     var all = upcoming(events, now).filter(function (e) { return e.date < until; });
-    if (!all.length) return;
+    if (!all.length) return false;
     var months = [];
     all.forEach(function (e) {
       var key = e.date.getFullYear() * 12 + e.date.getMonth();
@@ -595,6 +533,7 @@
       section.appendChild(eventList(m.events, now));
       box.appendChild(section);
     });
+    return true;
   }
 
   /* ---------------- 5. Back to top ---------------- */
@@ -1001,10 +940,9 @@
 
   function start() {
     initNav();
-    initDates();
     initTracker();
     initComingUp();
-    initNextMeeting();
+    initSheetDates();
     initToTop();
     initSpeedwatch();
   }

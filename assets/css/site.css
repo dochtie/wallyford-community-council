@@ -449,6 +449,7 @@ a.event-inner:hover .event-title { text-decoration: underline; }
 .event-detail { font-size: .95rem; color: var(--muted); line-height: 1.4; }
 .events-fallback { padding-left: 1.1em; margin: 0; }
 .js .events-fallback { display: none; }
+.events-message { color: var(--muted); margin: 0; }
 
 /* ---------- What's on page ---------- */
 @media (min-width: 860px) { .whats-on-layout { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); } }
