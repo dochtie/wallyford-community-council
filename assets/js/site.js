@@ -315,15 +315,14 @@
     render();
   }
 
-  // Home page: the three most recently updated issues still being worked on.
+  // Home page: the three most recently updated issues, ongoing or completed.
   function renderLatest(items, box) {
     box.innerHTML = "";
-    var ongoing = items.filter(function (o) { return o.group === "open"; });
-    if (!ongoing.length) {
-      box.appendChild(make("p", "ysd-empty", "Nothing ongoing right now. Check back soon."));
+    if (!items.length) {
+      box.appendChild(make("p", "ysd-empty", "No updates yet. Check back soon."));
       return;
     }
-    ongoing.slice(0, 3).forEach(function (o) { box.appendChild(renderItem(o)); });
+    items.slice(0, 3).forEach(function (o) { box.appendChild(renderItem(o)); });
   }
 
   function initTracker() {
