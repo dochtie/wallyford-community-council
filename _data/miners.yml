@@ -1,0 +1,46 @@
+# The miners who lost their lives in Wallyford's coal mines, typed exactly as
+# they appear on the two replica coal hutches beside the Miners' Stone.
+# Shown on the History page. Leave age blank where the plaque gives none.
+
+- plaque: "1857 to 1904"
+  miners:
+    - { date: "1857 August 31", name: "James Losh", age: "" }
+    - { date: "1859 December 15", name: "Charles Fyfe", age: "" }
+    - { date: "1860 April 11", name: "John Neill", age: "" }
+    - { date: "1860 July 11", name: "William Watters", age: "" }
+    - { date: "1861 August 24", name: "Wm Robertson", age: "" }
+    - { date: "1863 May 25", name: "William Howie", age: "34" }
+    - { date: "1869 May 6", name: "W. Wright", age: "39" }
+    - { date: "1890 October 4", name: "John Hughes", age: "39" }
+    - { date: "1891 October 23", name: "Robert Skirving", age: "24" }
+    - { date: "1896 January 17", name: "Adam McNeil", age: "34" }
+    - { date: "1896 February 19", name: "Joseph Queen", age: "17" }
+    - { date: "1897 May 7", name: "Robert Gordon", age: "18" }
+    - { date: "1901 January 21", name: "William Hamilton", age: "37" }
+    - { date: "1901 January 21", name: "Patrick Hooligan", age: "47" }
+    - { date: "1902 February 22", name: "Thomas Swan", age: "37" }
+    - { date: "1903 April 27", name: "Robert McEwan", age: "14" }
+    - { date: "1903 September 16", name: "John Brown McNeil", age: "39" }
+    - { date: "1904 March 3", name: "David McNeil", age: "65" }
+    - { date: "1904 July 7", name: "John Thain", age: "17" }
+
+- plaque: "1905 to 1929"
+  miners:
+    - { date: "1905 April 18", name: "Percy Baker", age: "21" }
+    - { date: "1905 December 2", name: "John McGhee", age: "51" }
+    - { date: "1906 July 16", name: "James Millar", age: "22" }
+    - { date: "1906 December 10", name: "William McKinlay", age: "23" }
+    - { date: "1906 December 20", name: "John McCutcheon", age: "16" }
+    - { date: "1907 March 6", name: "Andrew Rutherford", age: "37" }
+    - { date: "1907 April 30", name: "Thomas Gilroy", age: "14" }
+    - { date: "1908 May 27", name: "John Dickson", age: "39" }
+    - { date: "1908 May 27", name: "George Scott", age: "26" }
+    - { date: "1909 May 26", name: "William McNeill", age: "45" }
+    - { date: "1909 August 28", name: "George Bourhill", age: "17" }
+    - { date: "1911 May 24", name: "George Aithie", age: "43" }
+    - { date: "1911 June 5", name: "James Craig", age: "16" }
+    - { date: "1911 July 24", name: "Thomas Sandilands", age: "51" }
+    - { date: "1913 January 8", name: "James Walker", age: "43" }
+    - { date: "1913 April 3", name: "Robert Watson", age: "22" }
+    - { date: "1924 October 2", name: "David Drylie", age: "68" }
+    - { date: "1929 May 30", name: "Hugh McKenzie", age: "" }
