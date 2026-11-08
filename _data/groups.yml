@@ -16,6 +16,14 @@ community:
     facebook: "https://www.facebook.com/share/g/1KTXtDyMAt/"
     facebook_label: "Children's Gala Facebook group"
 
+  - name: "Wallyford Community Centre"
+    about: "The community centre in Wallyford, a venue for local groups and events."
+    contact: ""
+    link: ""
+    facebook: "https://www.facebook.com/share/14tafFaeGJb/"
+    facebook_label: "Community Centre on Facebook"
+    check: "Add the address, what's on and a contact, and check the wording."
+
   - name: "Wallyford Community Church"
     about: "Albert Place. Hosts the village's Remembrance Sunday service."
     contact: "office@wallyfordchurch.org"
