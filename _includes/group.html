@@ -11,7 +11,8 @@
   {% if g.area and g.area != "" %}<p class="muted mb-0">{{ g.area }}</p>{% endif %}
   {%- assign contact_words = g.contact | split: " " | size %}
   {% if g.contact and g.contact != "" %}<p class="mb-0">Contact: {% if g.contact contains "@" and contact_words == 1 %}<a href="mailto:{{ g.contact }}">{{ g.contact }}</a>{% else %}{{ g.contact }}{% endif %}</p>{% endif %}
-  {%- unless g.placeholder or g.contact != "" or g.link != "" %}
+  {% if g.facebook and g.facebook != "" %}<p class="mb-0">Facebook: <a href="{{ g.facebook }}">{{ g.facebook_label | default: "Facebook page" }}</a></p>{% endif %}
+  {%- unless g.placeholder or g.contact != "" or g.link != "" or g.facebook != "" %}
   {% include review.html type="todo" text="Need a contact or Facebook page for this group." %}
   {%- endunless %}
 </article>
