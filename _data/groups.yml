@@ -24,6 +24,14 @@ community:
     facebook_label: "Community Centre on Facebook"
     check: "Add the address, what's on and a contact, and check the wording."
 
+  - name: "Musselburgh and Wallyford Libraries"
+    about: "The local library service for Musselburgh and Wallyford."
+    contact: ""
+    link: ""
+    facebook: "https://www.facebook.com/share/18SJvTXJWd/"
+    facebook_label: "Libraries on Facebook"
+    check: "Add opening times, the Wallyford library address and what's on, and check the wording."
+
   - name: "Wallyford Community Church"
     about: "Albert Place. Hosts the village's Remembrance Sunday service."
     contact: "office@wallyfordchurch.org"
