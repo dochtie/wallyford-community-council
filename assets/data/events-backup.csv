@@ -1,7 +1,7 @@
 Date,Time,Event,Place,Link,Show on website
 08/11/2026,10:00,Remembrance Sunday Service,"Wallyford Community Church, Albert Place",,TRUE
 11/11/2026,10:45,Armistice Day Service,"Crookston War Memorial, Inveresk Cemetery",,TRUE
-21/11/2026,19:00,Celebrate 100 Years in Wallyford,"Wallyford Community Church, Albert Place",Facebook,TRUE
+21/11/2026,19:00,Celebrate 100 Years in Wallyford,"Wallyford Community Church, Albert Place",https://www.facebook.com/photo?fbid=1481952804041098&set=pb.100066791784299.-2207520000,TRUE
 25/11/2026,18:30,Community Council Meeting,"Assembly Hall, Wallyford Learning Campus [Leisure Reception Entrance]",,TRUE
 04/12/2026,18:30,Torchlight Parade & Christmas lights switch on,"Leaving from Wallyford Miners Club, Salters Road",,TRUE
 13/12/2026,10:00,Christmas Carol Service,"Wallyford Community Church, Albert Place",,TRUE
@@ -19,4 +19,4 @@ Date,Time,Event,Place,Link,Show on website
 11/11/2027,10:45,Armistice Day Service,"Crookston War Memorial, Inveresk Cemetery",,FALSE
 14/11/2027,10:00,Remembrance Sunday Service,"Wallyford Community Church, Albert Place",,FALSE
 24/11/2027,18:30,Community Council Meeting,"Assembly Hall, Wallyford Learning Campus [Leisure Reception Entrance]",,FALSE
-03/12/2027,18:30,Torchlight Parade & Christmas lights swiitch on,"Leaving from Wallyford Miners Club, Salters Road",,FALSE
+03/12/2027,18:30,Torchlight Parade & Christmas lights switch on,"Leaving from Wallyford Miners Club, Salters Road",,FALSE
