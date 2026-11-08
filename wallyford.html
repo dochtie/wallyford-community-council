@@ -9,7 +9,7 @@ description: The story of Wallyford, East Lothian. Mining and the Miners' Stones
 <header class="page-head">
   <div class="wrap">
     <p class="eyebrow">Village history</p>
-    <h1>Wallyford</h1>
+    <h1>History of Wallyford</h1>
     <p class="lede">A short guide to Wallyford's past, and to some of the places that matter to the village today.</p>
   </div>
 </header>
@@ -18,14 +18,14 @@ description: The story of Wallyford, East Lothian. Mining and the Miners' Stones
 <nav class="jump-bar" aria-label="On this page">
   <div class="wrap">
     <ul class="jump">
-      <li><a href="#history">History</a></li>
-      <li><a href="#carved-in-stone">Carved in stone</a></li>
+      <li><a href="#history">Overview</a></li>
+      <li><a href="#pinkie">Pinkie</a></li>
       <li><a href="#mining">Mining</a></li>
       <li><a href="#the-bing">The Bing</a></li>
       <li><a href="#the-drift">The Drift</a></li>
-      <li><a href="#pinkie">Pinkie</a></li>
-      <li><a href="#people">Famous Wallyfordians</a></li>
       <li><a href="#remembering">Remembering</a></li>
+      <li><a href="#people">Famous Wallyfordians</a></li>
+      <li><a href="#carved-in-stone">Carved in stone</a></li>
       <li><a href="#more">Films and reading</a></li>
     </ul>
   </div>
@@ -38,9 +38,10 @@ description: The story of Wallyford, East Lothian. Mining and the Miners' Stones
       <p>Wallyford sits on high ground looking out over the Firth of Forth, just across the railway from Musselburgh. The name is thought to come from the Scots word <em>wally</em>, meaning great or fine, and Salters Road is named after the monks who carried salt along it from Prestonpans to Newbattle Abbey.</p>
       <p>For most of its history Wallyford was a mining village, with three pits, a brickworks and the farms around it. Since 2016 it has grown faster than ever, with new homes, a new primary school and the Wallyford Learning Campus.</p>
 
-      <details class="more">
+      <details class="more" open>
         <summary>Wallyford through the years</summary>
         <ul class="timeline">
+          <li><span class="when">10 September 1547</span> The Battle of Pinkie Cleugh is fought on the fields between Musselburgh, Wallyford and Dalkeith.</li>
           <li><span class="when">1600s</span> Coal mining begins locally at the little and muckle Fawside pits.</li>
           <li><span class="when">1820s to 1857</span> Wallyford's first pit is sunk in the 1820s, followed by No. 2 pit in 1840 and No. 3 pit in 1857.</li>
           <li><span class="when">4 April 1828</span> The novelist Margaret Oliphant is born in Wallyford.</li>
@@ -63,31 +64,22 @@ description: The story of Wallyford, East Lothian. Mining and the Miners' Stones
   </div>
 </section>
 
-<section class="section" id="carved-in-stone">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">Around the village</p>
-      <h2>Carved in stone</h2>
-      <p>Wallyford's story is carved into stone all around the village.</p>
+<section class="section section-paper" id="pinkie">
+  <div class="wrap split">
+    <div class="prose">
+      <p class="eyebrow">The earliest chapter</p>
+      <h2>The Battle of Pinkie</h2>
+      <p>On 10 September 1547, the Battle of Pinkie Cleugh was fought on the fields between Musselburgh, Wallyford and Dalkeith. It was the last major battle between Scotland and England, part of Henry VIII's "Rough Wooing" to force a marriage between his son Edward and the infant Mary, Queen of Scots. Around 10,000 Scots were killed.</p>
+      <p>A commemoration is held at the memorial stone off Salters Road every 10 September at 1pm. <a href="https://www.youtube.com/watch?v=C9M_dbLCuPg">Watch a short film about the battle</a>.</p>
     </div>
-    <div class="grid grid-3">
-      <figure class="figure">
-        <img src="{{ '/assets/img/wallyford-stone-sign.jpg' | relative_url }}" alt="A sandstone sign carved with the word WALLYFORD above a stream with fish and reeds, on a grass verge beside a road" width="800" height="597" loading="lazy">
-        <figcaption>The carved village sign: Wallyford above a stream with fish and reeds. Photo: Allison Coyle.</figcaption>
-      </figure>
-      <figure class="figure">
-        <img src="{{ '/assets/img/st-clements-wells-sign.jpg' | relative_url }}" alt="A red sandstone panel carved ST CLEMENTS WELLS with an anchor on each side, set into a dry-stone wall" width="800" height="597" loading="lazy">
-        <figcaption>The St Clement's Wells sign. The anchors are the emblem of St Clement, patron saint of sailors. Photo: Allison Coyle.</figcaption>
-      </figure>
-      <figure class="figure">
-        <img src="{{ '/assets/img/st-clements-wells-millstones.jpg' | relative_url }}" alt="Three carved stone millstones standing upright in a cobbled circle on grass, in front of a dry-stone wall" width="800" height="597" loading="lazy">
-        <figcaption>Carved millstones at St Clement's Wells. Photo: Allison Coyle.</figcaption>
-      </figure>
-    </div>
+    <figure class="figure">
+      <img class="figure-short" src="{{ '/assets/img/pinkie-cleugh-stone.jpg' | relative_url }}" alt="A square stone memorial carved with a saltire, with daffodils at its base and fields and hills behind" width="524" height="447" loading="lazy">
+      <figcaption>The Pinkie Cleugh memorial stone.</figcaption>
+    </figure>
   </div>
 </section>
 
-<section class="section section-paper" id="mining">
+<section class="section" id="mining">
   <div class="wrap split split-flip">
     <div class="prose">
       <p class="eyebrow">Mining and the Miners' Stones</p>
@@ -128,28 +120,31 @@ description: The story of Wallyford, East Lothian. Mining and the Miners' Stones
         <figcaption>The plaque for 1905 to 1929. Photo: Allison Coyle.</figcaption>
       </figure>
     </div>
-    <div class="grid grid-2 miners-tables">
-      {%- for plaque in site.data.miners %}
-      <div class="table-scroll">
-        <table class="miners-table">
-          <caption>Miners who lost their lives, {{ plaque.plaque }}</caption>
-          <thead>
-            <tr><th scope="col">Date</th><th scope="col">Name</th><th scope="col" class="num">Age</th></tr>
-          </thead>
-          <tbody>
-            {%- for m in plaque.miners %}
-            <tr><td class="miners-date">{{ m.date }}</td><td>{{ m.name }}</td><td class="num">{% if m.age != "" %}{{ m.age }}{% else %}<span aria-hidden="true">&ndash;</span><span class="visually-hidden">not recorded</span>{% endif %}</td></tr>
-            {%- endfor %}
-          </tbody>
-        </table>
+    <details class="more">
+      <summary>Show the names of the 37 miners</summary>
+      <div class="grid grid-2 miners-tables">
+        {%- for plaque in site.data.miners %}
+        <div class="table-scroll">
+          <table class="miners-table">
+            <caption>Miners who lost their lives, {{ plaque.plaque }}</caption>
+            <thead>
+              <tr><th scope="col">Date</th><th scope="col">Name</th><th scope="col" class="num">Age</th></tr>
+            </thead>
+            <tbody>
+              {%- for m in plaque.miners %}
+              <tr><td class="miners-date">{{ m.date }}</td><td>{{ m.name }}</td><td class="num">{% if m.age != "" %}{{ m.age }}{% else %}<span aria-hidden="true">&ndash;</span><span class="visually-hidden">not recorded</span>{% endif %}</td></tr>
+              {%- endfor %}
+            </tbody>
+          </table>
+        </div>
+        {%- endfor %}
       </div>
-      {%- endfor %}
-    </div>
-    <p class="miners-note">Names, dates and ages are as they appear on the hutches. Where no age is shown, none is given on the plaque.</p>
+      <p class="miners-note">Names, dates and ages are as they appear on the hutches. Where no age is shown, none is given on the plaque.</p>
+    </details>
   </div>
 </section>
 
-<section class="section">
+<section class="section section-paper">
   <div class="wrap">
     <div class="grid grid-2 places">
       <article class="card" id="the-bing">
@@ -168,51 +163,7 @@ description: The story of Wallyford, East Lothian. Mining and the Miners' Stones
   </div>
 </section>
 
-<section class="section section-paper" id="pinkie">
-  <div class="wrap split">
-    <div class="prose">
-      <p class="eyebrow">10 September 1547</p>
-      <h2>The Battle of Pinkie</h2>
-      <p>The Battle of Pinkie Cleugh was fought on the fields between Musselburgh, Wallyford and Dalkeith. It was the last major battle between Scotland and England, part of Henry VIII's "Rough Wooing" to force a marriage between his son Edward and the infant Mary, Queen of Scots. Around 10,000 Scots were killed.</p>
-      <p>A commemoration is held at the memorial stone off Salters Road every 10 September at 1pm. <a href="https://www.youtube.com/watch?v=C9M_dbLCuPg">Watch a short film about the battle</a>.</p>
-    </div>
-    <figure class="figure">
-      <img class="figure-short" src="{{ '/assets/img/pinkie-cleugh-stone.jpg' | relative_url }}" alt="A square stone memorial carved with a saltire, with daffodils at its base and fields and hills behind" width="524" height="447" loading="lazy">
-      <figcaption>The Pinkie Cleugh memorial stone.</figcaption>
-    </figure>
-  </div>
-</section>
-
-<section class="section" id="people">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">Famous Wallyfordians</p>
-      <h2>Born in Wallyford</h2>
-    </div>
-    <div class="grid grid-3" style="align-items:start">
-      <article class="card">
-        <img class="card-img" src="{{ '/assets/img/margaret-oliphant-plaque.jpg' | relative_url }}" alt="Blue oval plaque reading: Margaret Oliphant, born 1828 in Wallyford, died 1897 in Wimbledon, Eminent Authoress, Biographer and Historian" width="900" height="609" loading="lazy">
-        <h3>Margaret Oliphant (1828 to 1897)</h3>
-        <p>Victorian novelist, critic and historian. J.M. Barrie called her "the most distinguished Scotswoman of her time". The library at the Learning Campus is named after her. <a href="http://oliphantfiction.com/">Read about her work</a>.</p>
-      </article>
-      <article class="card">
-        <img class="card-img card-img-4x3" src="{{ '/assets/img/willie-park-senior.jpg' | relative_url }}" alt="Black and white photo of Willie Park Senior in a cap and dark jacket, wearing the Challenge Belt" width="500" height="375" loading="lazy">
-        <h3>Willie Park Senior (1833 to 1903)</h3>
-        <p>Won the very first Open Championship in 1860, and three more after it. In the photo he's wearing the Challenge Belt, the Open's original prize.</p>
-        <p class="small muted">Photo: public domain, via <a href="https://commons.wikimedia.org/wiki/File:Willie_Park_Senior_wearing_the_Championship_Belt.jpg">Wikimedia Commons</a>.</p>
-      </article>
-      <article class="card">
-        <div style="background-color: #6b21a8; color: white; padding: 2rem; text-align: center; border-radius: 0.5rem; margin-bottom: 1rem;">
-          Permission pending for photograph use
-        </div>
-        <h3>Jock Wallace (1935 to 1996)</h3>
-        <p>The son of a Wallyford miner, he led Rangers to two domestic trebles in the 1970s.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section class="section section-paper" id="remembering">
+<section class="section" id="remembering">
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">Remembering</p>
@@ -243,7 +194,60 @@ description: The story of Wallyford, East Lothian. Mining and the Miners' Stones
   </div>
 </section>
 
-<section class="section" id="more">
+<section class="section section-paper" id="people">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Famous Wallyfordians</p>
+      <h2>Born in Wallyford</h2>
+    </div>
+    <div class="grid grid-3" style="align-items:start">
+      <article class="card">
+        <img class="card-img" src="{{ '/assets/img/margaret-oliphant-plaque.jpg' | relative_url }}" alt="Blue oval plaque reading: Margaret Oliphant, born 1828 in Wallyford, died 1897 in Wimbledon, Eminent Authoress, Biographer and Historian" width="900" height="609" loading="lazy">
+        <h3>Margaret Oliphant (1828 to 1897)</h3>
+        <p>Victorian novelist, critic and historian. J.M. Barrie called her "the most distinguished Scotswoman of her time". The library at the Learning Campus is named after her. <a href="http://oliphantfiction.com/">Read about her work</a>.</p>
+      </article>
+      <article class="card">
+        <img class="card-img card-img-4x3" src="{{ '/assets/img/willie-park-senior.jpg' | relative_url }}" alt="Black and white photo of Willie Park Senior in a cap and dark jacket, wearing the Challenge Belt" width="500" height="375" loading="lazy">
+        <h3>Willie Park Senior (1833 to 1903)</h3>
+        <p>Won the very first Open Championship in 1860, and three more after it. In the photo he's wearing the Challenge Belt, the Open's original prize.</p>
+        <p class="small muted">Photo: public domain, via <a href="https://commons.wikimedia.org/wiki/File:Willie_Park_Senior_wearing_the_Championship_Belt.jpg">Wikimedia Commons</a>.</p>
+      </article>
+      <article class="card">
+        <div style="background-color: #6b21a8; color: white; padding: 2rem; text-align: center; border-radius: 0.5rem; margin-bottom: 1rem;">
+          Permission pending for photograph use
+        </div>
+        <h3>Jock Wallace (1935 to 1996)</h3>
+        <p>The son of a Wallyford miner, he led Rangers to two domestic trebles in the 1970s.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="carved-in-stone">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Around the village</p>
+      <h2>Carved in stone</h2>
+      <p>Wallyford's story is carved into stone all around the village.</p>
+    </div>
+    <div class="grid grid-3">
+      <figure class="figure">
+        <img src="{{ '/assets/img/wallyford-stone-sign.jpg' | relative_url }}" alt="A sandstone sign carved with the word WALLYFORD above a stream with fish and reeds, on a grass verge beside a road" width="800" height="597" loading="lazy">
+        <figcaption>The carved village sign: Wallyford above a stream with fish and reeds. Photo: Allison Coyle.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="{{ '/assets/img/st-clements-wells-sign.jpg' | relative_url }}" alt="A red sandstone panel carved ST CLEMENTS WELLS with an anchor on each side, set into a dry-stone wall" width="800" height="597" loading="lazy">
+        <figcaption>The St Clement's Wells sign. The anchors are the emblem of St Clement, patron saint of sailors. Photo: Allison Coyle.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="{{ '/assets/img/st-clements-wells-millstones.jpg' | relative_url }}" alt="Three carved stone millstones standing upright in a cobbled circle on grass, in front of a dry-stone wall" width="800" height="597" loading="lazy">
+        <figcaption>Carved millstones at St Clement's Wells. Photo: Allison Coyle.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="section section-paper" id="more">
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">Films and further reading</p>
