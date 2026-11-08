@@ -3,7 +3,9 @@
 # about:   a line about what the group does
 # contact: how to get in touch (only publish a personal phone number or
 #          email with that person's OK)
-# link:    a web address, such as the group's website or Facebook page
+# link:    a web address, such as the group's website
+# facebook: the group's Facebook page or group (optional)
+# facebook_label: link text for the Facebook link, e.g. "Facebook group" (optional)
 # check:   a draft note asking the council to confirm something (optional)
 
 community:
@@ -11,6 +13,8 @@ community:
     about: "Organises Wallyford Children's Gala Day every June."
     contact: ""
     link: ""
+    facebook: "https://www.facebook.com/share/g/1KTXtDyMAt/"
+    facebook_label: "Children's Gala Facebook group"
 
   - name: "Wallyford Community Church"
     about: "Albert Place. Hosts the village's Remembrance Sunday service."
@@ -27,7 +31,15 @@ community:
     about: "The parent council for Wallyford Primary School and Nursery. It represents parents and carers, supports the school, and raises money through things like bake sales and discos. Everyone is welcome at its meetings, and you don't need to be a member."
     contact: "wallyfordpacc@gmail.com"
     link: "https://sites.google.com/view/wallyfordprimaryschoolpacc/home"
-    check: "Do they still meet monthly in term time? Is there a Facebook page we can link to?"
+    facebook: "https://www.facebook.com/share/1FN9UteuUz/"
+    facebook_label: "WPACC on Facebook"
+    check: "Do they still meet monthly in term time?"
+
+  - name: "Rosehill and The Brae Parent Network (Parent Council)"
+    about: "The parent council for Rosehill High School, which many Wallyford young people attend. It is part of the school's parent engagement work."
+    contact: ""
+    link: "https://sites.google.com/edubuzz.org/rosehill-high-school/parent-engagement/rosehill-and-the-brae-parent-network-parent-council"
+    check: "Check the wording, and whether there is a contact email we can add."
 
   - name: "Wallyford Miners' Charitable Society Club"
     about: "The Miners' Club, 24 Salters Road. A members' social club run by a registered charity (SC010359) that provides recreation and leisure for local people. It was built in the 1970s with subscriptions from miners' wages, served as a soup kitchen during the 1984 to 1985 miners' strike, and has long been at the centre of village life. The Torchlight Parade sets off from its car park every December."
