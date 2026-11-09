@@ -22,7 +22,7 @@ community:
     link: ""
     facebook: "https://www.facebook.com/share/14tafFaeGJb/"
     facebook_label: "Community Centre on Facebook"
-    check: "I still need to add what's on and the opening times. I got the address and email from East Lothian Council's directory."
+    check: "I got the address and email from East Lothian Council's directory. Events and activities stay on the Facebook page rather than being listed here. I still need to check the opening times."
 
   - name: "Musselburgh and Wallyford Libraries"
     about: "Wallyford Library is at 25 Masons Way, EH21 8BF, in the Wallyford Learning Campus. Open Thursday 9am to 1pm and 2pm to 5pm, Friday 9am to 12pm and 1pm to 5pm, and Saturday 10am to 1pm. Free Wi-Fi, Click and Collect, and Bookbug sessions for under-5s on Thursdays and Saturdays at 10.30am. Phone 0131 202 8466 (option 3)."
@@ -41,21 +41,26 @@ community:
     about: "A weekly group at Wallyford Community Church, Albert Place, where parents and carers of young children can meet. Thursdays, 10am to 11.30am, in term time. A donation of £1.50 is asked."
     contact: "office@wallyfordchurch.org"
     link: "https://www.wallyfordchurch.org/what-s-happening"
-    check: "I need to check this is the group Willie meant."
+
+  - name: "Playgroup"
+    about: "A local playgroup. The Facebook page has more information for anyone who is interested."
+    contact: ""
+    link: ""
+    facebook: "https://www.facebook.com/share/19enn2CUpU/"
+    facebook_label: "Playgroup on Facebook"
+    check: "Willie sent this Facebook link for Jacqueline's playgroup. Confirm the official name and any meeting details before launch."
 
   - name: "Wallyford Parents and Carers Council (WPACC)"
-    about: "The parent council for Wallyford Primary School and Nursery. It represents parents and carers, supports the school, and raises money through things like bake sales and discos. Everyone is welcome at its meetings, and you don't need to be a member."
+    about: "The parent council for Wallyford Primary School and Nursery. It represents parents and carers, supports the school, and raises money through things like bake sales and discos. Everyone is welcome at its meetings, and you don't need to be a member. Meetings are on the first Tuesday of the month, 6pm to 7.30pm, in school."
     contact: "wallyfordpacc@gmail.com"
     link: "https://sites.google.com/view/wallyfordprimaryschoolpacc/home"
     facebook: "https://www.facebook.com/share/1FN9UteuUz/"
     facebook_label: "WPACC on Facebook"
-    check: "Their website says the 2026/27 meeting dates are still to be confirmed, so I need to check how often they meet."
 
   - name: "Rosehill and The Brae Parent Network (Parent Council)"
-    about: "The parent council for Rosehill High School. Any parent or carer of a young person at the school is part of its parent forum, and any member of the forum can join the council. Meetings are held in person, with the option to listen in online. 2026/27 dates: 22 September, 25 November, 25 January, 17 March, and 11 May (AGM)."
+    about: "The parent council for Rosehill High School. Any parent or carer of a young person at the school is part of its parent forum, and any member of the forum can join the council. Meetings are held in school from 6.30pm, with the option to join online (you can listen in but can't ask questions). 2026/27 dates: 22 September, 25 November, 25 January, 17 March, and 11 May (AGM)."
     contact: "rosehillhighpc@gmail.com"
     link: "https://sites.google.com/edubuzz.org/rosehill-high-school/parent-engagement/rosehill-and-the-brae-parent-network-parent-council"
-    check: "I got the dates and email from the school's parent council page. I still need to check the meeting times and venue."
 
   - name: "Wallyford Miners' Charitable Society Club"
     about: "The Miners' Club, 24 Salters Road. A members' social club run by a registered charity (SC010359) that provides recreation and leisure for local people. The Torchlight Parade sets off from its car park every December."
@@ -81,7 +86,7 @@ neighbourhood_watches:
     link: "https://schemelookup.neighbourhoodwatchscotland.co.uk/Content/DisplayScheme/187463"
 
   - name: "St Clements Wells, Persimmon development"
-    area: "Old Row, Castle Rise, Innes Neuk and Harvey Avenue"
+    area: "Old Row, Castle Rise, Innes Neuk, Harvey Avenue and Masons Way"
     contact: ""
     link: "https://schemelookup.neighbourhoodwatchscotland.co.uk/Content/DisplayScheme/175306"
 
