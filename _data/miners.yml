@@ -3,7 +3,7 @@
 # Stone. (The third hutch carries Janet Bourhill's poem, not names.)
 # Shown on the History page. Leave age blank where the plaque gives none.
 # The last entry is for a miner whose name was missed when the plaques were
-# made, so it is not on either hutch (only his name is known).
+# made, so it is not on either hutch (his date is known, but not his age).
 
 - plaque: "1857 to 1904"
   miners:
@@ -51,4 +51,4 @@
 - plaque: "missing from the hutches"
   caption: "Also lost, but missing from the hutches"
   miners:
-    - { date: "Date not known", name: "Thomas Drury", age: "" }
+    - { date: "1919 June 1", name: "Thomas Drury", age: "" }
