@@ -78,8 +78,14 @@ description: What Wallyford Community Council does, who we are, when we meet, th
           </div>
           <h3>{{ person.name }}</h3>
           <p class="role">{{ person.role }}</p>
+          {%- comment -%} A blank line in the blurb starts a new paragraph. {%- endcomment -%}
           {% if person.blurb %}
-            <p>{{ person.blurb }}</p>
+            {%- assign paras = person.blurb | strip | newline_to_br | strip_newlines | split: "<br /><br />" %}
+            <div class="blurb">
+              {%- for para in paras %}
+              <p>{{ para | replace: "<br />", " " }}</p>
+              {%- endfor %}
+            </div>
           {% endif %}
           {%- comment -%} Draft note asking only for what's still missing. {%- endcomment -%}
           {%- if person.vacant -%}{%- assign ask = "Can you send me" -%}{%- else -%}{%- capture ask %}{{ words[0] }}, can you send me{% endcapture -%}{%- endif -%}
@@ -103,7 +109,14 @@ description: What Wallyford Community Council does, who we are, when we meet, th
       <p>We meet at <strong>{{ site.meeting_time }}</strong> on the <strong>last Wednesday of every month</strong>, except July and December, in the <strong>{{ site.meeting_place }}</strong>.</p>
       <p><strong>Way in:</strong> {{ site.meeting_way_in }}</p>
       <p>All our meetings are held in public, and residents are welcome to come along. You don't need to book. If you'd like to raise something, it helps to <a href="mailto:{{ site.email }}">email us</a> beforehand so we can put it on the agenda.</p>
-      {% include review.html type="todo" text="Where should people find agendas and minutes? Facebook, email, or on here?" %}
+      <h3 id="minutes">Agendas and minutes</h3>
+      {%- if site.minutes_url and site.minutes_url != "" %}
+      <p>You can read the agendas and minutes of our meetings online. Minutes are in draft until they're approved at the following meeting.</p>
+      <p><a class="btn btn-dark" href="{{ site.minutes_url }}">Read our agendas and minutes</a></p>
+      {%- else %}
+      <p>To see the agenda for the next meeting, or the minutes of a past one, <a href="mailto:{{ site.email }}?subject=Agendas%20and%20minutes">email us</a> and we'll send them to you. Minutes are in draft until they're approved at the following meeting.</p>
+      {% include review.html type="todo" text="Where do we keep the agendas and minutes? If someone can send me a link to a shared folder, I'll add a button to it here." %}
+      {%- endif %}
     </div>
     <figure class="figure">
       <img src="{{ '/assets/img/leisure-entrance.jpg' | relative_url }}" alt="The Sports and Leisure Entrance of the Wallyford Learning Campus, with the campus direction sign in front" width="1000" height="721" loading="lazy">
@@ -117,7 +130,7 @@ description: What Wallyford Community Council does, who we are, when we meet, th
     <div>
       <p class="eyebrow" style="color:var(--brass-light)">Every December</p>
       <h2>Christmas Lights and Torchlight Parade</h2>
-      <p class="card-big" style="color:var(--paper)" data-parade-date data-prefix="This year: ">First Friday in December</p>
+      <p class="card-big" style="color:var(--paper)" data-parade-date data-prefix="Next parade: ">First Friday in December</p>
       <p>The Torchlight Parade is the biggest night in our calendar. On the first Friday of December, the parade sets off at 6.30pm from the Wallyford Miners' Charitable Society Club car park and, led by the Preston Lodge High School Pipe Band, makes its way up Salters Road to the Miners' Stone.</p>
       <p>There we hold a short Christmas service with carol singing and lay a floral tribute to remember the 38 miners lost in Wallyford's pits. Then the Gala King and Queen switch on the village Christmas lights for the festive season.</p>
       <p>The lights and the parade are paid for by our fundraising throughout the year.</p>
@@ -155,11 +168,12 @@ description: What Wallyford Community Council does, who we are, when we meet, th
     <div class="grid grid-4">
       <div class="card">
         <h3>Come to a meeting</h3>
-        <p>Last Wednesday of the month, {{ site.meeting_time }}, in the Assembly Hall at the Learning Campus. Just turn up.</p>
+        <p>{{ site.meeting_rule }}, {{ site.meeting_time }}, in the Assembly Hall at the Learning Campus. Just turn up.</p>
       </div>
       <div class="card">
         <h3>Email us</h3>
-        <p><a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+        {%- comment -%} <wbr> lets the address break between its words when the card is narrow. {%- endcomment %}
+        <p><a class="email-long" href="mailto:{{ site.email }}">{{ site.email | replace: "Community", "<wbr>Community" | replace: "Council", "<wbr>Council" | replace: "@", "<wbr>@" }}</a></p>
       </div>
       <div class="card">
         <h3>Join us on Facebook</h3>

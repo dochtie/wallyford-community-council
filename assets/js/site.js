@@ -1,5 +1,6 @@
 /* Wallyford Community Council: small site helpers.
-   1. Mobile menu
+   1. Mobile menu (now a few lines in _layouts/default.html, so it works
+      even if this file doesn't load)
    2. Date helpers
    3. "You said, we did" tracker, read from a published Google Sheet (CSV)
    4. Dates from the "Upcoming dates" tab of the website sheet: the home page
@@ -12,20 +13,6 @@
   "use strict";
 
   var cfg = window.WCC || {};
-
-  /* ---------------- 1. Mobile menu ---------------- */
-
-  function initNav() {
-    var toggle = document.querySelector(".nav-toggle");
-    var nav = document.getElementById("site-nav");
-    if (!toggle || !nav) return;
-    toggle.hidden = false;
-    toggle.addEventListener("click", function () {
-      var open = toggle.getAttribute("aria-expanded") === "true";
-      toggle.setAttribute("aria-expanded", String(!open));
-      nav.classList.toggle("is-open", !open);
-    });
-  }
 
   /* ---------------- 2. Dates ---------------- */
 
@@ -226,6 +213,11 @@
       opt.value = t;
       topicSelect.appendChild(opt);
     });
+    // The "Closed" filter only shows when something has been closed.
+    var hasClosed = items.some(function (o) { return o.group === "closed"; });
+    Array.prototype.forEach.call(chips, function (chip) {
+      if (chip.getAttribute("data-status") === "closed") chip.hidden = !hasClosed;
+    });
     if (toolbar) toolbar.hidden = false;
 
     function render() {
@@ -261,7 +253,8 @@
 
       var counts = { completed: 0, open: 0, closed: 0 };
       items.forEach(function (o) { counts[o.group]++; });
-      summary.textContent = (shown.length === items.length ? items.length + " items" : "Showing " + shown.length + " of " + items.length + " items") +
+      var noun = items.length === 1 ? " item" : " items";
+      summary.textContent = (shown.length === items.length ? items.length + noun : "Showing " + shown.length + " of " + items.length + noun) +
         ": " + counts.completed + " completed, " + counts.open + " ongoing" + (counts.closed ? ", " + counts.closed + " closed." : ".");
     }
 
@@ -308,14 +301,31 @@
     target.innerHTML = "";
     target.appendChild(make("p", "ysd-empty", "Loading updates…"));
 
-    fetch(url, { cache: "no-cache" })
-      .then(function (res) {
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        return res.text();
-      })
-      .then(function (text) {
-        if (/^\s*</.test(text)) throw new Error("Expected CSV, got HTML");
-        var items = toItems(parseCSV(text));
+    // Fetch a copy of the Tracker tab. Fails if it isn't the tab we expect
+    // (an error page, or the "You said" column is missing).
+    function fetchTracker(u) {
+      return fetch(u, { cache: "no-cache" })
+        .then(function (res) {
+          if (!res.ok) throw new Error("HTTP " + res.status);
+          return res.text();
+        })
+        .then(function (text) {
+          if (/^\s*</.test(text)) throw new Error("Expected CSV, got HTML");
+          var rows = parseCSV(text);
+          var heads = (rows[0] || []).map(function (h) { return COLUMNS[h.toLowerCase().replace(/[^a-z]/g, "")]; });
+          if (heads.indexOf("said") === -1) throw new Error("Missing columns");
+          return toItems(rows);
+        });
+    }
+
+    // If the live sheet can't be read (deleted, unpublished, Google down),
+    // use the nightly backup in assets/data/tracker-backup.csv instead.
+    var backup = cfg.trackerBackupUrl && String(cfg.trackerBackupUrl).trim();
+    var loading = fetchTracker(url);
+    if (live && backup) loading = loading.catch(function () { return fetchTracker(backup); });
+
+    loading
+      .then(function (items) {
         if (!live) {
           showNotice(notice, "info",
             "<strong>Preview.</strong> These entries are copied from our action tracker. Once the tracker sheet is connected, this list will update from it automatically.");
@@ -387,7 +397,7 @@
       // Only ordinary web links, so nothing odd typed in the sheet can run.
       var link = /^https?:\/\//i.test(o.link || "") ? o.link : "";
       out.push({
-        date: d, ends: known ? known.ends : 23, title: o.title, time: niceTime(o.time), place: o.place || "",
+        date: d, ends: known ? known.ends : 23, title: o.title, time: niceTime(o.time), mins: timeMins(o.time), place: o.place || "",
         link: link || (known ? siteLink(known.link) : ""),
         kind: known ? known.key : ""
       });
@@ -405,6 +415,18 @@
     var suffix = h < 12 ? "am" : "pm";
     h = h % 12 || 12;
     return h + (mins === "00" ? "" : "." + mins) + suffix;
+  }
+
+  // Minutes after midnight for a time typed as 18:30, 18.30 or 6.30pm, so
+  // events on the same day can be put in order. Unreadable or missing
+  // times count as the end of the day.
+  function timeMins(t) {
+    var m = (t || "").trim().toLowerCase().match(/^(\d{1,2})(?:[:.](\d{2}))?(?::\d{2})?\s*(am|pm)?$/);
+    if (!m) return 24 * 60;
+    var h = +m[1];
+    if (m[3] === "pm" && h < 12) h += 12;
+    if (m[3] === "am" && h === 12) h = 0;
+    return h > 23 ? 24 * 60 : h * 60 + +(m[2] || 0);
   }
 
   function sameText(a, b) {
@@ -487,11 +509,12 @@
     });
   }
 
-  // Events that haven't finished yet, soonest first.
+  // Events that haven't finished yet, soonest first. Events on the same
+  // day go in time order.
   function upcoming(events, now) {
     return events
       .filter(function (e) { return atTime(e.date, e.ends) >= now; })
-      .sort(function (a, b) { return (a.date - b.date) || a.title.localeCompare(b.title); });
+      .sort(function (a, b) { return (a.date - b.date) || (a.mins - b.mins) || a.title.localeCompare(b.title); });
   }
 
   var evDayFmt = new Intl.DateTimeFormat("en-GB", { weekday: "short" });
@@ -954,7 +977,6 @@
   /* ---------------- Start ---------------- */
 
   function start() {
-    initNav();
     initTracker();
     initComingUp();
     initSheetDates();

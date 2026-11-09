@@ -3,6 +3,22 @@
    Heritage palette: coal and slate, brass, cream paper.
    ================================================================== */
 
+/* Fonts, served from this site (assets/fonts) rather than from Google.
+   Fraunces and Source Sans 3 are both free to use and share under the
+   SIL Open Font License. Each file holds every weight we use. */
+@font-face {
+  font-family: "Fraunces"; font-style: normal; font-weight: 500 700; font-display: swap;
+  src: url("../fonts/fraunces-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Source Sans 3"; font-style: normal; font-weight: 400 700; font-display: swap;
+  src: url("../fonts/source-sans-3-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Source Sans 3"; font-style: italic; font-weight: 400; font-display: swap;
+  src: url("../fonts/source-sans-3-italic-latin.woff2") format("woff2");
+}
+
 :root {
   --coal: #1b1e21;
   --slate: #2b3036;
@@ -240,6 +256,9 @@ p, ul, ol { margin: 0 0 1em; }
 }
 .card h3 { margin-bottom: .35em; }
 .card, .contact-card, .group { overflow-wrap: anywhere; }
+/* A long email address in a narrow card: shrink it a little so it breaks
+   at the <wbr> points between words, not mid-word. */
+.email-long { font-size: .95rem; }
 .card p:last-child { margin-bottom: 0; }
 .card .card-foot { margin-top: auto; padding-top: .6rem; }
 .card-link { text-decoration: none; color: inherit; transition: transform .15s ease, box-shadow .15s ease; }
@@ -325,6 +344,9 @@ figure { margin: 0; }
 .person h3 { font-size: 1.2rem; margin-bottom: .1rem; }
 .person .role { color: var(--brass-dark); font-weight: 700; font-size: .95rem; margin-bottom: .6rem; }
 .person p { font-size: 1rem; margin-bottom: 0; }
+/* A councillor's own words: left-aligned, so longer blurbs are easy to read */
+.person .blurb { text-align: left; }
+.person .blurb p + p { margin-top: .6rem; }
 .person.is-vacant { border-style: dashed; background: transparent; }
 .person.is-vacant .avatar { background: transparent; color: var(--brass-dark); border-style: dashed; }
 
@@ -338,7 +360,7 @@ figure { margin: 0; }
 .ysd-how { counter-reset: step; }
 .ysd-how .card { border-top-color: var(--slate); }
 .ysd-how .step-num {
-  font-family: var(--serif); font-size: 2.2rem; font-weight: 700; color: var(--brass); line-height: 1; margin-bottom: .4rem;
+  font-family: var(--serif); font-size: 2.2rem; font-weight: 700; color: var(--brass-dark); line-height: 1; margin-bottom: .4rem;
 }
 
 .ysd-toolbar {

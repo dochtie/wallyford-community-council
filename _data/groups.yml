@@ -24,7 +24,7 @@ community:
     facebook_label: "Community Centre on Facebook"
     check: "I got the address and email from East Lothian Council's directory. Events and activities stay on the Facebook page rather than being listed here. I still need to check the opening times."
 
-  - name: "Musselburgh and Wallyford Libraries"
+  - name: "Wallyford Library"
     about: "Wallyford Library is at 25 Masons Way, EH21 8BF, in the Wallyford Learning Campus. Open Thursday 9am to 1pm and 2pm to 5pm, Friday 9am to 12pm and 1pm to 5pm, and Saturday 10am to 1pm. Free Wi-Fi, Click and Collect, and Bookbug sessions for under-5s on Thursdays and Saturdays at 10.30am. Phone 0131 202 8466 (option 3)."
     contact: "wallyford.library@eastlothian.gov.uk"
     link: "https://www.eastlothian.gov.uk/libraries-leisure-and-tourism/libraries/east-lothian-libraries/wallyford-library"
@@ -48,7 +48,7 @@ community:
     link: ""
     facebook: "https://www.facebook.com/share/19enn2CUpU/"
     facebook_label: "Playgroup on Facebook"
-    check: "Willie sent this Facebook link for Jacqueline's playgroup. Confirm the official name and any meeting details before launch."
+    check: "Willie sent this Facebook link for Jacqueline's playgroup. I need to confirm the official name and any meeting details before launch."
 
   - name: "Wallyford Parents and Carers Council (WPACC)"
     about: "The parent council for Wallyford Primary School and Nursery. It represents parents and carers, supports the school, and raises money through things like bake sales and discos. Everyone is welcome at its meetings, and you don't need to be a member. Meetings are on the first Tuesday of the month, 6pm to 7.30pm, in school."
@@ -58,7 +58,7 @@ community:
     facebook_label: "WPACC on Facebook"
 
   - name: "Rosehill and The Brae Parent Network (Parent Council)"
-    about: "The parent council for Rosehill High School. Any parent or carer of a young person at the school is part of its parent forum, and any member of the forum can join the council. Meetings are held in school from 6.30pm, with the option to join online (you can listen in but can't ask questions). 2026/27 dates: 22 September, 25 November, 25 January, 17 March, and 11 May (AGM)."
+    about: "The parent council for Rosehill High School. Any parent or carer of a young person at the school is part of its parent forum, and any member of the forum can join the council. Meetings are held in school from 6.30pm, about five times a year, with the option to join online (you can listen in but can't ask questions). This year's dates are on the parent council's page."
     contact: "rosehillhighpc@gmail.com"
     link: "https://sites.google.com/edubuzz.org/rosehill-high-school/parent-engagement/rosehill-and-the-brae-parent-network-parent-council"
 

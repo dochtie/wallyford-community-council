@@ -1,0 +1,34 @@
+# Every Monday morning, open every page of the live website and test each
+# link to another website. If a link is dead (the page has gone, or the
+# website no longer exists), this job fails and GitHub emails you. Open
+# the failed run in the Actions tab: the broken links are listed at the
+# top, with the page each one is on.
+#
+# Some websites (Facebook, YouTube and a few others) turn away automatic
+# checks, so those links are only reported as "couldn't check", never as
+# broken. Click them yourself now and then.
+#
+# To run it straight away: Actions tab > "Check the website's links" >
+# Run workflow.
+
+name: Check the website's links
+
+on:
+  schedule:
+    - cron: "17 6 * * 1" # every Monday at 6.17am UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Test every external link
+        run: |
+          url=$(sed -n 's/^url: *"\(.*\)".*/\1/p' _config.yml)
+          baseurl=$(sed -n 's/^baseurl: *"\(.*\)".*/\1/p' _config.yml)
+          python3 tools/check_links.py "$url$baseurl"
