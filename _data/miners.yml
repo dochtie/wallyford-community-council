@@ -2,6 +2,8 @@
 # they appear on the two replica coal hutches on either side of the Miners'
 # Stone. (The third hutch carries Janet Bourhill's poem, not names.)
 # Shown on the History page. Leave age blank where the plaque gives none.
+# The last entry is for a miner whose name was missed when the plaques were
+# made, so it is not on either hutch (only his name is known).
 
 - plaque: "1857 to 1904"
   miners:
@@ -45,3 +47,8 @@
     - { date: "1913 April 3", name: "Robert Watson", age: "22" }
     - { date: "1924 October 2", name: "David Drylie", age: "68" }
     - { date: "1929 May 30", name: "Hugh McKenzie", age: "" }
+
+- plaque: "missing from the hutches"
+  caption: "Also lost, but missing from the hutches"
+  miners:
+    - { date: "Date not known", name: "Thomas Drury", age: "" }
