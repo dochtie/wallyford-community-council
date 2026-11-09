@@ -1,7 +1,8 @@
-# Every night, save a copy of the "Upcoming dates" tab of the website
-# sheet into the website (assets/data/events-backup.csv). If Google ever
-# can't supply the sheet (it's deleted, unpublished, or Google is down),
-# the site shows the dates from this copy instead.
+# Every night, save a copy of the "Upcoming dates" and "Tracker" tabs of
+# the website sheet into the website (assets/data/events-backup.csv and
+# assets/data/tracker-backup.csv). If Google ever can't supply the sheet
+# (it's deleted, unpublished, or Google is down), the site shows the
+# dates and the "You said, we did" list from these copies instead.
 #
 # It only saves a copy that looks right, so a broken sheet never
 # overwrites the last good backup. A failed run in the Actions tab means
@@ -28,9 +29,10 @@ jobs:
   backup:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Download the Upcoming dates tab
+        id: dates
         run: |
           url=$(sed -n 's/^events_csv_url: *"\(.*\)".*/\1/p' _config.yml)
           if [ -z "$url" ]; then
@@ -58,25 +60,62 @@ jobs:
           rm new.csv
           echo "Saved $(($(wc -l < assets/data/events-backup.csv) - 1)) rows."
 
-      - name: Save the copy if it changed
-        id: save
+      # The same for the Tracker tab ("You said, we did"). It runs even if
+      # the dates couldn't be read, so one broken tab doesn't stop the other
+      # being backed up.
+      - name: Download the Tracker tab
+        id: tracker
+        if: always()
         run: |
-          if [ -z "$(git status --porcelain -- assets/data/events-backup.csv)" ]; then
+          url=$(sed -n 's/^tracker_csv_url: *"\(.*\)".*/\1/p' _config.yml)
+          if [ -z "$url" ]; then
+            echo "::error::There's no tracker_csv_url in _config.yml."
+            exit 1
+          fi
+          if ! curl -fsSL --retry 3 --max-time 60 "$url" -o new.csv; then
+            echo "::error::Couldn't download the Tracker tab. Is the sheet still published (File > Share > Publish to web)?"
+            exit 1
+          fi
+          header=$(head -n 1 new.csv | tr -d '\r' | tr 'A-Z' 'a-z')
+          case "$header" in
+            "<"*)
+              echo "::error::Google sent a web page instead of the sheet. Is the sheet still published?"
+              exit 1 ;;
+          esac
+          for column in "you said" "we did" status "show on website"; do
+            if ! printf '%s\n' "$header" | grep -q "$column"; then
+              echo "::error::The Tracker tab has no '$column' column. Was a heading renamed?"
+              exit 1
+            fi
+          done
+          # Drop the empty rows (nothing but commas and an unticked box).
+          tr -d '\r' < new.csv | grep -v '^,\+\(TRUE\|FALSE\)\?$' > assets/data/tracker-backup.csv
+          rm new.csv
+          echo "Saved the tracker."
+
+      # Saves whichever copies were read successfully. A tab that failed
+      # above keeps its last good backup.
+      - name: Save the copies if they changed
+        id: save
+        if: always()
+        run: |
+          rm -f new.csv
+          if [ -z "$(git status --porcelain -- assets/data/events-backup.csv assets/data/tracker-backup.csv)" ]; then
             echo "No changes since the last backup."
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/data/events-backup.csv
-          git commit -m "Back up the website dates from the sheet"
+          git add assets/data/events-backup.csv assets/data/tracker-backup.csv
+          git commit -m "Back up the website sheet"
           git push
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
       # A save made by this job doesn't always republish the site by
       # itself, so ask GitHub Pages to rebuild.
       - name: Republish the website
-        if: steps.save.outputs.changed == 'true'
+        if: always() && steps.save.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |

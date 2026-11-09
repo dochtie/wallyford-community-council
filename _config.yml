@@ -30,6 +30,12 @@ meeting_place: "Assembly Hall, Wallyford Learning Campus"
 meeting_way_in: "Come in through the Leisure entrance, by the car park."
 meeting_rule: "Last Wednesday of every month, except July and December"
 
+# Agendas and minutes: paste the link to where people can read them (for
+# example a Google Drive folder shared with "Anyone with the link") between
+# the quotes. A button to it then appears in the Meetings part of the
+# Community Council page. While it's empty, that page asks people to email.
+minutes_url: ""
+
 # The website sheet in Google Drive: "Wallyford CC - Website updates".
 # It is published with File > Share > Publish to web > Entire document,
 # so every tab has its own CSV link: the same link with a different gid.

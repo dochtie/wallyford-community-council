@@ -14,6 +14,7 @@ A simple website for Wallyford Community Council, built with [Jekyll](https://je
 | Report it | `report.html` |
 | You said, we did | `you-said-we-did.html` |
 | Community Speedwatch (how it works, the four areas, volunteering) | `speedwatch.html` |
+| Privacy and accessibility (linked from the bottom of every page) | `privacy.html` |
 
 ## Everyday updates (no coding needed)
 
@@ -22,7 +23,8 @@ You can edit any of these files on github.com: open the file, click the pencil i
 **If the site hasn't updated after 15 minutes:** open the **Actions** tab on GitHub and click the newest *pages build and deployment* run. If it failed, click **Re-run all jobs**. If it's stuck on *Queued*, the problem is on GitHub's side: wait, or make any new change, which starts a fresh run that publishes everything. Your changes are safe either way.
 
 - **Contact details, Facebook link, meeting details:** `_config.yml`
-- **Councillors (names, roles, photos, blurbs):** `_data/councillors.yml`. Put photos in `assets/img/people/` and add the file name to `photo:`.
+- **Agendas and minutes:** paste the link to the folder they're kept in into `minutes_url` in `_config.yml`. A button to it appears in the Meetings part of the Community Council page. While it's empty, the page asks people to email for them.
+- **Councillors (names, roles, photos, blurbs):** `_data/councillors.yml`. Put photos in `assets/img/people/` and add the file name to `photo:`. A blank line in a blurb starts a new paragraph.
 - **Local groups:** `_data/groups.yml`
 - **Coming up (home page) and What's on:** the home page shows the next four dates; the *What's on* page shows everything in the next twelve months, month by month. **Every date comes from the Upcoming dates tab of the website sheet** (see below); the website doesn't work any out by itself. Put each event on its own row and tick *Show on website*. Past events disappear by themselves, and the same event typed twice on the same day only shows once.
   - Rows with *Community Council Meeting* in the Event column also set the "next meeting" date on the Council, Report it and You said, we did pages, and a row with *Torchlight* in it sets the "This year:" date on the Council page. Without one, those pages show their general wording (for meetings, `meeting_rule` in `_config.yml`).
@@ -47,7 +49,11 @@ The sheet is published with **File > Share > Publish to web > Entire document**,
 
 Never put residents' names or contact details, vehicle registrations or volunteers' names in the sheet.
 
-**Backup of the dates:** every night GitHub saves a copy of the Upcoming dates tab into the website (`assets/data/events-backup.csv`, by `.github/workflows/backup-dates.yml`). If the sheet can't be read (deleted, unpublished, a column heading renamed, or Google is down), the site shows the dates from that copy instead, so they're at most a day old. To back up straight away: **Actions** tab > *Back up the website dates* > **Run workflow**. A failed run means something's wrong with the sheet, and its message says what; the last good copy is kept. GitHub pauses nightly jobs after 60 days without any change to the repository and emails you first: click **Enable workflow** in the Actions tab to restart it.
+**Backup of the dates and the tracker:** every night GitHub saves a copy of the Upcoming dates and Tracker tabs into the website (`assets/data/events-backup.csv` and `assets/data/tracker-backup.csv`, by `.github/workflows/backup-dates.yml`). If the sheet can't be read (deleted, unpublished, a column heading renamed, or Google is down), the site shows the dates and the *You said, we did* list from those copies instead, so they're at most a day old. To back up straight away: **Actions** tab > *Back up the website dates* > **Run workflow**. A failed run means something's wrong with the sheet, and its message says what; the last good copy is kept. GitHub pauses nightly jobs after 60 days without any change to the repository and emails you first: click **Enable workflow** in the Actions tab to restart it.
+
+**Broken links:** every Monday GitHub tests every link from the website to other websites (`.github/workflows/check-links.yml`). If one has died, the run fails and GitHub emails you; open the failed run in the **Actions** tab and the broken links are listed at the top. Facebook, YouTube and a few other sites turn away automatic checks, so click those yourself now and then.
+
+**Fonts:** the two fonts (Fraunces and Source Sans 3) are kept in `assets/fonts` and served by the website itself, so nothing is loaded from Google Fonts.
 
 If you ever make a new sheet, keep the same column headings and set **File > Settings > Locale** to *United Kingdom*, so dates are read as day/month.
 
@@ -61,6 +67,7 @@ While a sheet link is empty and draft mode is on, the pages show clearly labelle
 
 - Set `show_review_notes: false` in `_config.yml`. This hides the purple "Please check" and "To fill in" notes, which are there for the Community Council to work through.
 - Add councillor photos and blurbs, and contact details or links for the local groups.
+- Read and agree the wording of the Privacy and accessibility page, and add the agendas and minutes link (`minutes_url` in `_config.yml`).
 - Check that you have permission to use every photo.
 
 ## Getting on Google
