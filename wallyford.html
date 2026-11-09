@@ -85,7 +85,7 @@ description: The story of Wallyford, East Lothian. Mining and the Miners' Stones
       <p class="eyebrow">Mining and the Miners' Stones</p>
       <h2>Remembering the men who worked underground</h2>
       <p>For more than a century, most Wallyford families depended on the pits. The work was hard and dangerous, and 38 men lost their lives in Wallyford's collieries between 1857 and 1929.</p>
-      <p>The Miners' Stone in St Clement's Gardens, off Salters Road, was commissioned by the Community Council, carved by the sculptor Shawn Williamson, and unveiled in 2010. It is carved with scenes from underground. The replica coal hutches on either side carry the names of the miners who were lost (see the note below about one name that was missed), and a third hutch carries a poem. Each December the Torchlight Parade ends here with a short service and a floral tribute.</p>
+      <p>The Miners' Stone in St Clement's Gardens, off Salters Road, was commissioned by the Community Council, carved by the sculptor Shawn Williamson, and unveiled in 2010. It is carved with scenes from underground. The replica coal hutches on either side carry the names of 37 of the 38 miners (Thomas Drury's name was missed when the plaques were made), and a third hutch carries a poem. Each December the Torchlight Parade ends here with a short service and a floral tribute.</p>
       <figure class="figure" style="margin-top:1.5rem">
         <img src="{{ '/assets/img/miners-stone-plaque.jpg' | relative_url }}" alt="Metal plaque set into the red sandstone of the Miners' Stone. It reads: Wallyford Mining Memorial Stone. In recognition of Wallyford as a Mining Community. Dedicated to all the Miners of our village, including those who lost their lives prematurely, as a result of their working conditions. No more deep dark mine shafts never seeing the light of day, no more toiling hard for very little pay, in memory of the miners, our fathers of today. Stone carved by Shawn Williamson F.R.S.A. Stone commissioned by Wallyford Community Council 2009. Financed by Viridor (Forward Scotland), Wallyford Miners Welfare Club, Scottish Coal Industry Special Welfare Fund and East Lothian Council." width="1000" height="747" loading="lazy">
         <figcaption>The plaque on the Miners' Stone. Photo: Allison Coyle.</figcaption>
@@ -121,12 +121,12 @@ description: The story of Wallyford, East Lothian. Mining and the Miners' Stones
       </figure>
     </div>
     <details class="more">
-      <summary>Show the names on the hutches</summary>
+      <summary>Show the names of the 38 miners</summary>
       <div class="grid grid-2 miners-tables">
         {%- for plaque in site.data.miners %}
         <div class="table-scroll">
           <table class="miners-table">
-            <caption>Miners who lost their lives, {{ plaque.plaque }}</caption>
+            <caption>{% if plaque.caption %}{{ plaque.caption }}{% else %}Miners who lost their lives, {{ plaque.plaque }}{% endif %}</caption>
             <thead>
               <tr><th scope="col">Date</th><th scope="col">Name</th><th scope="col" class="num">Age</th></tr>
             </thead>
@@ -139,7 +139,7 @@ description: The story of Wallyford, East Lothian. Mining and the Miners' Stones
         </div>
         {%- endfor %}
       </div>
-      <p class="miners-note">Names, dates and ages are as they appear on the hutches. Where no age is shown, none is given on the plaque. The hutches carry 37 names, but 38 miners were lost. The name of Thomas Drury was missed when the plaques were made, so it is not on the hutches.</p>
+      <p class="miners-note">Names, dates and ages are as they appear on the hutches. Where no age is shown, none is given on the plaque. Thomas Drury is the one miner whose name was missed when the plaques were made, so it is not on the hutches. Only his name is known; we have no date or age for him.</p>
     </details>
   </div>
 </section>
@@ -190,6 +190,34 @@ description: The story of Wallyford, East Lothian. Mining and the Miners' Stones
           <p>Unveiled on 13 September 1919 at Crookston School, which served Wallyford, Smeaton and Deantown, the red sandstone memorial names the local men who fell in the First World War. It moved to Inveresk Cemetery when the school closed in the late 1950s.</p>
           <p>In 2014 the Community Council secured funding from the War Memorials Trust and East Lothian Council to restore it, and held a rededication ceremony on 4 August 2014 for all 59 people named on it. <a href="https://www.warmemorialsonline.org.uk/memorial/138467">More on War Memorials Online</a>.</p>
         </details>
+      </article>
+      <article class="card" id="ww2-roll-of-honour" style="grid-column:1/-1">
+        <div class="grid grid-2" style="align-items:start">
+          <a href="{{ '/assets/img/roll-of-honour-ww2.jpg' | relative_url }}">
+            <img class="card-img" style="aspect-ratio:auto;max-width:420px;margin-bottom:0" src="{{ '/assets/img/roll-of-honour-ww2.jpg' | relative_url }}" alt="A framed illuminated Roll of Honour dedicated to those who gave their lives in World War II, 1939 to 1945, listing fifteen names with their services, inside a decorated border of national shields" width="800" height="1141" loading="lazy">
+          </a>
+          <div>
+            <h3>The Second World War Roll of Honour</h3>
+            <p>A framed illuminated Roll of Honour is dedicated to those who gave their lives in World War II, 1939 to 45. Select the photo to see it full size.</p>
+            <details class="more">
+              <summary>Show the names</summary>
+              <div class="table-scroll">
+                <table class="miners-table">
+                  <caption>World War II, 1939 to 45</caption>
+                  <thead>
+                    <tr><th scope="col">Name</th><th scope="col">Service</th></tr>
+                  </thead>
+                  <tbody>
+                    {%- for m in site.data.ww2_roll %}
+                    <tr><td>{{ m.name }}{% if m.rank %} <span class="small muted">({{ m.rank }})</span>{% endif %}</td><td>{{ m.service }}</td></tr>
+                    {%- endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <p class="miners-note">Names and service abbreviations are as they appear on the Roll of Honour.</p>
+            </details>
+          </div>
+        </div>
       </article>
     </div>
   </div>
@@ -268,7 +296,7 @@ description: The story of Wallyford, East Lothian. Mining and the Miners' Stones
       <div>
         <h3>Reading and walking</h3>
         <ul>
-          <li><a href="https://www.flickr.com/photos/eastlothian/albums/72157644170256596/">A history of Wallyford in photos</a> (East Lothian Council)</li>
+          <li><a href="https://www.flickr.com/photos/eastlothian/albums/72157644170256596/">A history of Wallyford in photos</a> (East Lothian Council). The two pit &ldquo;coal face workings&rdquo; photos here are probably Carberry Pit, not Wallyford.</li>
           <li><a href="https://eastlothianantiquarians.org.uk/files/2026/04/Place-names-of-East-Lothian-A-journey-through-time-Liz-Curtis-Third-edition-March-2026.pdf">Place-names of East Lothian</a> by Liz Curtis (PDF)</li>
           <li><a href="https://www.mining-landscapes.org">Mining Landscapes</a></li>
           <li><a href="https://www.eastlothian.gov.uk/downloads/file/12989/musselburgh_area_paths">Musselburgh area paths</a> (East Lothian Council, PDF)</li>
