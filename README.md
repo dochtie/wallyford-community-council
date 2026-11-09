@@ -53,6 +53,8 @@ Never put residents' names or contact details, vehicle registrations or voluntee
 
 **Broken links:** every Monday GitHub tests every link from the website to other websites (`.github/workflows/check-links.yml`). If one has died, the run fails and GitHub emails you; open the failed run in the **Actions** tab and the broken links are listed at the top. Facebook, YouTube and a few other sites turn away automatic checks, so click those yourself now and then.
 
+**Films:** the miners' remembrance service film is kept in the website itself (`assets/video`), so it plays straight from the History page. GitHub won't accept a file over 100 MB, so keep any film you add here well under that. The other films are links to Google Drive and YouTube.
+
 **Fonts:** the two fonts (Fraunces and Source Sans 3) are kept in `assets/fonts` and served by the website itself, so nothing is loaded from Google Fonts.
 
 If you ever make a new sheet, keep the same column headings and set **File > Settings > Locale** to *United Kingdom*, so dates are read as day/month.
