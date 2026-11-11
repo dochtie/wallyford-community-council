@@ -62,18 +62,25 @@ community:
     contact: "rosehillhighpc@gmail.com"
     link: "https://sites.google.com/edubuzz.org/rosehill-high-school/parent-engagement/rosehill-and-the-brae-parent-network-parent-council"
 
-  - name: "Wallyford Miners' Charitable Society Club"
-    about: "The Miners' Club, 24 Salters Road. A members' social club run by a registered charity (SC010359) that provides recreation and leisure for local people. The Torchlight Parade sets off from its car park every December."
-    contact: ""
-    link: ""
-    check: "I took out the history for now. A local history site says the Wallyford Miners' Welfare was built in the 1970s from subscriptions from miners' wages and was a soup kitchen in the 1984 to 1985 strike, but I haven't been able to confirm it is the same building as the Club. Can anyone confirm?"
+  - name: "Wallyford Miners Welfare Society & Social Club"
+    about: "The heart of the community in Wallyford, on Salters Road. A local charity set up to support the mining community, the club hosts live entertainment, charity fundraisers, family celebrations and private functions. It has a main hall, a lounge, the Jungle Bar for pool and darts, and a bowling section, and the hall is available to hire. The Torchlight Parade sets off from its car park every December."
+    contact: "info@wallyfordminers.co.uk"
+    link: "https://wallyfordminers.co.uk/"
 
 tras:
-  - name: "TO DO: name of tenants' and residents' association"
-    area: "Which streets or estate it covers"
-    contact: ""
+  - name: "St Clements Wells (Persimmon) TRA"
+    area: "Old Row, Castle Rise, Innes Neuk, Harvey Avenue and Masons Way"
+    contact: "scwtra.persimmons@gmail.com"
     link: ""
-    placeholder: true
+    facebook: "https://www.facebook.com/groups/995082151467921/"
+    facebook_label: "Facebook group"
+
+  - name: "St Clements Wells Barratt TRA"
+    area: "Auburn Locks, Bath Crescent, Chute Crescent, Cleugh Rise, Eskfield View, Howe Mire, Krause Walk, Ormond Avenue, Ormond Drive, Rosehill Cusp, Sweethope Crescent, Windlass Drive, Windlass Gardens and part of Masons Way"
+    contact: "stclements.bh.ra@gmail.com"
+    link: ""
+    facebook: "https://www.facebook.com/groups/2677251762360647/"
+    facebook_label: "Facebook group"
 
 # Schemes registered with Neighbourhood Watch Scotland. The streets were
 # matched against each scheme's map on the Neighbourhood Watch Scotland
