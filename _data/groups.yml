@@ -22,7 +22,6 @@ community:
     link: ""
     facebook: "https://www.facebook.com/share/14tafFaeGJb/"
     facebook_label: "Community Centre on Facebook"
-    check: "I got the address and email from East Lothian Council's directory. Events and activities stay on the Facebook page rather than being listed here. I still need to check the opening times."
 
   - name: "Wallyford Library"
     about: "Wallyford Library is at 25 Masons Way, EH21 8BF, in the Wallyford Learning Campus. Open Thursday 9am to 1pm and 2pm to 5pm, Friday 9am to 12pm and 1pm to 5pm, and Saturday 10am to 1pm. Free Wi-Fi, Click and Collect, and Bookbug sessions for under-5s on Thursdays and Saturdays at 10.30am. Phone 0131 202 8466 (option 3)."
@@ -30,7 +29,6 @@ community:
     link: "https://www.eastlothian.gov.uk/libraries-leisure-and-tourism/libraries/east-lothian-libraries/wallyford-library"
     facebook: "https://www.facebook.com/share/18SJvTXJWd/"
     facebook_label: "Libraries on Facebook"
-    check: "I took the opening hours from East Lothian Council's Wallyford Library page. I need to check they are still right."
 
   - name: "Wallyford Community Church"
     about: "Albert Place. Hosts the village's Remembrance Sunday service."
@@ -48,7 +46,6 @@ community:
     link: ""
     facebook: "https://www.facebook.com/share/19enn2CUpU/"
     facebook_label: "Playgroup on Facebook"
-    check: "Willie sent this Facebook link for Jacqueline's playgroup. I need to confirm the official name and any meeting details before launch."
 
   - name: "Wallyford Parents and Carers Council (WPACC)"
     about: "The parent council for Wallyford Primary School and Nursery. It represents parents and carers, supports the school, and raises money through things like bake sales and discos. Everyone is welcome at its meetings, and you don't need to be a member. Meetings are on the first Tuesday of the month, 6pm to 7.30pm, in school."
