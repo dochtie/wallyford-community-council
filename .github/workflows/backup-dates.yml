@@ -56,7 +56,7 @@ jobs:
             fi
           done
           # Keep the rows with something in them; drop the empty ones.
-          tr -d '\r' < new.csv | grep -v '^,*\(TRUE\|FALSE\)\?$' > assets/data/events-backup.csv
+          tr -d '\r' < new.csv | grep -v '^,*\(TRUE\|FALSE\)\?,*$' > assets/data/events-backup.csv
           rm new.csv
           echo "Saved $(($(wc -l < assets/data/events-backup.csv) - 1)) rows."
 
@@ -89,9 +89,39 @@ jobs:
             fi
           done
           # Drop the empty rows (nothing but commas and an unticked box).
-          tr -d '\r' < new.csv | grep -v '^,\+\(TRUE\|FALSE\)\?$' > assets/data/tracker-backup.csv
+          tr -d '\r' < new.csv | grep -v '^,*\(TRUE\|FALSE\)\?,*$' > assets/data/tracker-backup.csv
           rm new.csv
           echo "Saved the tracker."
+
+      # The same for the Speedwatch tab.
+      - name: Download the Speedwatch tab
+        id: speedwatch
+        if: always()
+        run: |
+          url=$(sed -n 's/^speedwatch_csv_url: *"\(.*\)".*/\1/p' _config.yml)
+          if [ -z "$url" ]; then
+            echo "No speedwatch_csv_url in _config.yml; skipping."
+            exit 0
+          fi
+          if ! curl -fsSL --retry 3 --max-time 60 "$url" -o new.csv; then
+            echo "::error::Couldn't download the Speedwatch tab. Is the sheet still published (File > Share > Publish to web)?"
+            exit 1
+          fi
+          header=$(head -n 1 new.csv | tr -d '\r' | tr 'A-Z' 'a-z')
+          case "$header" in
+            "<"*)
+              echo "::error::Google sent a web page instead of the sheet. Is the sheet still published?"
+              exit 1 ;;
+          esac
+          for column in date "vehicles checked" "over the limit"; do
+            if ! printf '%s\n' "$header" | grep -q "$column"; then
+              echo "::error::The Speedwatch tab has no '$column' column. Was a heading renamed?"
+              exit 1
+            fi
+          done
+          tr -d '\r' < new.csv | grep -v '^,*\(TRUE\|FALSE\)\?,*$' > assets/data/speedwatch-backup.csv
+          rm new.csv
+          echo "Saved Speedwatch results."
 
       # Saves whichever copies were read successfully. A tab that failed
       # above keeps its last good backup.
@@ -100,14 +130,14 @@ jobs:
         if: always()
         run: |
           rm -f new.csv
-          if [ -z "$(git status --porcelain -- assets/data/events-backup.csv assets/data/tracker-backup.csv)" ]; then
+          if [ -z "$(git status --porcelain -- assets/data/events-backup.csv assets/data/tracker-backup.csv assets/data/speedwatch-backup.csv)" ]; then
             echo "No changes since the last backup."
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/data/events-backup.csv assets/data/tracker-backup.csv
+          git add assets/data/events-backup.csv assets/data/tracker-backup.csv assets/data/speedwatch-backup.csv
           git commit -m "Back up the website sheet"
           git push
           echo "changed=true" >> "$GITHUB_OUTPUT"

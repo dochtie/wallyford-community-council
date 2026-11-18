@@ -284,12 +284,29 @@ description: The story of Wallyford, East Lothian. Mining and the Miners' Stones
     <div class="grid grid-2">
       <div>
         <h3>Films</h3>
-        <ul>
-          <li><a href="{{ '/assets/video/old-wallyford-cine-film.mp4' | relative_url }}">Old cine film of Wallyford</a> (video, 3 minutes, 47 MB)</li>
-          <li><a href="{{ '/assets/video/wallyford-bing-mining-stones.mp4' | relative_url }}">The mining stones on Wallyford Bing</a> (video, 2 minutes, 42 MB)</li>
-          <li><a href="{{ '/assets/video/miners-remembrance-working-man.mp4' | relative_url }}">Miners' remembrance service ("Working Man")</a> (video, 3 minutes, 41 MB)</li>
-          <li><a href="https://www.youtube.com/watch?v=C9M_dbLCuPg">The Battle of Pinkie Cleugh</a></li>
-          <li><a href="https://www.youtube.com/watch?v=6emTc9_NX54">Greyhound racing at Wallyford: "Goes to the dogs"</a></li>
+        <div class="video-list">
+          <details class="more video-item" id="film-cine">
+            <summary>Old cine film of Wallyford <span class="small muted">(3 mins)</span></summary>
+            <video class="site-video" controls preload="none" src="{{ '/assets/video/old-wallyford-cine-film.mp4' | relative_url }}">
+              <a href="{{ '/assets/video/old-wallyford-cine-film.mp4' | relative_url }}">Download the old cine film of Wallyford (MP4, 47 MB)</a>
+            </video>
+          </details>
+          <details class="more video-item" id="film-bing">
+            <summary>The mining stones on Wallyford Bing <span class="small muted">(2 mins)</span></summary>
+            <video class="site-video" controls preload="none" src="{{ '/assets/video/wallyford-bing-mining-stones.mp4' | relative_url }}">
+              <a href="{{ '/assets/video/wallyford-bing-mining-stones.mp4' | relative_url }}">Download the film of the mining stones on Wallyford Bing (MP4, 42 MB)</a>
+            </video>
+          </details>
+          <details class="more video-item" id="film-remembrance">
+            <summary>Miners' remembrance service ("Working Man") <span class="small muted">(3 mins)</span></summary>
+            <video class="site-video" controls preload="none" src="{{ '/assets/video/miners-remembrance-working-man.mp4' | relative_url }}">
+              <a href="{{ '/assets/video/miners-remembrance-working-man.mp4' | relative_url }}">Download the miners' remembrance service film (MP4, 41 MB)</a>
+            </video>
+          </details>
+        </div>
+        <ul style="margin-top:1rem">
+          <li><a href="https://www.youtube.com/watch?v=C9M_dbLCuPg">The Battle of Pinkie Cleugh</a> (YouTube)</li>
+          <li><a href="https://www.youtube.com/watch?v=6emTc9_NX54">Greyhound racing at Wallyford: "Goes to the dogs"</a> (YouTube)</li>
         </ul>
       </div>
       <div>
