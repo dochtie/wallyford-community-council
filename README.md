@@ -40,7 +40,7 @@ One Google Sheet in Drive, *Wallyford CC - Website updates*, feeds three parts o
 | Tab | Shows on | What to add |
 | --- | --- | --- |
 | **Tracker** | *You said, we did*, and the latest three on the home page | An issue residents raised and what the Community Council did |
-| **Upcoming dates** | The *Coming up* box on the home page, the *What's on* page, the "next meeting" dates and the Torchlight Parade date | Every date: meetings, Remembrance, the Torchlight Parade, Gala Day and anything else. Date, time, event, place and an optional link |
+| **Upcoming dates** | The *Coming up* box on the home page, the *What's on* page, the "next meeting" dates and the Torchlight Parade date | Every date: meetings, Remembrance, the Torchlight Parade, Gala Day and anything else. Date, time, event, place, an optional link and an optional note (for example a special guest), shown under the event and under "Next meeting" on the Council page |
 | **Speedwatch** | The Speedwatch page (results counter is switched off for now) | One row per Speedwatch session |
 
 Only rows with **Show on website** ticked appear. The website reads the sheet each time someone opens a page, and Google can take up to 5 minutes to pass on changes.

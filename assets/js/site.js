@@ -368,6 +368,8 @@
     event: "title",
     place: "place",
     link: "link",
+    note: "note",
+    notes: "note",
     showonwebsite: "show"
   };
 
@@ -398,6 +400,7 @@
       var link = /^https?:\/\//i.test(o.link || "") ? o.link : "";
       out.push({
         date: d, ends: known ? known.ends : 23, title: o.title, time: niceTime(o.time), mins: timeMins(o.time), place: o.place || "",
+        note: o.note || "",
         link: link || (known ? siteLink(known.link) : ""),
         kind: known ? known.key : ""
       });
@@ -505,6 +508,12 @@
       wanted.forEach(function (w) {
         var next = upcoming(events.filter(function (e) { return e.kind === w[0]; }), now)[0];
         if (next) fillDates(w[1], next.date, now);
+        // The next meeting's Note (e.g. a special guest), on the Council page.
+        var noteBox = w[0] === "meeting" && document.querySelector("[data-next-meeting-note]");
+        if (next && next.note && noteBox) {
+          noteBox.textContent = next.note;
+          noteBox.hidden = false;
+        }
       });
     });
   }
@@ -535,6 +544,7 @@
       text.appendChild(make("span", "event-title", e.title));
       var detail = [e.time, e.place].filter(Boolean).join(" \u00b7 ");
       if (detail) text.appendChild(make("span", "event-detail", detail));
+      if (e.note) text.appendChild(make("span", "event-note", e.note));
       inner.appendChild(badge);
       inner.appendChild(text);
       li.appendChild(inner);

@@ -56,7 +56,7 @@ jobs:
             fi
           done
           # Keep the rows with something in them; drop the empty ones.
-          tr -d '\r' < new.csv | grep -v '^,*\(TRUE\|FALSE\)\?$' > assets/data/events-backup.csv
+          tr -d '\r' < new.csv | grep -v '^,*\(TRUE\|FALSE\)\?,*$' > assets/data/events-backup.csv
           rm new.csv
           echo "Saved $(($(wc -l < assets/data/events-backup.csv) - 1)) rows."
 
@@ -89,7 +89,7 @@ jobs:
             fi
           done
           # Drop the empty rows (nothing but commas and an unticked box).
-          tr -d '\r' < new.csv | grep -v '^,\+\(TRUE\|FALSE\)\?$' > assets/data/tracker-backup.csv
+          tr -d '\r' < new.csv | grep -v '^,\+\(TRUE\|FALSE\)\?,*$' > assets/data/tracker-backup.csv
           rm new.csv
           echo "Saved the tracker."
 
