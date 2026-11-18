@@ -65,12 +65,15 @@ If you ever make a new sheet, keep the same column headings and set **File > Set
 
 While a sheet link is empty and draft mode is on, the pages show clearly labelled previews from `assets/data/tracker-preview.csv` and `assets/data/speedwatch-preview.csv`.
 
-## Before going live
+## Draft notes
 
-- Set `show_review_notes: false` in `_config.yml`. This hides the purple "Please check" and "To fill in" notes, which are there for the Community Council to work through.
-- Add councillor photos and blurbs, and contact details or links for the local groups.
-- Read and agree the wording of the Privacy and accessibility page, and add the agendas and minutes link (`minutes_url` in `_config.yml`).
-- Check that you have permission to use every photo.
+The site is live: `show_review_notes` in `_config.yml` is `false`, so the purple "Please check" and "To fill in" notes are hidden and search engines may list the site. To see the notes again while working through changes, set it back to `true` (this also asks search engines not to list the site, so set it back to `false` when you're done).
+
+Still to do after launch:
+
+- Councillor photos and blurbs for Sharon, Bim, Ann and Billy (`_data/councillors.yml`). Until then their cards show initials.
+- The agendas and minutes link (`minutes_url` in `_config.yml`). Until then the Council page asks people to email for them.
+- Contact details or links for the local groups that don't have one yet.
 
 ## Getting on Google
 
@@ -78,7 +81,7 @@ The site is already set up for search engines (page titles and descriptions, a s
 
 On launch day:
 
-1. Set `show_review_notes: false` in `_config.yml`.
+1. Check `show_review_notes` is `false` in `_config.yml` (it is from launch).
 2. Go to [Google Search Console](https://search.google.com/search-console), add a **URL prefix** property for `https://dochtie.github.io/wallyford-community-council/`.
 3. Choose **HTML tag** verification. Copy just the code from inside `content="..."` and paste it into `google_site_verification` in `_config.yml`. Wait a couple of minutes for the site to update, then click **Verify**.
 4. In Search Console, open **Sitemaps** and submit `sitemap.xml`.
