@@ -368,9 +368,11 @@
     event: "title",
     place: "place",
     link: "link",
+    showonwebsite: "show",
     note: "note",
     notes: "note",
-    showonwebsite: "show"
+    details: "note",
+    noteforwebsite: "note"
   };
 
   // Dates from the "Upcoming dates" tab of the website sheet. The same
@@ -385,7 +387,13 @@
     for (var r = 1; r < rows.length; r++) {
       var o = {};
       for (var k = 0; k < keys.length; k++) {
-        if (keys[k]) o[keys[k]] = (rows[r][k] || "").trim();
+        var val = (rows[r][k] || "").trim();
+        if (keys[k]) {
+          o[keys[k]] = val;
+        } else if (k >= 6 && val && !o.note) {
+          // Support an extra note column on the sheet even if its heading cell is blank.
+          o.note = val;
+        }
       }
       if (hasShow && !/^(true|yes|y|1|x)$/i.test(o.show || "")) continue;
       var d = parseDate(o.date);
@@ -435,6 +443,52 @@
   function sameText(a, b) {
     var norm = function (s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g, ""); };
     return norm(a) === norm(b);
+  }
+
+  // Build an .ics calendar file for an event so visitors can add it to their phone or computer calendar.
+  function pad2(n) { return (n < 10 ? "0" : "") + n; }
+  function icsDate(d, mins) {
+    var y = d.getFullYear(), m = pad2(d.getMonth() + 1), day = pad2(d.getDate());
+    if (mins == null || mins >= 24 * 60) return y + m + day;
+    var h = pad2(Math.floor(mins / 60)), min = pad2(mins % 60);
+    return y + m + day + "T" + h + min + "00";
+  }
+  function icsEscape(s) {
+    return String(s || "").replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n");
+  }
+  function downloadICS(e) {
+    var hasTime = e.mins < 24 * 60;
+    var start = icsDate(e.date, hasTime ? e.mins : null);
+    var end;
+    if (hasTime) {
+      end = icsDate(e.date, Math.min(23 * 60 + 59, e.mins + 90));
+    } else {
+      var nextDay = new Date(e.date.getFullYear(), e.date.getMonth(), e.date.getDate() + 1);
+      end = icsDate(nextDay, null);
+    }
+    var lines = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//Wallyford Community Council//Website//EN",
+      "BEGIN:VEVENT",
+      "UID:" + start + "-" + slug(e.title) + "@wallyfordcc",
+      "DTSTAMP:" + icsDate(new Date(), 0) + "Z",
+      hasTime ? "DTSTART:" + start : "DTSTART;VALUE=DATE:" + start,
+      hasTime ? "DTEND:" + end : "DTEND;VALUE=DATE:" + end,
+      "SUMMARY:" + icsEscape(e.title)
+    ];
+    if (e.place) lines.push("LOCATION:" + icsEscape(e.place));
+    if (e.note) lines.push("DESCRIPTION:" + icsEscape(e.note));
+    lines.push("END:VEVENT", "END:VCALENDAR");
+    var blob = new Blob([lines.join("\r\n")], { type: "text/calendar;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = (slug(e.title) || "wallyford-event") + ".ics";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
   }
 
   // Fetch a copy of the "Upcoming dates" tab and read its events. Fails if
@@ -530,7 +584,7 @@
   var evMonFmt = new Intl.DateTimeFormat("en-GB", { month: "short" });
   var evMonthFmt = new Intl.DateTimeFormat("en-GB", { month: "long", year: "numeric" });
 
-  function eventList(events, now) {
+  function eventList(events, now, showCal) {
     var list = make("ul", "events");
     events.forEach(function (e) {
       var li = make("li", "event");
@@ -548,6 +602,16 @@
       inner.appendChild(badge);
       inner.appendChild(text);
       li.appendChild(inner);
+      if (showCal) {
+        var cal = make("a", "event-cal", "Add to calendar");
+        cal.href = "#";
+        cal.setAttribute("aria-label", "Add " + e.title + " on " + fmtShort.format(e.date) + " to your calendar");
+        cal.addEventListener("click", function (ev) {
+          ev.preventDefault();
+          downloadICS(e);
+        });
+        li.appendChild(cal);
+      }
       list.appendChild(li);
     });
     return list;
@@ -558,7 +622,7 @@
     var all = upcoming(events, now).slice(0, +(box.getAttribute("data-count") || 4));
     if (!all.length) return false;
     box.innerHTML = "";
-    box.appendChild(eventList(all, now));
+    box.appendChild(eventList(all, now, false));
     return true;
   }
 
@@ -578,7 +642,7 @@
     months.forEach(function (m) {
       var section = make("section", "whats-on-month");
       section.appendChild(make("h2", "whats-on-heading", evMonthFmt.format(m.date)));
-      section.appendChild(eventList(m.events, now));
+      section.appendChild(eventList(m.events, now, true));
       box.appendChild(section);
     });
     return true;
@@ -962,14 +1026,27 @@
     box.innerHTML = "";
     box.appendChild(cswWaiting("Loading the latest results…"));
 
-    fetch(url, { cache: "no-cache" })
-      .then(function (res) {
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        return res.text();
-      })
-      .then(function (text) {
-        if (/^\s*</.test(text)) throw new Error("Expected CSV, got HTML");
-        var sessions = toSessions(parseCSV(text));
+    function fetchSpeedwatch(u) {
+      return fetch(u, { cache: "no-cache" })
+        .then(function (res) {
+          if (!res.ok) throw new Error("HTTP " + res.status);
+          return res.text();
+        })
+        .then(function (text) {
+          if (/^\s*</.test(text)) throw new Error("Expected CSV, got HTML");
+          var rows = parseCSV(text);
+          var heads = (rows[0] || []).map(function (h) { return CSW_COLUMNS[h.toLowerCase().replace(/[^a-z]/g, "")]; });
+          if (heads.indexOf("date") === -1 || heads.indexOf("checked") === -1) throw new Error("Missing columns");
+          return toSessions(rows);
+        });
+    }
+
+    var backup = cfg.speedwatchBackupUrl && String(cfg.speedwatchBackupUrl).trim();
+    var loading = fetchSpeedwatch(url);
+    if (live && backup) loading = loading.catch(function () { return fetchSpeedwatch(backup); });
+
+    loading
+      .then(function (sessions) {
         if (!live) {
           showNotice(notice, "info",
             "<strong>Example figures only.</strong> These aren't real results. Once the Speedwatch results sheet is connected, real figures will show here and update automatically.");
@@ -984,6 +1061,17 @@
       .then(function () { box.removeAttribute("aria-busy"); });
   }
 
+  // Open any <details id="film-..."> element when linked to by #hash.
+  function initDetailsHash() {
+    function openFromHash() {
+      if (!window.location.hash) return;
+      var el = document.getElementById(window.location.hash.slice(1));
+      if (el && el.tagName === "DETAILS") el.open = true;
+    }
+    window.addEventListener("hashchange", openFromHash);
+    openFromHash();
+  }
+
   /* ---------------- Start ---------------- */
 
   function start() {
@@ -992,6 +1080,7 @@
     initSheetDates();
     initToTop();
     initSpeedwatch();
+    initDetailsHash();
   }
 
   if (document.readyState === "loading") {

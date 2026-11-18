@@ -40,7 +40,7 @@ One Google Sheet in Drive, *Wallyford CC - Website updates*, feeds three parts o
 | Tab | Shows on | What to add |
 | --- | --- | --- |
 | **Tracker** | *You said, we did*, and the latest three on the home page | An issue residents raised and what the Community Council did |
-| **Upcoming dates** | The *Coming up* box on the home page, the *What's on* page, the "next meeting" dates and the Torchlight Parade date | Every date: meetings, Remembrance, the Torchlight Parade, Gala Day and anything else. Date, time, event, place, an optional link and an optional note (for example a special guest), shown under the event and under "Next meeting" on the Council page |
+| **Upcoming dates** | The *Coming up* box on the home page, the *What's on* page, the "next meeting" dates and the Torchlight Parade date | Every date: meetings, Remembrance, the Torchlight Parade, Gala Day and anything else. Date, time, event, place, an optional link, and an optional note (e.g. a special guest) |
 | **Speedwatch** | The Speedwatch page (results counter is switched off for now) | One row per Speedwatch session |
 
 Only rows with **Show on website** ticked appear. The website reads the sheet each time someone opens a page, and Google can take up to 5 minutes to pass on changes.
@@ -49,7 +49,7 @@ The sheet is published with **File > Share > Publish to web > Entire document**,
 
 Never put residents' names or contact details, vehicle registrations or volunteers' names in the sheet.
 
-**Backup of the dates and the tracker:** every night GitHub saves a copy of the Upcoming dates and Tracker tabs into the website (`assets/data/events-backup.csv` and `assets/data/tracker-backup.csv`, by `.github/workflows/backup-dates.yml`). If the sheet can't be read (deleted, unpublished, a column heading renamed, or Google is down), the site shows the dates and the *You said, we did* list from those copies instead, so they're at most a day old. To back up straight away: **Actions** tab > *Back up the website dates* > **Run workflow**. A failed run means something's wrong with the sheet, and its message says what; the last good copy is kept. GitHub pauses nightly jobs after 60 days without any change to the repository and emails you first: click **Enable workflow** in the Actions tab to restart it.
+**Backup of the dates, tracker and Speedwatch:** every night GitHub saves a copy of the Upcoming dates, Tracker and Speedwatch tabs into the website (`assets/data/events-backup.csv`, `assets/data/tracker-backup.csv` and `assets/data/speedwatch-backup.csv`, by `.github/workflows/backup-dates.yml`). If the sheet can't be read (deleted, unpublished, a column heading renamed, or Google is down), the site shows the dates, the *You said, we did* list and the Speedwatch results from those copies instead, so they're at most a day old. To back up straight away: **Actions** tab > *Back up the website dates* > **Run workflow**. A failed run means something's wrong with the sheet, and its message says what; the last good copy is kept. GitHub pauses nightly jobs after 60 days without any change to the repository and emails you first: click **Enable workflow** in the Actions tab to restart it.
 
 **Broken links:** every Monday GitHub tests every link from the website to other websites (`.github/workflows/check-links.yml`). If one has died, the run fails and GitHub emails you; open the failed run in the **Actions** tab and the broken links are listed at the top. Facebook, YouTube and a few other sites turn away automatic checks, so click those yourself now and then.
 
@@ -59,21 +59,18 @@ Never put residents' names or contact details, vehicle registrations or voluntee
 
 If you ever make a new sheet, keep the same column headings and set **File > Settings > Locale** to *United Kingdom*, so dates are read as day/month.
 
-**You said, we did:** the page has a **Completed** section at the top, then an **Ongoing** section (and a **Closed** one if any entries are closed), each with the most recently updated first. The home page shows the three most recently updated entries, whether ongoing or completed. (Older rows marked *Done* show as *Completed*.) For an automatic "Last updated" date, paste `tools/tracker-auto-date.gs` into the sheet once (Extensions > Apps Script, paste, Save). After that, editing "You said", "We did", "Status" or "Show on website" sets "Last updated" to today.
+**You said, we did:** the page has a **Completed** section at the top, then an **Ongoing** section (and a **Closed** one if any entries are closed), each with the most recently updated first. The home page shows the three most recently updated entries, whether ongoing or completed. Each entry with a `Ref` (such as `2026-004`) has a direct `#2026-004` link (`.../you-said-we-did/#issue-2026-004`) that you can share on Facebook or by email. (Older rows marked *Done* show as *Completed*.) For an automatic "Last updated" date, paste `tools/tracker-auto-date.gs` into the sheet once (Extensions > Apps Script, paste, Save). After that, editing "You said", "We did", "Status" or "Show on website" sets "Last updated" to today.
 
 **Speedwatch:** the results counter is switched off. To put it back, set `speedwatch_show_results: true` in `_config.yml`. It then shows running totals (vehicles checked, how many were over the limit, and the share who kept to the limit) as rolling odometer-style counters, plus a list of recent sessions. Until there are results, the counters spin with a "No results yet" message.
 
 While a sheet link is empty and draft mode is on, the pages show clearly labelled previews from `assets/data/tracker-preview.csv` and `assets/data/speedwatch-preview.csv`.
 
-## Draft notes
+## Before going live
 
-The site is live: `show_review_notes` in `_config.yml` is `false`, so the purple "Please check" and "To fill in" notes are hidden and search engines may list the site. To see the notes again while working through changes, set it back to `true` (this also asks search engines not to list the site, so set it back to `false` when you're done).
-
-Still to do after launch:
-
-- Councillor photos and blurbs for Sharon, Bim, Ann and Billy (`_data/councillors.yml`). Until then their cards show initials.
-- The agendas and minutes link (`minutes_url` in `_config.yml`). Until then the Council page asks people to email for them.
-- Contact details or links for the local groups that don't have one yet.
+- Set `show_review_notes: false` in `_config.yml`. This hides the purple "Please check" and "To fill in" notes, which are there for the Community Council to work through.
+- Add councillor photos and blurbs, and contact details or links for the local groups.
+- Read and agree the wording of the Privacy and accessibility page, and add the agendas and minutes link (`minutes_url` in `_config.yml`).
+- Check that you have permission to use every photo.
 
 ## Getting on Google
 
@@ -81,7 +78,7 @@ The site is already set up for search engines (page titles and descriptions, a s
 
 On launch day:
 
-1. Check `show_review_notes` is `false` in `_config.yml` (it is from launch).
+1. Set `show_review_notes: false` in `_config.yml`.
 2. Go to [Google Search Console](https://search.google.com/search-console), add a **URL prefix** property for `https://dochtie.github.io/wallyford-community-council/`.
 3. Choose **HTML tag** verification. Copy just the code from inside `content="..."` and paste it into `google_site_verification` in `_config.yml`. Wait a couple of minutes for the site to update, then click **Verify**.
 4. In Search Console, open **Sitemaps** and submit `sitemap.xml`.
