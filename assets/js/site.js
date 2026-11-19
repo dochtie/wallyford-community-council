@@ -562,6 +562,12 @@
       wanted.forEach(function (w) {
         var next = upcoming(events.filter(function (e) { return e.kind === w[0]; }), now)[0];
         if (next) fillDates(w[1], next.date, now);
+        // The next meeting's Note (e.g. a special guest), on the Council page.
+        var noteBox = w[0] === "meeting" && document.querySelector("[data-next-meeting-note]");
+        if (next && next.note && noteBox) {
+          noteBox.textContent = next.note;
+          noteBox.hidden = false;
+        }
       });
     });
   }

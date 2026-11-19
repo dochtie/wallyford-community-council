@@ -65,7 +65,7 @@ google_site_verification: ""
 # Draft helper. While true, "please check" and "to fill in" notes are
 # visible on the pages, and search engines are asked not to list the
 # site. Set to false before the site goes public.
-show_review_notes: true
+show_review_notes: false
 
 exclude:
   - README.md
